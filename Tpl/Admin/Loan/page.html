@@ -1,0 +1,316 @@
+<include file="Index:header" />
+<!--头部 end -->
+<!--左栏 starts -->
+<div class="container-fluid">
+		<div class="row-fluid">
+			<include file="left" />
+
+			<div id="content" class="span10">
+			<!-- content starts -->
+<!--左栏 end -->
+<ul class="breadcrumb">
+      <li>
+        <a href="__ROOT__/Admin.html">首页</a> <span class="divider">/</span>
+      </li>
+      <li>
+        <a href="__ROOT__/Admin/Loan.html">贷款列表</a> <span class="divider">/</span>
+      </li>
+      <li class="active">详细信息</li>
+    <div  class="pull-right"> <a class="ajax-link" href="__ROOT__/Admin/Loan.html" >返回贷款列表</a></div>
+</ul>
+
+<!--发布 -->
+<if condition="$Think.get.id gt 0">
+<form class="form-horizontal" name="myform" id="myform" method="post" action='__URL__/amend'>
+<input name="id" type="hidden" value="{$Think.get.id}"/>
+<else/>
+<form class="form-horizontal" name="myform" id="myform" method="post" action='__URL__/institutionIssue'>
+</if>
+<table class="table table-bordered">
+		 <tbody>
+          <tr>
+            <td>担保公司:</td>
+            <td class="control-group">
+                <if condition="$Think.get.id gt 0">
+                    <select name="gid" datatype="*" nullmsg="担保公司必须！">
+                    <option value='{$Guara.gid}' selected>{$guara}</option>
+                      <volist name="guaran" id="ue">
+                         	
+                            <option value='{$ue.id}' >{$ue.name}</option>
+                      </volist>
+                    </select>
+                <else/>
+                	<select name="gid" datatype="*" nullmsg="担保公司必须！">
+                      <option value=''>请选择</option>
+                      <volist name="guaran" id="ue">
+                            <option value='{$ue.id}' >{$ue.name}</option>
+                      </volist>
+                    </select>
+                    
+                </if>
+                <span>&nbsp;<a href="__ROOT__/Admin/Basis/editgcompany.html" class="icon icon-blue icon-plus" title="添加"></a></span>
+              </td>
+          </tr>
+          <tr>
+            <td>债务人【企业法人或股东】:</td>
+            <td class="controls"><input name="idname" value="{$Guara.idname}" type="text" class="span3" placeholder="请输入法人/股东..."  maxlength="13"  datatype="*" nullmsg="请输入法人/股东！"></td>
+          </tr>
+          <tr>
+            <td>身份证号码:</td>
+            <td class="controls"><input name="idcard" value="{$Guara.idcard}" type="text" class="span3" placeholder="请输入身份证号码..."  maxlength="18"  datatype="*" nullmsg="请输入身份证号码！"></td>
+          </tr>
+          <tr>
+            <td>企业编号:</td>
+            <td class="controls"><input name="number" value="{$Guara.number}" type="text" class="span3" placeholder="请输入企业编号..."  maxlength="30"  datatype="*" nullmsg="请输入企业编号！"></td>
+          </tr>
+          <tr>
+            <td>担保机构意见:</td>
+            <td class="controls"><textarea class="span3" name="opinion" style="height:100px;" datatype="*" nullmsg="请输入担保机构意见！" placeholder="请输入担保机构意见..."  maxlength="500">{$Guara.opinion}</textarea></td>
+          </tr>
+          <tr>
+            <td>资金用途:</td>
+            <td class="controls"><textarea class="span3" name="use" style="height:100px;" datatype="*" nullmsg="请输入资金用途！" placeholder="请输入资金用途..."  maxlength="500">{$Guara.use}</textarea></td>
+          </tr>
+          <tr>
+            <td>还款来源:</td>
+            <td class="controls"><textarea class="span3" name="source" style="height:100px;" datatype="*" nullmsg="请输入还款来源！" placeholder="请输入还款来源..."  maxlength="500">{$Guara.source}</textarea></td>
+          </tr>
+          <tr>
+            <td>抵押物信息:</td>
+            <td class="controls"><textarea class="span3" name="information" style="height:100px;" datatype="*" nullmsg="请输入抵押物信息！" placeholder="请输入抵押物信息..."  maxlength="500">{$Guara.information}</textarea></td>
+          </tr>
+          <tr>
+            <td>风险控制措施:</td>
+            <td class="controls"><textarea class="span3" name="measures" style="height:100px;" datatype="*" nullmsg="请输入风险控制措施！" placeholder="请输入风险控制措施..."  maxlength="500">{$Guara.measures}</textarea></td>
+          </tr>
+          <tr>
+            <td>企业简介:</td>
+            <td class="controls"><textarea class="span3" name="synopsis" style="height:100px;" datatype="*" nullmsg="请输入企业简介！" placeholder="请输入企业简介..."  maxlength="500">{$Guara.synopsis}</textarea></td>
+          </tr>
+          <tr>
+            <td>营业范围:</td>
+            <td class="controls"><textarea class="span3" name="scope" style="height:100px;" datatype="*" nullmsg="请输入营业范围！" placeholder="请输入营业范围..."  maxlength="500">{$Guara.scope}</textarea></td>
+          </tr>
+          <tr>
+            <td>经营状况:</td>
+            <td class="controls"><textarea class="span3" name="business" style="height:100px;" datatype="*" nullmsg="请输入经营状况！" placeholder="请输入经营状况..."  maxlength="500">{$Guara.business}</textarea></td>
+          </tr>
+          <tr>
+            <td>标题:</td>
+            <td class="controls"><input name="title" value="{$Guara.borrowing.title}" type="text" class="span3" placeholder="请输入标题..."  maxlength="25"  datatype="*" nullmsg="请输入标题！"></td>
+          </tr>
+          <tr>
+            <td>企业等级:</td>
+            <td>
+                   <select name="privacy" style="width:80px;">   
+                    <volist name="linkage.privacy" id="ue">
+                            <if condition="$Guara['borrowing']['privacy'] eq $ue.value ">
+                            <option value='{$ue.value}' selected="selected">{$ue.name}</option>
+                            <else/>
+                            <option value='{$ue.value}' >{$ue.name}</option>
+                            </if>
+                    </volist>
+                    </select>
+            </td>
+          </tr>
+          <tr>
+            <td>年利率:</td>
+            <if condition="$Think.get.id gt 0">
+            <td>{$Guara.borrowing.rates}</td>
+            <else/>
+            <td class="controls">
+            	<div  class="input-append">
+					<input name="rates" class="span5" type="text" maxlength="2"  datatype="n" nullmsg="请输入年利率！"><span class="add-on">%</span>
+            	</div>
+            </td>
+            </if>
+          </tr>
+          <tr>
+            <td> 统计单位:</td>
+            <td>按月</td>
+          </tr>
+          <tr>
+            <td>借款期限:</td>
+             <if condition="$Think.get.id gt 0">
+            <td>{$Guara.borrowing.deadline}个月</td>
+            <else/>
+            <td>
+                   <select name="deadline" style="width:80px;" id="deadline">  
+                    <volist name="linkage.deadline_month" id="ue">
+                            <option value='{$ue.value}' >{$ue.name}</option>
+                    </volist>
+                    </select>
+            </td>
+            </if>
+          </tr>
+          <tr>
+            <td>还款方式:</td>
+            <if condition="$Think.get.id gt 0">
+            <td>{$Guara['borrowing']['way']>0?'按月还本息':'月付息到期还本'}</td>
+            <else/>
+            <td>
+                   <select name="way" class="span2">   
+                    <volist name="linkage.way" id="ue">
+                            <option value='{$ue.value}' >{$ue.name}</option>
+                    </volist>
+                    </select>
+            </td>
+            </if>
+          </tr>
+            <td>密码标状态:</td>
+            <td>
+            		<label class="checkbox inline counter_check">
+                        <input name="code" type="radio" value="0" {$Guara['borrowing']['code']==0?checked:''}  onclick="$('#pass1').hide();$('#pass').show();">
+                        关
+                    </label>
+                    <label class="checkbox inline counter_check">
+                        <input name="code" type="radio" value="1" {$Guara['borrowing']['code']==1?checked:''}  onclick="$('#pass1').show();$('#pass').hide();">
+                        开
+                    </label>
+            </td>
+          </tr>
+          <tr>
+            <td>密码:</td>
+            <td>
+                   <span id="pass" class="input-xlarge uneditable-input span4" style="{$Guara['borrowing']['code']==1?'display: none;':''}"></span>
+                   <input id="pass1" name="password" type="password" class="span2" value="{$Guara.borrowing.password}" placeholder="请输入密码..." style="{$Guara['borrowing']['code']==1?'':'display: none;'}">
+            </td>
+          </tr>
+          <tr>
+            <td>最低投标金额:</td>
+            <td>
+                   <select name="min" style="width:80px;">   
+                    <volist name="linkage.min" id="ue">
+                            <if condition="$Guara['borrowing']['min'] eq $ue.value ">
+                            <option value='{$ue.value}' selected="selected">{$ue.name}</option>
+                            <else/>
+                            <option value='{$ue.value}' >{$ue.name}</option>
+                            </if>
+                    </volist>
+                    </select>
+            </td>
+          </tr>
+          <tr>
+            <td>最高投标金额:</td>
+            <td>
+                   <select name="max" style="width:100px;">   
+                    <volist name="linkage.max" id="ue">
+                            <if condition="$Guara['borrowing']['max'] eq $ue.value ">
+                            <option value='{$ue.value}' selected="selected">{$ue.name}</option>
+                            <else/>
+                            <option value='{$ue.value}' >{$ue.name}</option>
+                            </if>
+                    </volist>
+                    </select>
+            </td>
+          </tr>
+          <tr>
+            <td>借款金额:</td>
+            <if condition="$Think.get.id gt 0">
+            <td>{$Guara.borrowing.money}元</td>
+            <else/>
+            <td class="controls">
+            	<div  class="input-append">
+                    <input name="money" value="{$Guara.borrowing.money|floor}" type="text" class="span8" placeholder="请输入借款金额..." onkeyup="var money=$(this).val();$('#surplus').val(money);moneys(money);" maxlength="13"  datatype="n3-13" nullmsg="请输入借款金额！" value="{$Guara.borrowing.money|floor}"><span class="add-on">元</span>
+                    <input id="surplus" name="surplus" type="hidden" value="{$Guara.borrowing.money|floor}"/>
+                </div>
+            </td>
+            </if>
+          </tr>
+          <tr>
+            <td>项目相关资料:</td>
+            <td class="controls">
+            	<ul class="thumbnails" id="file_content">
+                	<foreach name="Guara.img" item="vo" key="kid">
+                        <li id="i{$kid}">
+                            <div class="top"><a class="icon icon-color icon-close" onclick="intExit({$kid},'{$vo}')"></a></div>
+                            <a id="feila{$kid}" >
+                            <img id="feil{$kid}" src="__PUBLIC__/uploadify/uploads/mark/{$vo}" style="width:150px;height:150px;">
+                            </a>
+                            <input name="img[]" type="hidden"  value="{$vo}"/>
+                        </li>
+                    </foreach>
+                </ul>  
+                <input id="file_url" type="hidden" value="__PUBLIC__/uploadify/uploads/mark/"/>
+                <input id="folder" type="hidden" value="mark"/>
+                <input type="hidden" id="folder_id" value="{$kid}"/>
+                <input data-no-uniform="true" type="file" name="file_goods" id="file_goods" />   
+            </td>
+          </tr>
+          <tr>
+            <td>抵押物相关资料:</td>
+            <td class="controls">
+            	<ul class="thumbnails" id="file_contents">
+                	<foreach name="Guara.agr" item="vo" key="kid">
+                        <li id="j{$kid}">
+                            <div class="top"><a class="icon icon-color icon-close" onclick="intExits({$kid},'{$vo}')"></a></div>
+                            <a id="feila{$kid}" >
+                            <img id="feil{$kid}" src="__PUBLIC__/uploadify/uploads/mark/{$vo}" style="width:150px;height:150px;">
+                            </a>
+                            <input name="agr[]" type="hidden"  value="{$vo}"/>
+                        </li>
+                    </foreach>
+                </ul>  
+                <input id="file_urls" type="hidden" value="__PUBLIC__/uploadify/uploads/mark/"/>
+                <input id="folder" type="hidden" value="mark"/>
+                <input type="hidden" id="folder_id" value="{$kid}"/>
+                <input data-no-uniform="true" type="file" id="file_good" />   
+            </td>
+          </tr>
+          <tr>
+            <td>
+                   详细说明:
+            </td>
+            <td >
+              	<textarea class="editor span12" name="content" style="height:400px;">{$Guara.borrowing.content}</textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+	  <div class="control-group">
+    <label class="control-label"></label>
+    <div class="controls">
+      <input class="input-large" name="proving" maxlength="4" type="text"  style="width:50px;margin-top: 10px;" title="验证码" data-rel="tooltip"/>          	            	
+      <img id="verifyImg" src='__APP__/Public/verify/' onClick="changeVerify()" title="点击刷新验证码" data-rel="tooltip" style="cursor:pointer;position: relative;top: 5px;"/>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn btn-info">提交</button>
+    </div>
+  </div>
+</form>
+<!--底部 -->
+<script>
+function choose_reward(type){
+	if (type==1){
+		$("#reward_1").attr("disabled","disabled");
+		$("#reward_2").attr("disabled","disabled");
+	}else if(type==2){
+		$("#reward_1").removeAttr("disabled");
+		$("#reward_2").attr("disabled","disabled");
+	}else{
+		$("#reward_2").removeAttr("disabled");
+		$("#reward_1").attr("disabled","disabled");
+	}
+}
+function switchover(id){
+	if(id==1){
+		$('#deadline1').hide();$('#deadline').show();$('#deadline').attr('name','deadline');$('#deadline1').attr('name','');
+	}else{
+		$('#deadline1').show();$('#deadline').hide();$('#deadline1').attr('name','deadline');$('#deadline').attr('name','');
+	}
+}
+function intExit(id,img)
+{
+	$('#i'+id).empty();
+	$.post("__URL__/pathExit", {img:'./Public/uploadify/uploads/mark/'+img} );
+}
+function intExits(id,img)
+{
+	$('#j'+id).empty();
+	$.post("__URL__/pathExit", {img:'./Public/uploadify/uploads/mark/'+img} );
+}
+</script>
+<!--发布 end -->
+<include file="Index:footer" />

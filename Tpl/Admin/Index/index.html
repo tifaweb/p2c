@@ -1,0 +1,149 @@
+<include file="header" />
+<!--头部 end -->
+<!--左栏 starts -->
+<div class="container-fluid">
+		<div class="row-fluid admin_fluid">
+        	<h3>快捷导航</h3>
+            <div class="row-fluid admin_index">
+                <div class="span1">
+                	<a href="__ROOT__/Admin/Index/system.html">
+                  		<span class="icon32 icon-color icon-gear"></span>
+                		<p>系统设置</p>
+                    </a>
+                </div>
+                <div class="span1">
+                	<a href="__ROOT__/Admin/Basis/linebank.html">
+                  		<span class="icon32 icon-color icon-wrench"></span>
+                		<p>基础配置</p>
+                    </a>
+                </div>
+                <div class="span1">
+                	<a href="__ROOT__/Admin/Site.html">
+                  		<span class="icon32 icon-color icon-book"></span>
+                		<p>文章管理</p>
+                    </a>
+                </div>
+                <div class="span1">
+                	<a href="__ROOT__/Admin/Loan.html">
+                  		<span class="icon32 icon-color icon-refresh"></span>
+                		<p>贷款管理</p>
+                    </a>
+                </div>
+                
+                <div class="span1">
+                	<a href="__ROOT__/Admin/Fund/recharge.html">
+                  		<span class="icon32 icon-color icon-profile"></span>
+                		<p>资金管理</p>
+                    </a>
+                </div>
+                <div class="span1">
+                	<a href="__ROOT__/Admin/Ganged.html">
+                  		<span class="icon32 icon-color icon-book"></span>
+                		<p>联动管理</p>
+                    </a>
+                </div>
+                <div class="span1">
+                	<a href="__ROOT__/Admin/Integralconf.html">
+                  		<span class="icon32 icon-color icon-star-on"></span>
+                		<p>积分配置</p>
+                    </a>
+                </div>
+                <div class="span1">
+                	<a href="__ROOT__/Admin/User.html">
+                  		<span class="icon32 icon-color icon-user"></span>
+                		<p>用户管理</p>
+                    </a>
+                </div>
+            </div>
+            <h3>网站统计</h3>
+            <div class="row-fluid admin_content">
+            	<div class="span3">
+                	<dl class="dl-horizontal">
+                        <dt>会员总数：</dt><dd><span class="red">{$stat.metotal}</span>人</dd>
+                        <dt>平台总资金：</dt><dd><span class="red">{$stat.mototal}</span>元</dd>
+                        <dt>冻结总金额：</dt><dd><span class="red">{$stat.frtotal}</span>元</dd>
+                        <dt>待收总金额：</dt><dd><span class="red">{$stat.dutotal}</span>元</dd>
+                        <dt>未还总金额：</dt><dd><span class="red">{$stat.sttotal}</span>元</dd>
+                        <dt>提现总金额：</dt><dd><span class="red">{$stat.wmototal}</span>元</dd>
+                        <dt>充值总金额：</dt><dd><span class="red">{$stat.rmototal}</span>元</dd>
+                    </dl>
+                </div>
+                <div class="span3">
+                	<dl class="dl-horizontal">
+                        <dt>今日会员数：</dt><dd><span class="red">{$stat.menow}</span>人</dd>
+                        <dt>今日提现总金额：</dt><dd><span class="red">{$stat.wmonow}</span>元</dd>
+                        <dt>今日充值总金额：</dt><dd><span class="red">{$stat.rmonow}</span>元</dd>
+                    </dl>
+                </div>
+                <div class="span3">
+                	<dl class="dl-horizontal">
+                        <dt>本周会员数：</dt><dd><span class="red">{$stat.meweeks}</span>人</dd>
+                        <dt>本周提现总金额：</dt><dd><span class="red">{$stat.wmoweeks}</span>元</dd>
+                        <dt>本周充值总金额：</dt><dd><span class="red">{$stat.rmoweeks}</span>元</dd>
+                    </dl>
+                </div>
+                <div class="span3">
+                	<dl class="dl-horizontal">
+                        <dt>本月会员数：</dt><dd><span class="red">{$stat.memonth}</span>人</dd>
+                        <dt>本月提现总金额：</dt><dd><span class="red">{$stat.wmomonth}</span>元</dd>
+                        <dt>本月充值总金额：</dt><dd><span class="red">{$stat.rmomonth}</span>元</dd>
+                    </dl>
+                </div>
+            </div>
+            
+            <h3>服务器信息</h3>
+            <div class="row-fluid">
+            	<div class="span4">
+                    <dl class="dl-horizontal">
+                        <dt>环境：</dt><dd><?php echo php_sapi_name();?></dd>
+                        <dt>PHP版本：</dt><dd><?php echo PHP_VERSION;?></dd>
+                        <dt>Zend版本：</dt><dd><?php echo Zend_Version();?></dd>
+                        <dt>PHP安装路径：</dt><dd><?php echo DEFAULT_INCLUDE_PATH;?></dd>
+                        <dt>mysql版本：</dt><dd><?php echo mysql_get_server_info();;?></dd>  
+                    </dl>
+                </div>
+                <div class="span4">
+                    <dl class="dl-horizontal">
+                    	<dt>系统类型：</dt><dd><?php echo php_uname('s');?></dd>
+                        <dt>系统版本号：</dt><dd><?php echo php_uname('r');?></dd>
+                        <dt>服务器IP：</dt><dd><?php echo GetHostByName($_SERVER['SERVER_NAME']);?></dd>
+                        <dt>服务器解译引擎：</dt><dd><?php echo $_SERVER['SERVER_SOFTWARE'];?></dd>
+                        <dt>服务器语言：</dt><dd><?php echo $_SERVER['HTTP_ACCEPT_LANGUAGE'];?></dd>
+                    </dl>
+                </div>
+            </div>
+            <h3>信息中心</h3>
+            <div class="row-fluid">
+            	<div class="span4">
+                    <dl class="dl-horizontal">
+                        <dt>系统名称：</dt><dd>Dswjcms P2C网贷系统</dd>
+                        <dt>系统版本：</dt><dd>3.0</dd>
+                        <dt>研发团队：</dt><dd><a href="http://www.tifaweb.com">Dswjcms项目组</a></dd>
+                        <dt>模板：</dt><dd><a href="http://www.tifaweb.com/Site/article/id/4.html">模板开发文档</a></dd>
+                        <dt>是否开源：</dt><dd>是</dd>
+                        <dt>完整性：</dt><dd>核心版&nbsp;&nbsp;<a href="http://www.tifaweb.com">购买完整版</a></dd>
+                    </dl>
+                </div>
+                <div class="span4">
+                    <dl class="dl-horizontal">
+                        <dt>研发公司：</dt><dd><a href="http://www.tifaweb.com">宁波市鄞州区天发网络科技有限公司</a></dd>
+                        <dt>合作：</dt><dd>诚招P2C网贷系统区域代理商、加盟商</dd>
+                        <dt>代运维：</dt><dd>提供P2C网贷系统研发、升级、推广、维护一条龙服务</dd>
+                        <dt>联系QQ：</dt><dd>602132284</dd>
+                        <dt>联系电话：</dt><dd>13081971646</dd>
+                        <dt>有效期：</dt><dd>2015/6/20</dd>
+                    </dl>
+                </div>
+                 <div class="span4">
+                    <dl class="dl-horizontal">
+                        <dt>自动还款：</dt><dd>不支持</dd>
+                        <dt>还款提醒：</dt><dd>不支持</dd>
+                        <dt>债权转让：</dt><dd>不支持</dd>
+                        <dt>第三方支付：</dt><dd>支付宝</dd>
+                        <dt>短信功能：</dt><dd>不支持</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+<!--底部 -->
+<include file="footer" />

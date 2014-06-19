@@ -1,0 +1,23 @@
+<include file="Index:header" />
+<!--头部 end -->
+<!-- container start --> 
+<div class="container paddtop">
+    <div class="company_logo"><img src="__PUBLIC__/uploadify/uploads/gcompany/{$comp.logo}"/></div>
+    <h4>{$comp.name}</h4>
+    <div>{$comp.content}</div>
+    <h5>证件：</h5>
+    <div class="company_zj">
+    <ul class="thumbnails" id="file_content">
+    <foreach name="comp.img" item="vo" key="kid">
+        <li id="i{$kid}" class="thumbnail">
+            <a class="cboxElement" href="__PUBLIC__/uploadify/uploads/gcompany/{$vo}">
+            <img id="feil{$kid}" src="__PUBLIC__/uploadify/uploads/gcompany/{$vo}">
+            </a>
+        </li>
+    </foreach>
+    </ul>  
+    </div>  
+</div>     
+<!-- container end -->
+<!--底部  start-->
+<include file="Index:footer" />

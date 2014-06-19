@@ -1,0 +1,294 @@
+<include file="Index:header" />
+<!--头部 end -->
+<!-- container start --> 
+<div class="container paddtop jump_top">
+	<!-- 上半部 start-->
+	<div class="container-fluid  invest_right">
+        <div class="row-fluid">
+            <div class="span12">
+            	<p><span class="leftc">项目名称:</span><span class="title">{$bo.borrowing.title}</span>
+                <i class="icone label label-info" title="担保标">担</i>
+                    <eq name="bo['borrowing']['stick']" value="1"><i class="icone label label-warning" title="推荐标"></i></eq>
+                    <eq name="bo['borrowing']['code']" value="1"><i class="icone label label-important" title="密码标"></i></eq>
+                </p>
+                <p><span class="leftc">信用等级:</span>
+                <if condition="$bo['borrowing']['privacy'] eq 0">
+                	<span class="label label-important">{$bo.borrowing.privacys}</span>
+                <elseif condition="$bo['borrowing']['privacy'] lt 4"/>
+                	<span class="label label-warning">{$bo.borrowing.privacys}</span>
+                <else/>
+                	<span class="label label-success">{$bo.borrowing.privacys}</span>
+                </if>
+                </p>
+                <hr />
+                <p class="qt">年化收益：<b class="rate">{$bo.borrowing.rates}%</b>还款日期：<b>{$bo.borrowing.limittime|date="Y-m-d",###}</b>还款方式：<b>{$bo.way}</b>最小投资金额：<b class="rate">{$bo.borrowing.min}元</b>最大投资金额：<b class="rate">{$bo['borrowing']['max']>0?$bo['borrowing']['max']:'无限'}</b></p>
+            </div>
+           
+        </div>
+        <div class="row-fluid">
+        	<div class="span4 invest_introduce">
+            	<p><span class="leftc">担保机构:</span><a target="_blank" href="__ROOT__/Index/company/id/{$bo.gid}.html" class="name">{$bo.gname}</a></p>
+                <p><i class="icon icon-red icon-star-on"></i>100%本息保障</p>
+                <p><i class="icon icon-red icon-star-on"></i>企业生产经营正常，还款正常</p>
+            </div>
+            <div class="span4 invest_introduce">
+            <p><span class="leftc">融资金额:</span><span class="name"> {$bo.borrowing.money}元 </span></p>
+            
+            <p><span class="leftc">已投金额:</span><span class="price"> {$bo.already}元 </span></p>
+            <p><span class="leftc">还需金额:</span><span class="price">  {$bo.borrowing.surplus}元 </span></p>
+            </div>
+            <div class="span4 invest_introduce">
+            <p><span class="leftc">融资进度:</span><span> {$bo.ratio}%</span></p>
+            <p><div class="progress progress-success  progress-striped"  title="{$bo.ratio}%">
+                      <div class="bar" style="width: {$bo.ratio}%"></div>
+                    </div>
+            </p>
+            <p>
+            <if condition="$Think.session.user_uid gt 0">
+            	<if condition="$bo['borrowing']['state'] eq 0">
+            	<a class="badge badge-important ibadge" style="width:150px;"  href="#tEnder" data-toggle="modal">立即投标</a>
+                <else/>
+                <a class="badge ibadge" style="width:150px;" >{$bo['borrowing']['state']=1?'还款中':'已完成'}</a>
+                </if>
+            </if>
+            </p>
+            </div>
+        </div>
+        <!-- 资料区 -->
+        <div class="accordion" id="accordion2">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                项目描述
+              </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                {$bo.borrowing.content}
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                担保意见
+              </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse">
+              <div class="accordion-inner">
+                {$bo.opinion}
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                资金运转
+              </a>
+            </div>
+            <div id="collapseThree" class="accordion-body collapse">
+              <div class="accordion-inner">
+              	<h4>资金用途：</h4>
+                {$bo.use}
+                <h4>还款来源:</h4>
+                {$bo.source}
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                风险控制措施
+              </a>
+            </div>
+            <div id="collapseFour" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <h4>抵押物信息：</h4>
+                {$bo.information}
+                <h4>风险控制措施:</h4>
+                {$bo.measures}
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">
+                企业背景
+              </a>
+            </div>
+            <div id="collapseFive" class="accordion-body collapse">
+              <div class="accordion-inner">
+                {$bo.synopsis}
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix">
+                企业信息
+              </a>
+            </div>
+            <div id="collapseSix" class="accordion-body collapse">
+              <div class="accordion-inner">
+               <h4>营业范围：</h4>
+                {$bo.scope}
+                <h4>经营状况:</h4>
+                {$bo.business}
+              </div>
+            </div>
+          </div>
+          <if condition="$Think.session.user_uid gt 0">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSeven">
+                项目相关资料
+              </a>
+            </div>
+            <div id="collapseSeven" class="accordion-body collapse">
+              <div class="accordion-inner">
+               <ul class="thumbnails" id="file_content">
+                    <foreach name="bo.pact" item="vo" key="kid">
+                        <li id="i{$kid}" class="thumbnail">
+                            <a class="cboxElement" href="__PUBLIC__/uploadify/uploads/mark/{$vo}">
+                            <img id="feil{$kid}" src="__PUBLIC__/uploadify/uploads/mark/{$vo}">
+                            </a>
+                        </li>
+                    </foreach>
+                </ul>  
+              </div>
+            </div>
+          </div>
+           <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseEight">
+                抵押相关资料
+              </a>
+            </div>
+            <div id="collapseEight" class="accordion-body collapse">
+              <div class="accordion-inner">
+               <ul class="thumbnails" id="file_content">
+                    <foreach name="bo.indeed" item="vo" key="ksd">
+                        <li id="j{$ksd}" class="thumbnail">
+                            <a class="cboxElement" href="__PUBLIC__/uploadify/uploads/mark/{$vo}">
+                            <img id="feils{$ksd}" src="__PUBLIC__/uploadify/uploads/mark/{$vo}">
+                            </a>
+                        </li>
+                    </foreach>
+                </ul>  
+              </div>
+            </div>
+          </div>
+          <else/>
+            <div class="invest_login">只有<a href="__ROOT__/Logo/register.html">注册</a>用户才可以查看个人信息！现在<a href="__ROOT__/Logo/login.html">登录</a></div>
+            </if>
+        </div>
+        <!-- 资料区 end -->
+        <!-- 投标记录 -->
+        <div class="modal-header">
+              <h3>投标记录</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-condensed">
+                    <thead>
+                      <tr>
+                        <th>投标人</th>
+                        <th>年利率</th>
+                        <th>投标金额(元)</th>
+                        <th>投标时间</th>
+                        <th>状态</th>
+                      </tr>
+                    </thead>
+        <foreach name="bo.bid_records" item="vo">
+                    <tbody>
+                      <tr>
+                        <td>
+                          {$vo.uname}
+                        </td>
+                        <td>
+                          {$bo.borrowing.rates}%
+                        </td>
+                        <td>
+                          {$vo.actionname.operation|number_format=2,'.',','}
+                        </td>
+                        <td>
+                          {$vo.time|date="Y-m-d H:i:s",###}
+                        </td>
+                        <td>
+                          投标成功
+                        </td>
+                      </tr>
+                    </tbody>
+        </foreach>
+                </table>
+            </div>
+        <!-- 投标记录 end-->
+    </div>
+    <!-- 上半部 end-->
+</div>
+<!-- container end -->
+<!--底部  start-->
+<!--投标确认 start-->
+
+<div id="tEnder" class="modal hide fade" style="width:900px;left:35%">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal" >&times;</a>    
+      <h3>投标确认</h3>
+    </div>
+	<if condition="$Think.session.user_uid gt 0">
+    <div class="modal-body">
+        <div class="span6">
+        <dl class="invest_bid">
+            	<dd><span class="leftc">项目名称:</span><span class="title">{$bo.borrowing.title}</span>
+                <i class="mark-ico-color mark-ico-bear" data-rel="tooltip" title="{$bo.borrowing.type_name}"></i>
+                    <eq name="bo['borrowing']['stick']" value="1"><i class="mark-ico-color mark-ico-push" data-rel="tooltip" title="推荐标"></i></eq>
+                    <eq name="bo['borrowing']['code']" value="1"><i class="icon icon-color icon-locked" data-rel="tooltip" title="密码标"></i></eq>
+                </dd>
+                <dd><span class="leftc">信用等级:</span>
+                <if condition="$bo['borrowing']['privacy'] eq 0">
+                	<span class="label label-important">{$bo.borrowing.privacys}</span>
+                <elseif condition="$bo['borrowing']['privacy'] lt 4"/>
+                	<span class="label label-warning">{$bo.borrowing.privacys}</span>
+                <else/>
+                	<span class="label label-success">{$bo.borrowing.privacys}</span>
+                </if>
+                </dd>
+                <dd class="qt">年化收益：<b class="rate">{$bo.borrowing.rates}%</b></dd>
+                <dd class="qt">还款方式：<b>{$bo.way}</b></dd>
+                <dd class="qt">最小投资金额：<b class="rate">{$bo.borrowing.min}元</b>最大投资金额：<b class="rate">{$bo['borrowing']['max']>0?$bo['borrowing']['max']:'无限'}</b>
+                </dd>
+        		<dd class="qt">还需金额：<b class="rate">{$bo.borrowing.surplus|number_format=2,'.',','}元</b>可用余额：<b class="rate"> {$money.available_funds|number_format=2,'.',','} 元</b></dd>
+        </dl>
+        </div>
+        <div class="span4">
+        <form method="post" action="__URL__/assureUpdate">
+        <input name="id" type="hidden" value="{$bo.bid}" />
+        <dl class="invest_bid">
+            <dd class="qt price">
+            	<a class="icon icon-blue icon-minus invest_icon" href="#" onClick="Totalprice(1,{$bo.borrowing.surplus},{$money.available_funds},{$bo.borrowing.max},{$bo.borrowing.min})"></a>
+                <span class="input-prepend input-append">
+                	<span class="add-on">$</span>
+                	<input id="price" name="price" type="text" value="{$bo.borrowing.min}" style="width:100px;"  onBlur="Totalprice(4,{$bo.borrowing.surplus},{$money.available_funds},{$bo.borrowing.max},{$v.min})"/>
+                    <span class="add-on">.00</span>
+                </span>
+                <a class="icon icon-blue icon-plus invest_icon" href="#" onClick="Totalprice(2,{$bo.borrowing.surplus},{$money.available_funds},{$bo.borrowing.max},{$bo.borrowing.min})"></a>
+                <a href="#" onClick="Totalprice(3,{$bo.borrowing.surplus},{$money.available_funds})">最大金额</a>
+            </dd>
+            <eq name="v.code" value="1">
+            <dd class="qt">密码标密码：<input type="password" class="span2" name="password"/></dd>
+            </eq>
+            <dd class="qt">支付密码：<input type="password" class="span2" name="pay_password"/></dd>
+            <dd class="qt">友情提示：<span class="red">初始支付密码为登陆密码。</dd>
+            <dd class="qt">验证码：
+            <input type="text" class="span1" name="proving"/>
+            <img id="verifyImg" src='__APP__/Public/verify/' maxlength="4" onClick="changeVerify()" title="点击刷新验证码" style="cursor:pointer;position: relative;bottom: 5px;"/>
+            </dd>
+            <dd class="qt"><button type="submit" class="btn btn-info" style="width:150px;" >确认提交</button></dd>
+        </dl>
+        </form>
+        </div>
+    </div>
+    <else/>
+    <div class="invest_login">只有<a href="__ROOT__/Logo/register.html">注册</a>用户才可以查看个人信息！现在<a href="__ROOT__/Logo/login.html">登录</a></div>
+    </if>
+</div>
+<include file="Index:footer" />

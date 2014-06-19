@@ -1,0 +1,18 @@
+<include file="Index:header" />
+<!--头部 end -->
+<!-- container start -->
+<div class="row-fluid">
+<div class="container paddtop welfare">
+	<volist name="comp" id="vo">
+	<div class="span4 companylist">
+    	<div class="company_logo"><img src="__PUBLIC__/uploadify/uploads/gcompany/{$vo.logo}"/></div>
+        <h5>{$vo.name}</h5>
+        <p class="text-warning remark">{$vo.remark}</p>
+        <p><a href="__ROOT__/Index/company/id/{$vo.id}.html" class="btn btn-primary">查看详情</a></p>
+    </div>
+    </volist>
+</div>    
+</div>   
+<!-- container end -->
+<!--底部  start-->
+<include file="Index:footer" />

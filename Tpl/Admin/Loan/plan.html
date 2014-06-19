@@ -1,0 +1,73 @@
+<include file="Index:header" />
+<!--头部 end -->
+<!--左栏 starts -->
+<div class="container-fluid">
+		<div class="row-fluid">
+			<include file="left" />
+
+			<div id="content" class="span10">
+			<!-- content starts -->
+<!--左栏 end -->
+<ul class="breadcrumb">
+      <li>
+        <a href="__ROOT__/Admin.html">首页</a> <span class="divider">/</span>
+      </li>
+      <li>
+        <a href="__ROOT__/Admin/Loan.html">贷款列表</a> <span class="divider">/</span>
+      </li>
+      <li class="active">还款计划</li>
+    <div  class="pull-right"> <a class="ajax-link" href="__ROOT__/Admin/Loan.html" >返回贷款列表</a></div>
+</ul>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>期数</th>
+        <th>还款金额</th>
+        <th>还款时间</th>  
+        <th>状态</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+    <volist name="refun" id="vo">
+        <tr>
+            <td>{$vo.nper}</td>
+            <td>{$vo.money}元</td>
+            <td>{$vo.time|date="Y-m-d H:i:s",###}</td>
+            <if condition="$vo.type eq 1 ">
+            <td>已还</td>
+            <else/>
+            <td><a href="#edit" data-toggle="modal" data-rel="tooltip" onclick="var id={$vo.nper};$('#ajax_id').val(id);">还款</a></td>
+            </if>
+         </tr>
+   </volist> 
+    </tbody>
+           
+</table>
+<!--还款中 start-->
+<div id="edit" class="modal hide fade"  style="width:500px;left:55%;top:50%">
+<form method="post">
+    <input id="ajax_id" type="hidden" value="" />
+    <div class="modal-header">
+      <h3>友好提示</h3>
+    </div>
+    <div class="modal-body cloan_top">
+    <p><div class="invest_loading"><div>接下来的操作需要一段时间，请保持网络通畅
+    <br/><br/>
+    <a class="btn btn-primary" onclick="var id=$('#ajax_id').val();var bid={$Think.get.id};ajaxrefund(id,bid);">
+          确认提交
+      </a></div></div></p>
+  </div>
+</form>
+</div>
+<!--还款中 end-->
+<script>
+function ajaxrefund(id,bid){
+	var loading='<div class="invest_loading"><div><img src="__PUBLIC__/bootstrap/img/ajax-loaders/ajax-loader-1.gif"/></div><div>处理中</div> </div>';
+	$(".cloan_top").html(loading);
+	$(".cloan_top").load("__URL__/repayment", {id:id,bid:bid},function(){
+		setTimeout("window.location.href='__ROOT__/Admin/Loan/plan/id/{$Think.get.id}.html'",3000);
+	});	
+}
+</script>
+<include file="Index:footer" />

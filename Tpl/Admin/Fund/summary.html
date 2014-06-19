@@ -1,0 +1,77 @@
+<include file="Index:header" />
+<!--头部 end -->
+<!--左栏 starts -->
+<div class="container-fluid">
+		<div class="row-fluid">
+			<include file="left" />
+
+			<div id="content" class="span10">
+			<!-- content starts -->
+<!--左栏 end -->
+<ul class="breadcrumb">
+      <li>
+        <a href="__ROOT__/Admin.html">首页</a> <span class="divider">/</span>
+      </li>
+      <li class="active">用户资金汇总</li>
+      <div  class="pull-right"> <a href="#" onclick="if(confirm('是否要导出？'))window.location.href='__URL__/summaryExport'">导出</a></div>
+</ul>
+<table class="table table-striped table-bordered table-condensed datatable ">
+            <thead>
+              <tr>
+              	<th>ID</th>
+              	<th>用户名</th>
+                <th>总资金</th>
+                <th>可用资金</th>
+                <th>冻结资金</th>
+                <th>待收资金</th>
+
+                <th>待收利息</th>
+                <th>已赚利息</th>
+                <th>已赚奖励</th>
+
+              </tr>
+            </thead>
+            <tbody>
+<volist name="money" id="vo">
+                <tr>
+                <td>
+                       {$vo.id}
+                </td>
+                <td>
+                       {$vo.username}
+                </td>
+                <td>
+                       {$vo.total_money}
+                </td>
+                <td>
+                       {$vo.available_funds}
+                </td>
+                <td>
+                      {$vo.freeze_funds}
+                </td>
+                <td>
+                      {$vo.due_in}
+                </td>
+
+                <td>
+                      {$vo.stay_interest}
+                </td>
+                <td>{$vo.make_interest}</td>
+                <td>
+                      {$vo.make_reward}    
+                </td>
+ 
+              </tr>
+</volist>
+            </tbody>
+          </table>
+<div>
+</div>
+<!--底部 -->
+<script>
+function changeVerify(){
+    var timenow = new Date().getTime();
+    document.getElementById('verifyImg').src='__APP__/Public/verify/'+timenow;
+}
+</script>
+<include file="Index:footer" />

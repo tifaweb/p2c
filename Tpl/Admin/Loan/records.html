@@ -1,0 +1,55 @@
+<include file="Index:header" />
+<!--头部 end -->
+<!--左栏 starts -->
+<div class="container-fluid">
+		<div class="row-fluid">
+			<include file="left" />
+
+			<div id="content" class="span10">
+			<!-- content starts -->
+<!--左栏 end -->
+<ul class="breadcrumb">
+      <li>
+        <a href="__ROOT__/Admin.html">首页</a> <span class="divider">/</span>
+      </li>
+      <li class="active">投资记录</li>
+      <div  class="pull-right"> <a href="__ROOT__/Admin/Loan/recordExport" >导出</a></div>
+</ul>
+<table class="table table-striped table-bordered table-condensed datatable ">
+            <thead>
+              <tr>
+              	<th>ID</th>
+                <th>用户ID</th>
+                <th>用户组</th>
+                <th>总金额</th>
+                <th>可用金额</th>
+                <th>操作金额</th>
+                <th>操作说明</th>
+              </tr>
+            </thead>
+            <tbody>
+<volist name="record" id="vo">
+                <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo['actionname']['uid']>0?$vo['actionname']['uid']:'平台'}</td>
+                <td>
+                    <switch name="vo.type" >
+                    <case value="1">投资人</case>
+                    <case value="2">借款人</case>
+                    <case value="3">投资人</case>
+                    <case value="4">借款人</case>
+                    </switch>
+                </td>
+                <td>{$vo.actionname.total}元</td>
+                <td>{$vo.actionname.available}元</td>
+                <td>{$vo.actionname.operation}元</td>
+                <td>{$vo.actionname.instructions}</td>
+              </tr>
+</volist>
+            </tbody>
+          </table>
+<div>
+</div>
+<!--底部 -->
+
+<include file="Index:footer" />

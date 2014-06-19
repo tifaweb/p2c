@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<title><if condition="($si['link'] eq '/') OR ($si['link'] eq '')"><else/>{$si['title']}-</if>{$s.sys_name}-{$Think.config.DS_TOP_POWERED}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="{$si['remark']?$si['remark']:$s['sys_describe']}{$so.title}">
+	<meta name="KeyWords" content="{$si['keyword']?$si['keyword']:$s['sys_keyword']}{$so.title}">
+    <meta name="generator" content="Dswjcms! X1.0" />
+    <meta name="author" content="Dswjcms! Team and Tf Team" />
+    <meta name="copyright" content="2013-2014 Tf Inc." />
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+<!--[if lt IE 9 ] >
+<META http-equiv="X-UA-Compatible" content="IE=8" > </META>
+<![endif]-->
+    <link href="__PUBLIC__/css/bootstrap.min.css" rel="stylesheet">
+    <link href='__PUBLIC__/bootstrap/css/jquery.iphone.toggle.css' rel='stylesheet'>
+    <link href='__PUBLIC__/bootstrap/css/uploadify.css' rel='stylesheet'>
+    <link href='__PUBLIC__/bootstrap/css/jquery-ui-1.8.21.custom.css' rel='stylesheet'>
+    <link href='__PUBLIC__/bootstrap/css/uniform.default.css' rel='stylesheet'>
+    <link href="__PUBLIC__/css/hdocs.css" rel="stylesheet">
+    <link href='__PUBLIC__/bootstrap/css/opa-icons.css' rel='stylesheet'>
+    <link href='__PUBLIC__/css/fotorama.css' rel='stylesheet'>
+    <link href='__PUBLIC__/bootstrap/css/colorbox.css' rel='stylesheet'>
+    <!--[if lt IE 9]>
+    		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    	<![endif]-->
+    <!--[if lte IE 6]>
+    <link href="__PUBLIC__/bootstrap/css/bootstrap-ie6.min.css" rel="stylesheet" type="text/css">
+    <link href="__PUBLIC__/bootstrap/css/ie.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__PUBLIC__/bootstrap/js/bootstrap-ie.js"></script>
+    <![endif]-->
+    {$head}
+	<link rel="shortcut icon" href="__PUBLIC__/bootstrap/img/favicon.ico">
+    <!-- jQuery -->
+    <script src="__PUBLIC__/js/timecount.js"></script>
+    <script src="__PUBLIC__/bootstrap/js/jquery-1.7.2.min.js"></script>
+    
+</head>
+
+<body>
+	<div class="header_top">
+    	<div class="index_head">
+        	<a href="/">首页</a>
+            <if condition="$Think.session.user_name eq ''">
+            <else/>
+            <a href="#">欢迎您  {$Think.session.user_name}</a>
+            <a href="__ROOT__/Logo/exits.html">退出</a>
+            </if>
+        	<a href="__ROOT__/Center.html">个人中心</a>
+        	<a href="__ROOT__/Site/listTpl/id/31.html">帮助</a>
+        </div>
+    </div>
+    <div class="header_soften">
+    	<div class="container">
+        <ul>
+        	<li><a href="/"><img src="__PUBLIC__/uploadify/uploads/logo/{$s.sys_logo}"/></a></li>
+            <li class="{$active.loan}"><a href="__ROOT__/Loan.html">我要理财</a></li>
+            <li class="{$active.about}"><a href="__ROOT__/Site/page/id/1.html">关于我们</a></li>
+            <li  class="{$active.explanation}">
+                <a href="__ROOT__/Site/listTpl/id/28.html">名词解释</a>
+              </li>
+            <div class="right">
+            <if condition="$Think.session.user_name eq ''">
+            <a href="__ROOT__/Logo/login.html">登陆</a>
+            <a href="__ROOT__/Logo/register.html">注册</a>
+            </if>
+            </div>
+        </ul>
+        </div>
+    </div>
+ <div class="zt">
+ <!-- navbar end -->

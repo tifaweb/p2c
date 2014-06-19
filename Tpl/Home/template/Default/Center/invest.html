@@ -1,0 +1,261 @@
+<include file="Index:header" />
+<!--头部 end -->
+<!-- container start --> 
+<div class="container paddtop">
+<!-- left start-->
+<include file="left" />
+<!-- left end-->
+    <!-- right start-->
+    <div id="content" class="center_right span10">
+      	<switch name="mid" >
+            <case value="isclosed">
+            <!--正在收款的借款 start-->
+                <ul class="breadcrumb">
+                    <li>
+                    <a href="#">我是投资者</a> <span class="divider">/</span>
+                    </li>
+                    <li class="active">正在收款的借款</li>
+                </ul>
+                <table class="table table-striped datatable ">
+                    <thead>
+                      <tr>
+                        <th class="span2">标题</th>
+                        <th class="span1">类型</th>
+                        <th class="span2">借款金额</th>
+                        <th class="span1">年利率</th>
+                        <th class="span1">借款期限</th>
+                        <th class="span1">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <volist name="isclosed" id="v">
+                        <tr>
+                            <td><a href="__ROOT__/Loan/invest/{$v.details.id}.html" data-rel="tooltip" title="{$v.details.title}">{$v.details.title}</a></td>
+                            <td>{$v.details.type_name}</td>
+                            <td>{$v.details.money|number_format=2,'.',','}元</td>
+                            <td>{$v.details.rates}%</td>
+                            <td>{$v.details.deadlines}</td>
+                            <td class="span1"><a href="__ROOT__/Center/agreement.html?bid={$v.details.id}" data-rel="tooltip" title="查看协议书" class="icon-list-alt"></a>&nbsp;&nbsp;<a href="__ROOT__/Center/invest/plan?bid={$v.details.id}" class="icon-time" data-rel="tooltip" title="查看还款进度"></a></td>
+                         </tr>
+                    </volist>
+                    </tbody>
+                </table>
+            <!--正在收款的借款 end-->
+            </case>
+            <case value="plan">
+            <!--还款计划 start-->
+                <ul class="breadcrumb">
+                    <li>
+                    <a href="#">我是投资者</a> <span class="divider">/</span>
+                    </li>
+                    <li class="active">还款计划</li>
+                </ul>
+                <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>期数</th>
+                        <th>还款金额</th>
+                        <th>还款时间</th>  
+                        <th>状态</th>
+                      </tr>
+                    </thead>
+                    
+                    <tbody>
+                    <volist name="refun" id="vo">
+                        <tr>
+                            <td class="span2">{$vo.nper}</td>
+                             <td class="span1">{$vo.money|number_format=2,'.',','}</td>
+                            <td class="span1">{$vo.time|date="Y-m-d H:i:s",###}</td>
+                            <if condition="$vo.type eq 1 ">
+                            <td class="span1">已还</td>
+                            <elseif condition="$vo.type eq 2 "/>
+                             <td class="span1">已逾期</td>
+                         	<else/>
+                            <td class="span1">正在还款</td>
+                            </if>
+                         </tr>
+                   </volist> 
+                    </tbody>
+                           
+                </table>
+            <!--还款计划 end-->
+            </case>
+            <case value="isbid">
+            <!--投标的借款 start-->
+                <ul class="breadcrumb">
+                    <li>
+                    <a href="#">我是投资者</a> <span class="divider">/</span>
+                    </li>
+                    <li class="active">投标的借款</li>
+                </ul>
+                <table class="table table-striped datatable ">
+                    <thead>
+                      <tr>
+                        <th class="span2">标题</th>
+                        <th class="span1">类型</th>
+                        <th class="span1">金额</th>
+                        <th class="span1">年利率</th>
+                        
+                        <th class="span1">借出金额</th>
+                        <th class="span1">可收利息</th>
+                        <th class="span1">状态</th>
+                        <th class="span1">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <volist name="isbid" id="v">
+                        <tr>
+                            <td><a href="__APP__/Loan/invest/{$v.details.id}" data-rel="tooltip" title="{$v.details.title}">{$v.details.title}</a></td>
+                           <td>{$v.details.type_name}</td>
+                            <td>{$v.details.money|number_format=2,'.',','}元</td>
+                            <td>{$v.details.rates}%</td>
+                            
+                            <td>{$v.actionname.operation|number_format=2,'.',','}元</td>
+                            <td>{$v.actionname.interest}元</td>
+                            <td>{$v.details.state_name}</td>
+                            <td>
+                                <a href="__ROOT__/Center/agreement.html?bid={$v.actionname.bid}" data-rel="tooltip" title="查看协议书" class="icon-list-alt"></a>
+                            </td>
+                         </tr>
+                    </volist>
+                    </tbody>
+                </table>
+            <!--投标的借款 end-->
+            </case>
+            <case value="automaticlist">
+            <!--自动投标列表 start-->
+                <ul class="breadcrumb">
+                    <li>
+                    <a href="#">我是投资者</a> <span class="divider">/</span>
+                    </li>
+                    <li class="active">自动投标列表</li>
+                </ul>
+                <div class="alert alert-info">
+                    <a class="close" data-dismiss="alert">
+                    ×
+                    </a>
+                    <p>1、设置自动投标将扣除用户可用资金，转到冻结资金;如果自动投标删除，将自动解除冻结资金</p>
+                    <p><a href="__ROOT__/Center/invest/automatic.html" class="red">添加自动投标</a></p>
+                    
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>标题</th>
+                        <th>投标方式</th>
+                        <th>设置时间</th>
+                        <th>可用资金</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    	<volist name="auto" id="ue">
+                        <tr>
+                            <td>{$ue.title}</td>
+                            <td>{$ue['plan']==1?'金额':'系统分配'}</td>
+                            <td>{$ue.time|date="Y-m-d H:i:s",###}</td>
+                            <td>{$ue.total|number_format=2,'.',','} 元</td>
+                            <td>{$ue['type']==0?'关闭':'开启'}</td>
+                            <td>
+                            	<a href="__ROOT__/Center/invest/automatic.html?f={$ue.id}" data-rel="tooltip" class="icon icon-color icon-edit" title="编辑"></a>
+                    			<a href="#" data-rel="tooltip" class="icon icon-color icon-trash"title="删除" onclick="if(confirm('是否要删除？'))window.location.href='__URL__/investexit?id={$ue.id}'"></a>
+                            </td>
+                         </tr>      
+                        </volist>
+                    </tbody>
+                </table>
+                <h4 style="padding-top: 40px;">自动投标记录</h4>
+                <!-- 自动投标记录-->
+                <table class="table table-striped datatable">
+                    <thead>
+                      <tr>
+                        
+                        <th>可用资金</th>
+                        <th>操作资金</th>
+                        <th>操作说明</th>
+                        <th>操作时间</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    	<volist name="autolog" id="ue">
+                        <tr>
+                            
+                            <td>{$ue.actionname.pool|number_format=2,'.',','} 元</td>
+                            <td>{$ue.actionname.operation|number_format=2,'.',','} 元</td>
+                            <td>{$ue.actionname.instructions}</td>
+                            <td>{$ue.time|date="Y-m-d H:i:s",###}</td>
+                         </tr>      
+                        </volist>
+                    </tbody>
+                </table>
+                <!-- 自动投标记录end-->
+            <!--自动投标列表 end-->
+            </case>
+            <case value="automatic">
+            <!--自动投标设置 start-->
+                <ul class="breadcrumb">
+                    <li>
+                    <a href="#">我是投资者</a> <span class="divider">/</span>
+                    </li>
+                    <li>
+                    <a href="__ROOT__/Center/invest/automaticlist.html">自动投标设置</a> <span class="divider">/</span>
+                    </li>
+                    <li class="active">自动投标设置</li>
+                </ul>
+                
+                <if condition="$Think.get.f gt 0">
+                <form method="post"  action='__URL__/investupd'>
+                <input name="id" type="hidden" value="{$Think.get.f}" />
+                <else />
+                <form method="post"  action='__URL__/investadd'>
+                </if>
+                
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th>基本设置</th>
+                      </tr>
+                    </thead>
+                    <tbody class="invest_auto">
+                        <tr>
+                            <th>状态：</th>
+                            <if condition="$Think.get.f gt 0">
+                            <td><span><input name="type" data-no-uniform="true"  type="checkbox" class="iphone-toggle" value="1" {$aut['type']==1?'checked':''}></span></td>
+                        	<else/>
+                            <td><span><input name="type" data-no-uniform="true"  type="checkbox" class="iphone-toggle" value="1" checked ></span></td>
+                            </if>
+                        </tr>
+                        <tr>
+                            <th>标题：</th>
+                            <td><input name="title" type="text" class="span3" placeholder="请输入标题..." value="{$aut.title}"></td>
+                        </tr>
+                        <tr>
+                            <th>自动投标总额：</th>
+                            <td><div class="input-append"><input name="total" type="text" class="span2"  value="{$aut.total}"><span class="add-on">元</span></div>
+                            	<div class="alert alert-info">
+                                    <a class="close" data-dismiss="alert">
+                                    ×
+                                    </a>
+                                    <p>设置自动投标总额后将会自动冻结用户账户资金，如果用户可用资金不足将无法设置自动投标</p>  
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="span10">
+                  <button class="btn btn-primary" type="submit">
+                      确认提交
+                  </button>
+                </div>
+                </form>
+            <!--自动投标设置 end-->
+            </case>
+            <default />空
+        </switch>
+    </div>
+    <!-- right end--> 
+
+<!-- container end -->
+<!--底部  start-->
+<include file="Index:footer" />
