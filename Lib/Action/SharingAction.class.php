@@ -18,16 +18,19 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	public function homeVerify(){
+	protected function homeVerify(){
 		if($this->_session('user_uid')){
 			$user=M('user');
-			$users=$user->field('username,password')->where('id='.$this->_session('user_uid'))->find();
+			$users=$user->field('username,password,email')->where(array('id'=>$this->_session('user_uid')))->find();
 			if($this->_session('user_verify') !== MD5($users['username'].DS_ENTERPRISE.$users['password'].DS_EN_ENTERPRISE)){
 				session('user_uid',null);
 				session('user_name',null);
 				session('user_verify',null);
 				$this->error("请先重新登陆",'__ROOT__/Logo/login.html');
 			}
+			//if(!$users['email']){
+			//	$this->error("请先通过邮箱验证",'__ROOT__/Logo/emails.html');
+			//}
 		}else{
 			$this->error("请先登陆",'__ROOT__/Logo/login.html');
 		}
@@ -38,7 +41,7 @@ class SharingAction extends Action{
 	  * @in		数组
 	  *
 	  */
-	 public function remote($in){
+	 protected function remote($in){
 		if($in['value'] == 'NO'){
 			$this->error($in['error'],$in['url']);
 		}else if($in['value'] == 'accredit'){
@@ -55,7 +58,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	public function orderNumber() {
+	protected function orderNumber() {
 		$curlPost = "dswjw=".$_SERVER['SERVER_NAME']."&dswjn=".DS_NUMbER;
 		$url='http://www.tifaweb.com/Api/Core/orderNumberApi';  
 		$in=$this->Curl($curlPost,$url);
@@ -76,7 +79,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
      */
-    public function Record($type,$id=0){
+    protected function Record($type,$id=0){
         if($id==0){
             $Operation = M('operation');
             $array['name']= $_SESSION['admin_name'];
@@ -95,7 +98,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */	
-	public function city(){
+	protected function city(){
 		$citys = F('city');  // 获取缓存
 		if(!$citys){
 			$city	=	M('city');
@@ -119,7 +122,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	public function top($m,$w,$o,$l,$r=1) {
+	protected function top($m,$w,$o,$l,$r=1) {
 		$model=D($m);
 		if($r==1){
 			return $model->relation(true)->where($w)->order($o)->limit($l)->select();
@@ -127,91 +130,6 @@ class SharingAction extends Action{
 			return $model->where($w)->order($o)->limit($l)->select();
 		}
 		
-	}
-
-   /**
-	* @积分配置
-	* @作者		shop猫
-	* @版权		宁波天发网络
-	* @官网		http://www.tifaweb.com http://www.dswjcms.com
-	*/
-	public function integralConf(){
-		$system=M('integralconf');
-		$system=$system->select();
-		foreach($system as $s){
-			$sys[$s['name']]=array($s['value'],$s['state']);
-		}
-		return $sys;
-	}
-
-    /**
-	 * @积分添加
-	 * @array	参数
-	 * @作者		shop猫
-	 * @版权		宁波天发网络
-	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
-	 *--------------使用说明-----------------
-	 $add['member']=array(
-						'uid'=>1,	//用户名
-						'name'=>'mem_register',	//积分配置表中的积分名
-					);
-	 $this->integralAdd($add);//积分添加
-	 *--------------------------------------
-	 */
-	public function integralAdd($array) {
-		$Model = new Model();
-		$inf=$this->integralConf();
-		if(isset($array['member'])){	//会员积分
-		
-			if(isset($inf[$array['member']['name']])){	//判断用户提交上来的积分名是否存在积分配置表中
-				$upda=$Model->execute("update ds_ufees set `total`=`total`+".$inf[$array['member']['name']][0].",`available` = `available`+".$inf[$array['member']['name']][0]." where uid='".$array['member']['uid']."'");//会员积分更新
-				$ufee=$Model->table('ds_ufees')->where('uid='.$array['member']['uid'])->find();
-				if($upda){
-					
-					$arr[0]=1;
-					$arr[1]=$inf[$array['member']['name']][1];
-					$arr[2]=$inf[$array['member']['name']][0];
-					$arr[3]='平台';
-					$arr[4]=$ufee['total'];
-					$arr[5]=$ufee['available'];
-					$arr[6]=$ufee['freeze'];
-					$moneyLog=$this->moneyLog($arr);
-				}
-			}
-		}
-		if(isset($array['vip'])){	//VIP
-			if(isset($inf[$array['vip']['name']])){	//判断用户提交上来的积分名是否存在积分配置表中
-				$upda=$Model->execute("update ds_vip_points set `total`=`total`+".$inf[$array['vip']['name']][0].",`available` = `available`+".$inf[$array['vip']['name']][0]." where uid='".$array['vip']['uid']."'");//VIP积分更新
-				$ufee=$Model->table('ds_vip_points')->where('uid='.$array['vip']['uid'])->find();
-				if($upda){
-					$arr[0]=2;
-					$arr[1]=$inf[$array['vip']['name']][1];
-					$arr[2]=$inf[$array['vip']['name']][0];
-					$arr[3]='平台';
-					$arr[4]=$ufee['total'];
-					$arr[5]=$ufee['available'];
-					$arr[6]=$ufee['freeze'];
-					$moneyLog=$this->moneyLog($arr);
-				}
-			}
-		}
-		if(isset($array['promote'])){	//推广积分
-			if(isset($inf[$array['promote']['name']])){	//判断用户提交上来的积分名是否存在积分配置表中
-				$upda=$Model->execute("update ds_promote_integral set `total`=`total`+".$inf[$array['promote']['name']][0].",`available` = `available`+".$inf[$array['promote']['name']][0]." where uid='".$array['promote']['uid']."'");//会员积分更新
-				$ufee=$Model->table('ds_promote_integral')->where('uid='.$array['promote']['uid'])->find();
-				if($upda){
-					$arr[0]=3;
-					$arr[1]=$inf[$array['promote']['name']][1];
-					$arr[2]=$inf[$array['promote']['name']][0];
-					$arr[3]='平台';
-					$arr[4]=$ufee['total'];
-					$arr[5]=$ufee['available'];
-					$arr[6]=$ufee['freeze'];
-					$moneyLog=$this->moneyLog($arr);
-				}
-			}
-		}
-		return 1;
 	}
 	
     /**
@@ -221,7 +139,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	public function email_send($arr){
+	protected function email_send($arr){
 		$this->copyright();
 		import('ORG.Custom.PhpMailer');
 		$mail = new PHPMailer(); 
@@ -261,8 +179,35 @@ class SharingAction extends Action{
 		$mail->AltBody = "点石为金借贷"; //附加信息，可以省略
 		if(!$mail->Send())
 		{
-			echo '邮件发送失败. <p>错误原因: '. $mail->ErrorInfo;
-			exit;
+			
+			//echo '邮件发送失败. <p>错误原因: '. $mail->ErrorInfo;
+			//exit;
+			//如果不成功，就再次执行，直接成功为止
+			$mail->Smtpclose();	//关闭
+			$mail = new PHPMailer(); 
+			$mail->IsSMTP(); // 使用SMTP方式发送
+			$mail->CharSet='UTF-8';// 设置邮件的字符编码
+			$mail->Host = "$smtp"; // 您的企业邮局域名
+			$mail->SMTPAuth = $validation==1?true:false; // 启用SMTP验证功能
+			$mail->Username = "$send_email"; // 邮局用户名(请填写完整的email地址)
+			$mail->Password = "$password"; // 邮局密码
+			$mail->From = "$send_email"; //邮件发送者email地址
+			$mail->FromName = "$addresser";	//发件人
+			if($receiver_email_array){	//群发
+				foreach($receiver_email_array as $rea){
+					$mail->AddAddress("$rea");
+				}
+			}else{
+				$mail->AddAddress("$receipt_email");//收件人地址，可以替换成任何想要接收邮件的email信箱,格式是AddAddress("收件人email","收件人姓名")
+			}
+			//$mail->AddReplyTo("", "");	//添加回复
+			if($addattachment){
+				$mail->AddAttachment("$addattachment"); // 添加附件
+			}
+			$mail->IsHTML($ishtml==1?true:false); // set email format to HTML //是否使用HTML格式
+			$mail->Subject = "$title"; //邮件标题
+			$mail->Body = "$content"; //邮件内容
+			$mail->AltBody = "点石为金借贷"; //附加信息，可以省略
 		}
 		return true;
     }
@@ -274,7 +219,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function systems(){
+	protected function systems(){
 		$this->copyright();
 		$sys = F('systems');  // 获取缓存
 		if(!$sys){
@@ -292,13 +237,16 @@ class SharingAction extends Action{
 	*
 	* @标操作记录
 	* @id 		1多维数组0一维
+	* @n		订单号
 	* @作者		shop猫
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	* @更新：2014/7/2添加$n,给记录添加了一个订单号功能，以降低大数据下的并发问题    shop猫
 	*
 	*/
-    public function borrowLog($arr,$id=0){
+    protected function borrowLog($arr,$id=0,$n=0){
 			$models = new Model();
+			$n=$n>0?$n:$this->orderNumber();
 			if($id==1){
 				foreach($arr as $k => $ar){
 					$array[$k]['type']		= $ar['type'];
@@ -306,6 +254,9 @@ class SharingAction extends Action{
 					$array[$k]['actionname']= json_encode($ar);
 					$array[$k]['ip']		= get_client_ip();
 					$array[$k]['time']		= time();
+					$array[$k]['number']	=$n;
+					$array[$k]['bid']		=$ar['bid'];
+					$array[$k]['uid']		=$ar['uid'];
 				}
 				return $models->table('ds_borrow_log')->addAll($array);
 			}else{
@@ -314,6 +265,9 @@ class SharingAction extends Action{
 				$array['actionname']= json_encode($arr);
 				$array['ip']		= get_client_ip();
 				$array['time']		= time();
+				$array['number']	=$n;
+				$array['bid']		= $arr['bid'];
+				$array['uid']		= $arr['uid'];
 				return $models->table('ds_borrow_log')->add($array);
 			}
 			
@@ -329,7 +283,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-    public function userLog($arr,$uid){
+    protected function userLog($arr,$uid){
 			$models = new Model();
             $array['uid']		= $uid?$uid:$this->_session('user_uid');
 			$array['actionname']= $arr;
@@ -342,16 +296,15 @@ class SharingAction extends Action{
 	/**
      * @资金/积分操作记录
      * @array   0操作类型1操作说明2操作金额3交易对方4总额5余额6冻结7用户
+	 * @array	类型细分
      * @id      是否开启
 	 * @作者		shop猫
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
      */
-    public function moneyLog($array,$id=0){
+    protected function moneyLog($array,$finetype,$id=0){
         if($id==0){
 			$models = new Model();
-			//$money=M('money');
-			//$moneys=reset($money->field('total_money,available_funds,freeze_funds')->where('`uid`='.$this->_session('user_uid'))->select());
             $arrays['uid']				= $array[7]?$array[7]:$this->_session('user_uid');
             $arrays['type']				= $array[0];
 			$arrays['actionname']		= $array[1];
@@ -360,6 +313,7 @@ class SharingAction extends Action{
 			$arrays['freeze_funds']		= $array[6];
 			$arrays['counterparty']		= $array[3];
 			$arrays['operation']		= $array[2];
+			$arrays['finetype']			= $finetype?$finetype:'1';
             $arrays['time']				= time();
 			$arrays['ip']				= get_client_ip();
 			return $models->table('ds_money_log')->add($arrays);
@@ -374,7 +328,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function user_details($uid=0){
+	protected function user_details($uid=0){
 		$user	=	D('User');
 		$unite	=	M('unite');
 		$citys=$this->city();
@@ -475,7 +429,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function audit($id=0,$q=0){
+	protected function audit($id=0,$q=0){
 		if($id==1){
 			$where="`certification`=1";
 		}else if($id==2){
@@ -502,7 +456,7 @@ class SharingAction extends Action{
 		$userinfo=$userinfo->field('id,uid,name,gender,national,born,idcard,idcard_img,cellphone,native_place'.$field)->relation(true)->where($where)->order('`id` DESC')->select();
 		
 		foreach($userinfo as $id=>$ufo){
-			$idcard_img=array_splice(explode(",",$ufo['idcard_img']),1);
+			$idcard_img=explode(",",$ufo['idcard_img']);
 			$native_place=explode(" ",$ufo['native_place']);
 			$native_place=$citys[$native_place[0]]." ".$citys[$native_place[1]]." ".$citys[$native_place[2]];
 			$userinfo[$id]['native_place']=$native_place;
@@ -523,7 +477,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function userinfo($uid=0,$conditions=0){
+	protected function userinfo($uid=0,$conditions=0){
 		$userinfo=D('Userinfo');
 		if($uid){
 			if($conditions){
@@ -544,7 +498,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function offlineBank(){
+	protected function offlineBank(){
 		$unite=M('unite');
 		$offline=M('offline');
 		$list=$unite->field('name,value')->where('`state`=0 and `pid`=14')->order('`order` asc,`id` asc')->select();
@@ -566,7 +520,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function withdrawalPoundage($m=0){
+	protected function withdrawalPoundage($m=0){
 		$systems=$this->systems();
 		if($m>0){
 			if($m<=$systems['sys_wFPoundage']){	//小于免费提现额度
@@ -585,7 +539,7 @@ class SharingAction extends Action{
 	* @where	条件
 	*
 	*/
-	public function showUser($id=0,$uid=0,$where){
+	protected function showUser($id=0,$uid=0,$where){
 		$withdrawal=D('Withdrawal');
 		$unite=M('unite');
 		
@@ -644,7 +598,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com	
 	*
 	*/
-	public function rechargeUser($id=0,$uid=0,$where){
+	protected function rechargeUser($id=0,$uid=0,$where){
 		$recharge=D('Recharge');
 		$unite=M('unite');
 		$list=$unite->field('pid,name,value')->where('(`pid` = 14 or `pid` = 15 ) and `state`=0')->order('`order` asc,`id` asc')->select();
@@ -688,7 +642,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function topUpFees($m=0){
+	protected function topUpFees($m=0){
 		$systems=$this->systems();
 		if($m>0){
 			if($systems['sys_topUFC']==0){	//大于免费额度收取手续费
@@ -717,7 +671,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function onlineUpFees($m=0){
+	protected function onlineUpFees($m=0){
 		$systems=$this->systems();
 		if($m>0){
 			//充值手续费=充值金额*充值手续费
@@ -734,7 +688,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function borrowLinkage(){
+	protected function borrowLinkage(){
 		$unite=M('unite');
 		$list=$unite->where('`state`=0 and `pid`<8')->order('`order` asc,`id` asc')->select();
 		foreach($list as $lt){
@@ -772,7 +726,7 @@ class SharingAction extends Action{
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 *
 	 */
-	public function borrow_information($id){
+	protected function borrow_information($id){
 		$borrow=$this->borrow_unicom($id);
 		$bid_records=$this->bidRecords('2',$id);
 		$borrow[0]['bid_records']=$bid_records;
@@ -792,7 +746,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function borrow_unicom($id=0,$where){
+	protected function borrow_unicom($id=0,$where){
 		$unite=M('unite');
 		$list=$unite->where('`state`=0 and `pid`<8')->order('`order` asc,`id` asc')->select();
 		foreach($list as $lt){
@@ -851,13 +805,10 @@ class SharingAction extends Action{
 			$guaranteecomp=M('guaranteecomp');
 			$borrow[$id]['guara']=$Guarantee->where('bid='.$lt['id'])->relation(true)->find();
 			$borrow[$id]['guara']['gcompanys']=$guaranteecomp->field('name')->where('id='.$borrow[$id]['guara']['gcompany'])->find();		
-			switch($lt['type']){
-					case 0:
-					$borrow[$id]['type_name']="担保标";
-			}
+			
 			switch($lt['state']){
 					case 0:
-					$borrow[$id]['state_name']="立即投标";
+					$borrow[$id]['state_name']="正在投标";
 					break;
 					case 1:
 					$borrow[$id]['state_name']="还款中";
@@ -877,7 +828,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function borrowUidUnicom($uid){
+	protected function borrowUidUnicom($uid){
 		$unite=M('unite');
 		$list=$unite->where('`state`=0 and `pid`<8')->order('`order` asc,`id` asc')->select();
 		foreach($list as $lt){
@@ -936,76 +887,19 @@ class SharingAction extends Action{
 			$flow_total=floor($borrow[$id]['money']/$borrow[$id]['min']);	//流转总份数
 			$borrow[$id]['subscribe']=$flow_total-$borrow[$id]['flows'];	//可认购数
 			$borrow[$id]['flow_ratio']=sprintf("%01.2f",$borrow[$id]['flows']/$flow_total*100);	//流转标进度
-			switch($lt['type']){
-					case 0:
-					$borrow[$id]['type_name']="秒还标";
-					break;
-					case 1:
-					$borrow[$id]['type_name']="抵押标";
-					break;
-					case 2:
-					$borrow[$id]['type_name']="质押标";
-					break;
-					case 3:
-					$borrow[$id]['type_name']="净值标";
-					break;
-					case 4:
-					$borrow[$id]['type_name']="信用标";
-					break;
-					case 5:
-					$borrow[$id]['type_name']="担保标";
-					break;
-					case 6:
-					$borrow[$id]['type_name']="团购标";
-					break;
-					case 7:
-					$borrow[$id]['type_name']="流转标";
-					break;
-					case 8:
-					$borrow[$id]['type_name']="机构担保标";
-					break;
-				}
+			
 				switch($lt['state']){
 					case 0:
-					$borrow[$id]['state_name']="待审核";
+					$borrow[$id]['state_name']="投标中";
 					break;
 					case 1:
-					$borrow[$id]['state_name']="审核通过";
-					$borrow[$id]['state_names']="立即投标";
+					$borrow[$id]['state_name']="还款中";
+					$borrow[$id]['state_names']="正在还款";
 					break;
 					case 2:
-					$borrow[$id]['state_names']=$borrow[$id]['state_name']="审核失败";
-					break;
-					case 3:
-					$borrow[$id]['state_names']=$borrow[$id]['state_name']="用户取消";
-					break;
-					case 4:
-					$borrow[$id]['state_names']=$borrow[$id]['state_name']="流标";
-					break;
-					case 5:
-					$borrow[$id]['state_name']="满标待审核";
-					$borrow[$id]['state_names']="等待复审";
-					break;
-					case 6:
-					$borrow[$id]['state_name']="满标审核失败";
-					$borrow[$id]['state_names']="复审失败";
-					break;
-					case 7:
-					$borrow[$id]['state_names']=$borrow[$id]['state_name']="还款中";
-					break;
-					case 8:
-					$borrow[$id]['state_names']=$borrow[$id]['state_name']="逾期中";
-					break;
-					case 9:
 					$borrow[$id]['state_names']=$borrow[$id]['state_name']="已完成";
 					break;
-					case 10:
-					$borrow[$id]['state_name']="等待担保";
-					$borrow[$id]['state_names']="立即担保";
-					break;
-					case 11:
-					$borrow[$id]['state_name']="等待回购";
-					$borrow[$id]['state_names']="回购中";
+					
 					break;
 				}
 		}
@@ -1021,7 +915,7 @@ class SharingAction extends Action{
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 *
 	 */
-	public function borrow_unicoms($where,$limit,$order){
+	protected function borrow_unicoms($where,$limit,$order){
 		if(!isset($where)){
 			$where="`id`>0";
 		}
@@ -1074,14 +968,10 @@ class SharingAction extends Action{
 			$borrow[$id]['img']=$img[0];
 			$borrow[$id]['bid_records_count']=$bid_records_count;
 			$borrow[$id]['ratio']=sprintf("%01.2f",($borrow[$id]['money']-$borrow[$id]['surplus'])/$borrow[$id]['money']*100);	//进度
-			switch($lt['type']){
-					case 0:
-					$borrow[$id]['type_name']="担保标";
-					break;
-			}
+			
 			switch($lt['state']){
 					case 0:
-					$borrow[$id]['state_name']="立即投标";
+					$borrow[$id]['state_name']="正在投标";
 					break;
 					case 1:
 					$borrow[$id]['state_name']="还款中";
@@ -1103,20 +993,27 @@ class SharingAction extends Action{
 		return $borrow;
 	}
 	
-	 /**
+	/**
 	*
 	* @投标记录(完整版)
+	* @bid		标ID
+	* @limit	条数
+	* @order	排序
 	* @作者		shop猫
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function bRecord(){	
+	protected function bRecord($bid=0,$limit,$order){	
+		$order=$order?$order:'`id` desc';
         $user_log=M('borrow_log');
-		$user_log=$user_log->select();
+		$user_log=$user_log->limit($limit)->order($order)->select();
 		if($user_log){
 			foreach($user_log as $id=>$ulog){
-				$user_log[$id]['actionname']=json_decode($ulog['actionname'], true);					
+				$user_log[$id]['actionname']=$actionname=json_decode($ulog['actionname'], true);
+				if($actionname['bid'] !==$bid && $bid>0){
+					unset($user_log[$id]);
+				}						
 			}
 		}
 		return $user_log;					
@@ -1128,69 +1025,49 @@ class SharingAction extends Action{
 	* @type		记录状态
 	* @bid		标ID
 	* @uid		用户ID
-	* @details	显示各记录标的详情
+	* @limit	limit
+	* @state	详细
 	* @作者		shop猫
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function bidRecords($type,$bid=0,$uid=0,$details=0){	
+	protected function bidRecords($type,$bid=0,$uid=0,$limit){	
         $user_log=M('borrow_log');
-		if($type){
-			if($type && isset($bid)){
-				$user_log=$user_log->where('`type`='.$type)->select();
-				if($user_log){
-					foreach($user_log as $id=>$ulog){
-						$user_log[$id]['actionname']=json_decode($ulog['actionname'], true);
-						if($bid>0){
-							if($user_log[$id]['actionname']['bid']==$bid){	//显示对应ID的
-								if($uid>0){	//指定标和用户
-									if($user_log[$id]['actionname']['uid']==$uid){
-										$u_log[]=$user_log[$id];
-									}
-								}else{
-									$u_log[]=$user_log[$id];
-								}
-							}
-								
-						}else{
+			if($type){
+				$bids=$bid>0?" and `bid`=".$bid:'';
+				$uids=$uid>0?" and `uid`=".$uid:'';
+					$user_log=$user_log->where('`type`='.$type.$bids.$uids)->order('`time` DESC ')->limit($limit)->select();
+				if(!$user_log){
+					return array();
+				}
+				
+				foreach($user_log as $id=>$ulog){
+					$user_log[$id]['actionname']=json_decode($ulog['actionname'], true);
+					
+					if($bid==0){
+						
+							$user_log[$id]['details']=reset($this->borrow_unicom($ulog['bid']));			//标详情
 							
-							if($user_log[$id]['actionname']['uid']==$uid){	//显示对应用户
-								$user_log[$id]['details']=reset($this->borrow_unicom($user_log[$id]['actionname']['bid']));			//标详情
-								if($details>0){
-									switch($type){
-										case 0:	//投标中
-										if($user_log[$id]['details']['state']==1){
-											$u_log[]=$user_log[$id];
-										}
-										break;
-										case 1:	//还款中
-										$u_log[]=$user_log[$id];
-										break;
-										case 2:	//已完成
-										if($user_log[$id]['details']['state']==9){
-											$u_log[]=$user_log[$id];
-										}
-										break;
+							//获取收款状态，如果没有待收的添加状态
+							$coll=M('collection')->where('`bid`='.$ulog['bid'].' and `uid`='.$uid.' and `type`=1')->count();
+							$assignment=M('assignment')->where('`bid`='.$ulog['bid'].' and `uid`='.$uid.' and `type` != 2')->find();
+							if($assignment){
+								if($coll>0 && $assignment['surplus']<=0){	//只有在有已还时才进入筛选,债权转被认购完
+									$colls=M('collection')->where('`bid`='.$ulog['bid'].' and `uid`='.$uid.' and `type`=0')->count();
+									if($colls<1){
+									$user_log[$id]['collection']=1;
 									}
-									
-								}else{
-									$u_log[]=$user_log[$id];
 								}
-								
 							}
-						}
+							$u_log[]=$user_log[$id];
+							
+					}else{
+						$u_log[]=$user_log[$id];
 					}
 				}
 				return $u_log;
-			}else{
-				return $user_log=$user_log->where('`type`='.$type)->select();
 			}
-			
-		}else{
-			return $user_log=$user_log->select();
-		}
-		
     }
 	
    /**
@@ -1202,7 +1079,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function borr($id){
+	protected function borr($id){
 		if(!$id){
 			return false;
 		}
@@ -1245,7 +1122,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function moneys($field){
+	protected function moneys($field){
 		$money=M('money');
 		$money=$money->field($field)->select();
 
@@ -1268,7 +1145,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function moneySingle($uid,$field){
+	protected function moneySingle($uid,$field){
 		$money=$this->moneys($field);
 		return $money[$uid];
 	}
@@ -1282,7 +1159,7 @@ class SharingAction extends Action{
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 *
 	 */
-	public function moneyRecord($uid){
+	protected function moneyRecord($uid){
 		$uids=$uid?' and uid='.$uid:'';
 		$money_log=D('Money_log');
 		$list=$money_log->relation(true)->where('type=0'.$uids)->order('time DESC,id DESC ')->select();	//资金使用记录
@@ -1303,7 +1180,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	 public function irefunds($id=2){
+	 protected function irefunds($id){
 		$models = new Model();
 		$borrowing=M('borrowing');
 		$refund=M('refund');
@@ -1339,7 +1216,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	 public function irefundsEdit($id=1){
+	 protected function irefundsEdit($id=1){
 		$models = new Model();
 		$borrowing=M('borrowing');
 		$refund=M('refund');
@@ -1378,7 +1255,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	 public function icollection($id=4,$uid=1){
+	 protected function icollection($id=4,$uid=1){
 		$borrowing=M('borrowing');
 		$collection=M('collection');
 		$borrow=$borrowing->where('id='.$id)->find();
@@ -1424,7 +1301,7 @@ class SharingAction extends Action{
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 *
 	 */
-	public function week($str){
+	protected function week($str){
 		if(date('w',$str)==6){	//如果是星期六
 			return $str+172800;	//加2天
 		}else if(date('w',$str) == 0){	//如果是星期天
@@ -1443,7 +1320,7 @@ class SharingAction extends Action{
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 *
 	 */
-	 public function endMonth($interval){
+	 protected function endMonth($interval){
 		//$firstday = date("Y-m-01",$time);
 		$time=time();
 		$firstday = strtotime("+$interval month");//下N个月
@@ -1475,7 +1352,7 @@ class SharingAction extends Action{
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 *
 	 */
-	public function counters($a,$i,$n,$u=0,$w=0){	
+	protected function counters($a,$i,$n,$u=0,$w=0){	
 		$curlPost = "dswjw=".$_SERVER['SERVER_NAME']."&dswjn=".DS_NUMbER."&dsa=".$a."&dsi=".$i."&dsn=".$n."&dsu=".$u."&dsw=".$w;
 		$url='http://www.tifaweb.com/Api/Core/countersApi';  
 		$in=$this->Curl($curlPost,$url);
@@ -1497,7 +1374,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function specifyUser($mid,$id=0,$uid=0){
+	protected function specifyUser($mid,$id=0,$uid=0){
 		$bid_records=$this->bidRecords($mid,$id,$uid);
 		foreach($bid_records as $bds){
 			if($bid_record[$bds['actionname']['uid']]){
@@ -1524,7 +1401,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function lendUser($mid,$id=0,$fd=0){
+	protected function lendUser($mid,$id=0,$fd=0){
 		$bid_records=$this->bidRecords($mid,$id);
 		$user=M('user');
 		foreach($bid_records as $id=> $bds){
@@ -1552,43 +1429,7 @@ class SharingAction extends Action{
 		return $bid_record;
 	}
 	
-   /**
-	*
-	*流标处理
-	*borr				//借款标信息
-	* @作者		shop猫
-	* @版权		宁波天发网络
-	* @官网		http://www.tifaweb.com http://www.dswjcms.com
-	*/
-	public function flowStandard($borr){
-		$msgTools = A('msg','Event');
-        $bid_record=$this->specifyUser('3',$borr['id']);
-		$money=M('money');
-		foreach($bid_record as $brd){	
-			$moneyarr['total_money']	=$array['total']=$brd['money']['total_money'];
-			$moneyarr['freeze_funds']	=$array['freeze']=$brd['money']['freeze_funds']-$brd['total'];
-			$moneyarr['available_funds']=$array['freeze']=$brd['money']['available_funds']+$brd['total'];
-			$moneys=$money->where('uid='.$brd['id'])->save($moneyarr);//借款者资金操作
-			//记录添加点
-			//投资者
-			$available_funds=$money->field('total_money,available_funds,make_reward,freeze_funds')->where('uid='.$brd['id'])->find();	//总额和可用余额
-			$moneyLog=$this->moneyLog(array(0,'【'.$borr['title'].'】流标，资金返还',$brd['total'],$borr['username'],$available_funds['total_money'],$available_funds['available_funds'],$available_funds['freeze_funds'],$brd['id']));//资金记录
-			$sendMsg=$msgTools->sendMsg(3,'【'.$borr['title'].'】流标','对<a href="'.__ROOT__.'/Home/Loan/invest/'.$brd['id'].'.html">【'.$borr['title'].'】</a>流标，资金成功返还','admin',$brd['id']);//站内信
-			unset($array);
-			unset($bid_records);
-			unset($bid_record);
-			unset($moneyarr);
-		}	
-		if($borrowlog){//借款者操作
-			$bid_record=$this->specifyUser('4',$borr['id']);
-			$bid_record=reset($bid_record);
-			$sendMsg=$msgTools->sendMsg(3,'【'.$borr['title'].'】已流标','<a href="'.__ROOT__.'/Home/Loan/invest/'.$brd['id'].'.html">【'.$borr['title'].'】</a>已流标','admin',$borr['uid']);//站内信	
-			
-		}
-		
-    }
-	
-   /**
+	/**
 	* @用户手动还款
 	* @bid		标ID
 	* @id		期数
@@ -1598,7 +1439,6 @@ class SharingAction extends Action{
 	*/
 	public function repayment($bid,$id){
 		$models = new Model();
-		$msgTools = A('msg','Event');
 		$refund=M('refund');
 		$money=M('money');
 		$borrowing=D('Borrowing');
@@ -1619,6 +1459,7 @@ class SharingAction extends Action{
 			//记录添加点
 			$moneyLog=$this->moneyLog(array(0,'【'.$borr['title'].'】第'.$id.'期收款',$co['money'],'平台',$total['total_money'],$total['available_funds'],$total['freeze_funds'],$co['uid']));//资金记录
 			$sendMsg=$msgTools->sendMsg(3,'对【'.$borr['title'].'】第'.$id.'期收款','<a href="'.__ROOT__.'/Loan/invest/'.$bid.'.html">【'.$borr['title'].'】</a>第'.$id.'期成功收款','admin',$co['uid']);//站内信
+			$this->silSingle(array('title'=>'对【'.$borr['title'].'】第'.$id.'期收款','sid'=>$co['uid'],'msg'=>'<a href="'.__ROOT__.'/Loan/invest/'.$bid.'.html">【'.$borr['title'].'】</a>第'.$id.'期成功收款'));//站内信
 			//邮件通知
 			$mailNotice['uid']=$co['uid'];
 			$mailNotice['title']='对【'.$borr['title'].'】的第'.$id.'期还款';
@@ -1652,7 +1493,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function letter() {
+	protected function letter() {
 		return $array=array(0=>'A',1=>'B',2=>'C',3=>'D',4=>'E',5=>'F',6=>'G',7=>'H',8=>'I',9=>'J',10=>'K',11=>'L',12=>'M',13=>'N',14=>'O',15=>'P',16=>'Q',17=>'R',18=>'S',19=>'T',20=>'U',21=>'V',22=>'W',23=>'X',24=>'Y',25=>'Z');
 	}
 	
@@ -1674,7 +1515,7 @@ class SharingAction extends Action{
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*
 	*/
-	public function excelExport($array) {
+	protected function excelExport($array) {
 		Vendor ( 'Excel.PHPExcel' );
 		$letter=$this->letter();//引入列换算
 		$mode=$array['moder']?$array['moder']:'t1.xls';	//获取模板
@@ -1713,7 +1554,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	public function statistical(){
+	protected function statistical(){
 		$borrowing=M('borrowing');
 		$userinfo=M('userinfo');
 		$lines=M('lines');
@@ -1723,6 +1564,12 @@ class SharingAction extends Action{
 		$user=M('user');
 		$money=M('money');
 		$guaranteeapply=M('guaranteeapply');
+		$array['autonym']=$userinfo->where('certification=1')->count();	//实名认证
+		$array['video']=$userinfo->where('video_audit=1')->count();	//视频认证
+		$array['scene']=$userinfo->where('site_audit=1')->count();	//现场认证
+		$array['phone']=$userinfo->where('cellphone_audit=1')->count();	//手机认证
+		$array['recharge']=$recharge->where('type=1 and genre=0')->count();	//充值申请
+		$array['withdrawal']=$withdrawal->where('type=1')->count();	//提现申请
 		//总
 		$array['metotal']=$user->count();	//会员总数
 		$array['mototals']=$money->sum('total_money');	//平台总资金
@@ -1793,7 +1640,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	public function headPortrait($img){
+	protected function headPortrait($img){
 		if(file_exists($img)){	//存在图片
 			return 1;
 		}
@@ -1807,7 +1654,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	public function someArticle($id,$limt){
+	protected function someArticle($id,$limt){
 		$mod = D("Article");
 		$list = $mod->field('id,title,addtime')->where("published=1 and catid=".$id)->limit($limt)->order('`order` desc,`addtime` desc')->select();
 		return $list;
@@ -1821,7 +1668,7 @@ class SharingAction extends Action{
 	 * @版权		宁波天发网络
 	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	public function copyright($tf=0){
+	protected function copyright($tf=0){
 		if($tf){
 			$systems=$this->systems();
 			$curlPost = "dswjw=".$_SERVER['SERVER_NAME']."&dswjn=".DS_NUMbER."&dswji=".$_SERVER["REMOTE_ADDR"]."&dswje=".$systems['sys_email']."&dswjc=".$systems['sys_cellphone']."&dswjp=".$systems['sys_phone']."&dswja=".$systems['sys_address']."&dswjco=".$systems['sys_company'];
@@ -1841,7 +1688,7 @@ class SharingAction extends Action{
 	 * @版权			宁波天发网络
 	 * @官网			http://www.tifaweb.com http://www.dswjcms.com
 	 */
-	public function textMessaging($number,$content){
+	protected function textMessaging($number,$content){
 		
 	}
 	
@@ -1876,7 +1723,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function automaticBackup(){
+	protected function automaticBackup(){
 		$system=$this->systems();
 		import('ORG.Custom.backupsql');
 		$db = new DBManage ( C('DB_HOST'),C('DB_USER'), C('DB_PWD'), C('DB_NAME'), 'utf8' );
@@ -1905,7 +1752,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function directory($dirname){
+	protected function directory($dirname){
 	   $num=0;    //用来记录目录下的文件个数
 	   $dir_handle=opendir($dirname);
 	   while($file=readdir($dir_handle))
@@ -1931,7 +1778,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function templateData($dirname){
+	protected function templateData($dirname){
 		$template=$this->directory($dirname);
 		$array['num']=$template['num'];
 		unset($template['num']);
@@ -1952,7 +1799,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function exportWord($name){
+	protected function exportWord($name){
 		$dir_teaname = './Public/Word/';  //要创建的文件夹名称   Word
 		//判断目录是否存在，存在就删除
 		if(!is_dir($dir_teaname)){
@@ -1984,7 +1831,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function pathExit(){
+	protected function pathExit(){
 		$path=$this->_post('img');
 		if(file_exists($path)){	//存在图片
 			unlink($path);	//删除它
@@ -2015,13 +1862,36 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function linkageValue($pid){
+	protected function linkageValue($pid){
 		$unite=M("unite");
 		$industry=$unite->field('value,name')->where('pid='.$pid)->order('`id` ASC')->select();
 		foreach($industry as $i){
 			$ind[$i['value']]=$i['name'];
 		}
 		return $ind;
+	}
+	
+	/**
+	*
+	* @防黑操作记录
+	* @作者		shop猫
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function webScan(){
+		//用户唯一key
+		define('WEBSCAN_U_KEY', '2133a3216620b018063b1c4392d28fde');
+		//数据回调统计地址
+		define('WEBSCAN_API_LOG', 'http://safe.webscan.360.cn/papi/log/?key='.WEBSCAN_U_KEY);
+		//版本更新地址
+		define('WEBSCAN_UPDATE_FILE','http://safe.webscan.360.cn/papi/update/?key='.WEBSCAN_U_KEY);
+		//后台路径
+		//define('WEBSCAN_DIRECTORY','Admin|admin');
+		//url白名单,可以自定义添加url白名单,默认是对phpcms的后台url放行
+		//写法：比如phpcms 后台操作url index.php?m=admin php168的文章提交链接post.php?job=postnew&step=post ,dedecms 空间设置edit_space_info.php
+		//$webscan_white_url = array('index.php' => 'm=admin','post.php' => 'job=postnew&step=post','edit_space_info.php'=>'');
+		//define('WEBSCAN_URL',$webscan_white_url);
+		import("ORG.Custom.webscan"); 	
 	}
 	
 	/**
@@ -2035,7 +1905,7 @@ class SharingAction extends Action{
 	* @版权		宁波天发网络
 	* @官网		http://www.tifaweb.com http://www.dswjcms.com
 	*/
-	public function mailNotice($arr){
+	protected function mailNotice($arr){
 		$user=D('User');
 		if($arr['uid']){
 			$users=$user->where("id=".$arr['uid'])->find();
@@ -2049,6 +1919,363 @@ class SharingAction extends Action{
 		$stmpArr['content']			=$arr['content'];
 		
 		$this->email_send($stmpArr);	
+	}
+	
+	/**
+	*
+	* @站内信单发
+	* @arr		数据
+	*	fid		发送者ID	
+	*   sid		收件者ID
+	*	title	标题
+	*  	msg		内容
+	* @作者		shop猫
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function  silSingle($arr){
+		$Instation=M('instation');
+		$arr['time']=time();
+		return $Instation->add($arr);
+	}
+	
+	/**
+	*
+	* @站内信回复
+	* @arr		数据
+	*	fid		发送者ID	
+	*   sid		回复者ID
+	*   pid		回复的站内信ID
+	*  	msg		内容
+	* @作者		shop猫
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function  silReply($arr){
+		$Instation=M('instation');
+		$arr['time']=time();
+		return $Instation->add($arr);
+	}
+	
+	/**
+	*
+	* @站内信群发(限管理员)
+	* @arr		数据	
+	*   sid		收件用户组
+	*	title	标题
+	*  	msg		内容
+	* @作者		shop猫
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function  silMass($arr){
+		$Instation=M('instation');
+		$arr['sid']=array_filter(explode(",",$arr['sid']));
+		$arr['sid']=json_encode($arr['sid']);
+		$arr['time']=time();
+		$arr['type']=1;
+		return $Instation->add($arr);
+	}
+	
+	/**
+	*
+	* @站内信发件箱
+	* @uid		用户ID
+	* @state	0未读1已读2删除
+	* @作者		shop猫
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function  silSend($uid,$state=''){
+		$Instation=M('instation');
+		if($state){
+			$where=" and `state`=".$state;
+		}
+		return $Instation->where('`fid`='.$uid.$where)->select();
+	}
+	
+	/**
+	*
+	* @站内信收件箱
+	* @uid		用户ID
+	* @state	0未读1已读2删除
+	* @limit	条数
+	* @作者		shop猫
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function silReceipt($uid,$state='',$limit){
+		$Instation=M('instation');
+		if(isset($state)){
+			$where=" and `state`=".$state;
+		}else{
+			$where=" and `state`<2";
+		}
+		if($limit){
+			$instation=$Instation->where('`sid`='.$uid.$where)->order('`id` DESC')->limit($limit)->select();
+		}else{
+			$instation=$Instation->where('`sid`='.$uid.$where)->order('`id` DESC')->select();
+		}
+		
+		//群发站内信
+		$mass=$Instation->where('`type`=1'.$where)->order('`id` DESC')->select();
+		foreach($mass as $id=>$m){
+			$mass[$id]['sid']=json_decode($m['sid'], true);
+			
+			if(in_array($uid,$mass[$id]['sid'])){	//如果用户是收件人
+				$instations[$id]=$m;
+			}
+		}
+		
+		unset($mass);
+		if($instations && $instation){
+			$instat=array_merge($instation,$instations);
+			array_multisort($instat,SORT_DESC);
+			return $instat;
+		}else{
+			return $instation;
+			return $instations;
+		}
+	}
+	
+	/**
+	*
+	* @站内信收件箱
+	* @id		站内信ID
+	* @作者		shop猫
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function singleReceipt($id){
+		$Instation=M('instation');
+		$find=$Instation->field('state,msg')->where('`id`="'.$id.'"')->find();
+		if($find['state']<1){
+			$Instation->where('`id`='.$id)->setField('state',1);
+		}
+		return $find['msg'];
+	}
+	
+	/**
+	*
+	* @解决多次提交导致的误操作
+	* @number	订单号
+	* @type		1为AJAX
+	* @content	提示的内容
+	* @作者		shop猫
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function bidPretreatment($number,$type=0,$content='您所操作的内容已发生改变，请重新操作！'){
+		$borrow_log = M('borrow_log');
+		$bolog=$borrow_log->where('`number`='.$number)->count();
+		if($bolog>0){
+			if($type==1){
+				echo $content;
+			}else{
+				$this->error($content);
+			}
+			exit;
+		}
+	}
+	
+	/**
+	*
+	* @生成邮箱验证码
+	* @作者		shop猫
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function emailcode(){
+		$emailcode=$_SESSION['emailcode']=substr(MD5(mt_rand()),6,6);	//生成验证码
+		return $emailcode;
+	}
+	
+	/**
+	*
+	* @直接跳转
+	* @url		跳转地址
+	* @作者		shop猫
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function jumps($url){
+		echo '<script>window.location.href="'.$url.'";</script>';
+	}
+	
+	/**
+     * 建立请求，以表单HTML形式构造（默认）
+     * @param $para_temp 请求参数数组
+     * @param $method 提交方式。两个值可选：post、get
+     * @param $button_name 确认按钮显示文字
+	 * @action $action 提交地址
+     * @return 提交表单HTML文本
+	 * @版权		宁波天发网络
+	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
+     */
+	protected function requestForm($para_temp, $method, $button_name,$action) {
+		//待请求参数数组
+		$sHtml = "<form id='alipaysubmit' name='form1' action='".$action."' method='".$method."'>";
+		while (list ($key, $val) = each ($para_temp)) {
+            $sHtml.= "<input type='hidden' name='".$key."' value='".$val."'/>";
+        }
+		//submit按钮控件请不要含有name属性
+        $sHtml = $sHtml."<input type='submit' value='".$button_name."'></form>";
+		
+		$sHtml = $sHtml."<script>document.forms['alipaysubmit'].submit();</script>";
+		
+		return $sHtml;
+	}
+	
+	/**
+	 * @上传
+	 * @approve	路径
+     * @作者		shop猫
+	 * @版权		宁波天发网络
+	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
+	 */
+	protected function upload($approve){
+		import('ORG.Net.UploadFile');
+		$upload = new UploadFile();// 实例化上传类
+		$upload->maxSize  = 3145728 ;// 设置附件上传大小
+		$upload->allowExts  = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+		$upload->savePath =  './Public/uploadify/uploads/'.$approve.'/';// 设置附件上传目录
+		if(!$upload->upload()) {// 上传错误提示错误信息
+		$this->error($upload->getErrorMsg());
+		}else{// 上传成功 获取上传文件信息
+		return $info =  $upload->getUploadFileInfo();
+		}
+	}
+	
+	/**
+	 *
+	 * @资金记录详细属性获取
+	 * @id		值		
+	 * @作者		shop猫
+	 * @版权		宁波天发网络
+	 * @官网		http://www.tifaweb.com http://www.dswjcms.com
+	 *
+	 */
+	protected function finetypeName($id){
+		
+		switch($id){
+			case 1:
+			$record='投资扣费';
+			break;
+			case 2:
+			$record='收款';
+			break;
+			case 3:
+			$record='充值';
+			break;
+			case 4:
+			$record='提现';
+			break;
+			case 6:
+			$record='奖励';
+			break;
+			case 7:
+			$record='转账';
+			break;
+			case 8:
+			$record='投资奖励';
+			break;
+			case 9:
+			$record='融资';
+			break;
+			case 10:
+			$record='扣费';
+			break;
+			case 11:
+			$record='充值手续费';
+			break;
+			case 12:
+			$record='提现撤销';
+			break;
+			case 13:
+			$record='提现手续费';
+			break;
+			case 14:
+			$record='借款管理费';
+			break;
+			case 15:
+			$record='投资冻结资金';
+			break;
+			case 16:
+			$record='投资撤回';
+			break;
+			case 17:
+			$record='投资奖励扣除';
+			break;
+			case 19:
+			$record='还款';
+			break;
+		}
+		return $record;
+	}
+
+	
+	/**
+	*
+	* @征信信息共享
+	* @uid		用户ID
+	* @作者		purl
+	* @版权		宁波天发网络
+	* @官网		http://www.tifaweb.com http://www.dswjcms.com
+	*/
+	protected function creditShared($uid){
+		//密钥验证,以下内容不可修改，修改后将无法使用征信功能
+		if($uid>0){
+			$userinfo=M('userinfo')->where('`uid`='.$uid)->find();
+			$system=$this->systems();
+			$userinfo['information']=array(
+										'website'=>$system['sys_name'],
+										'url'=>$_SERVER['SERVER_NAME']
+										);
+			unset($system);
+			$userinfo=json_encode($userinfo);
+			
+			$json=$this->encryption($userinfo);	//加密
+			$this->dsRealTransmission($json);
+		}
+	}
+	
+	/**
+	 *	远程加解密
+	 *	@json		需要参与加密的数组集
+	 *  @type		0加密1解密
+	 *  @作者		purl
+	 *  @版权		宁波天发网络
+	 *  @官网		http://www.tifaweb.com http://www.dswjcms.com
+	 **/
+	protected function encryption($json,$type=0){
+		$md5json=MD5($json);
+		$curlPost['md5json']=$md5json;	//加密后的信息
+		$curlPost['json']=$json;	//原信息
+		$curlPost['type']=$type;	//加密或解密
+		
+		$url=C('DS_CREDIT_URL').'encryption';  
+		$in=$this->Curl($curlPost,$url);
+		if($in['state']==88){
+			return $in['value'];
+		}
+	} 
+	
+	/**
+	 *	实名传输
+	 *	@json	    需要参与加密的数组集
+	 *  @作者		purl
+	 *  @版权		宁波天发网络
+	 *  @官网		http://www.tifaweb.com http://www.dswjcms.com
+	 **/
+	protected function dsRealTransmission($json){
+		$md5json=MD5($json);
+		$curlPost['md5json']=$md5json;	//加密后的信息
+		$curlPost['json']=$json;	//原信息
+		$url=C('DS_CREDIT_URL').'realTransmission'; 
+		$in=$this->Curl($curlPost,$url);
+		if($in['state']==1){
+			echo $in['value'];
+		}
 	}
 }
 ?>

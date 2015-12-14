@@ -10,7 +10,7 @@
 <!--左栏 end -->
 <ul class="breadcrumb">
       <li>
-        <a href="__ROOT__/Admin.html">首页</a> <span class="divider">/</span>
+        <a href="__APP__/TIFAWEB_DSWJCMS.html">首页</a> <span class="divider">/</span>
       </li>
       <li class="active">线下银行</li>
       <div  class="pull-right"> <a data-toggle="modal" data-rel="tooltip" href="#audit">添加线下银行</a></div>
@@ -46,11 +46,11 @@
                       {$vo.bank}
                 </td>
                 <td>
-                   <input data-noty-options='{"text":"修改成功","layout":"center","type":"success"}' name="order" type="text" value="{$vo.order}" class="span8 notys" onblur='var order=$(this).val();$.post("__URL__/updtline", { id:{$vo.id},order:order} );'/>
+                   <input data-noty-options='{"text":"修改成功","layout":"center","type":"success"}' name="order" type="text" value="{$vo.order}" class="span8 notys" onblur='var order=$(this).val();$.post("__APP__/TIFAWEB_DSWJCMS/Basis/updtline", { id:{$vo.id},order:order} );'/>
                 </td>     
                 <td>
-                    <a href="__ROOT__/Admin/Basis/editlin/{$vo.id}.html" data-rel="tooltip" class="ajax-link icon icon-color icon-edit" title="编辑"></a>
-                    <a href="#" data-rel="tooltip" class="icon icon-color icon-trash"title="删除" onclick="if(confirm('是否要删除？'))window.location.href='__URL__/delelin/{$vo.id}'"></a>
+                    <a href="__APP__/TIFAWEB_DSWJCMS/Basis/editlin/{$vo.id}.html" data-rel="tooltip" class="ajax-link icon icon-color icon-edit" title="编辑"></a>
+                    <a href="#" data-rel="tooltip" class="icon icon-color icon-trash"title="删除" onclick="if(confirm('是否要删除？'))window.location.href='__APP__/TIFAWEB_DSWJCMS/Basis/delelin/{$vo.id}'"></a>
                 </td>
               </tr>
             </volist>
@@ -65,9 +65,9 @@
       <a class="close" data-dismiss="modal" >&times;</a>
       <h3>添加线下银行</h3>
     </div>
-    <form method="post"  action='__URL__/tfAdd'>
+    <form method="post"  action='__APP__/TIFAWEB_DSWJCMS/Basis/tfAdd'>
     <input name="q" type="hidden" value="off" />
-    <input name="u" type="hidden" value="__ROOT__/Admin/Basis/linebank.html" />
+    <input name="u" type="hidden" value="__APP__/TIFAWEB_DSWJCMS/Basis/linebank.html" />
     <input name="n" type="hidden" value="线下银行添加" />
     <table class="table">
         <tbody>

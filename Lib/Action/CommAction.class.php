@@ -33,12 +33,8 @@ class CommAction extends SharingAction{
 		'with'		=>'Withdrawal',
 		'off'		=>'Offline',
 		'rech'		=>'Recharge',
-		'int'		=>'Integral',
-		'intgr'		=>'Integralconf',
-		'forr'		=>'Forrecord',
 		'unite'		=>'Unite',
 		'memgrade'	=>'Membership_grade',
-		'vip'		=>'Vip_points',
 		'ag'		=>'Auth_group',
 	  	'aga'		=>'Auth_group_access',
 	  	'ar'		=>'Auth_rule',
@@ -46,7 +42,6 @@ class CommAction extends SharingAction{
 	  	'sta' 		=>'Site_add',
 	  	'art' 		=>'Article',
 	  	'atd' 		=>'Article_add',
-	  	'cm'		=>'Commision',
 		'Guar'		=>'Guaranteeapply',
 		'Gcomp'		=>'Guaranteecomp',
 		'on'		=>'Online',
@@ -211,7 +206,6 @@ class CommAction extends SharingAction{
 	
 	//带积分操作的更新
 	public function integral_upda(){
-		$msgTools = A('msg','Event');
 		$q=$_REQUEST['q'];	
 		$sid=intval($_REQUEST['sid']);
 		$u=$_REQUEST['u']?$_REQUEST['u']:'/';
@@ -249,10 +243,14 @@ class CommAction extends SharingAction{
 					$this->userLog($e);//前台操作
 				}
 				//记录添加点
-				$sendMsg=$msgTools->sendMsg(3,$e,$e,'admin',$sid);//站内信
+				$sendMsg=$this->silSingle(array('title'=>$e,'sid'=>$sid,'msg'=>$e));//站内信
 				$arr['member']=array('uid'=>$sid,'name'=>'mem_'.$o);
-				$integralAdd=$this->integralAdd($arr);	//积分操作
-				 
+				//$integralAdd=$this->integralAdd($arr);	//积分操作
+				 //如果是实名认证
+				if($o=='certification'){
+					$this->creditShared($sid);
+					
+				}
 				 $this->success($n."成功",$u);
 				
 			 }else{
@@ -285,7 +283,6 @@ class CommAction extends SharingAction{
 		}
 		$borrowing=D('Borrowing');
 		$refund=M('collection');
-		$msgTools = A('msg','Event');
 		$cache = cache(array('expire'=>40));
 		$models = new Model();
 		$uid=$this->_post('uid')?$this->_post('uid'):$this->_session('user_uid');
@@ -360,9 +357,9 @@ class CommAction extends SharingAction{
 								
 								$moneyLog=$this->moneyLog(array(0,'对【'.$borr['title'].'】的投标,扣除资金',$array['operation'],'平台',$logtotal,$logavailable,$users['freeze_funds']));	//资金记录
 								
-								$sendMsg=$msgTools->sendMsg(3,'对【'.$borr['title'].'】的投标','对<a href="'.$_SERVER['HTTP_REFERER'].'">【'.$borr['title'].'】</a>的投标,扣除资金','admin',$uid);//站内信
+								$sendMsg=$this->silSingle(array('title'=>'对【'.$borr['title'].'】的投标','sid'=>$uid,'msg'=>'对<a href="'.$_SERVER['HTTP_REFERER'].'">【'.$borr['title'].'】</a>的投标,冻结资金'));//站内信
 								$arr['member']=array('uid'=>$uid,'name'=>'mem_flow');		
-								$integralAdd=$this->integralAdd($arr);	//积分操作
+								//$integralAdd=$this->integralAdd($arr);	//积分操作
 								//邮件通知
 								$mailNotice['uid']=$uid;
 								$mailNotice['title']='对【'.$borr['title'].'】的投标';
@@ -401,10 +398,10 @@ class CommAction extends SharingAction{
 								unset($users);
 								if($borr['surplus']==$this->_post('price')){	//满标							
 									$borrows=$models->table('ds_borrowing')->where('id='.$this->_post('id'))->save(array('state'=>1));
-									$this->success('投标成功','__ROOT__/Center/invest/isbid.html');
+									$this->success('投标成功','__ROOT__/Center/invest/mid/isbid.html');
 									exit;
 								}else{
-									$this->success('投标成功','__ROOT__/Center/invest/isbid.html');
+									$this->success('投标成功','__ROOT__/Center/invest/mid/isbid.html');
 									exit;
 								}
 							}else{

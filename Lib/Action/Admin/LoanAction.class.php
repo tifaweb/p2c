@@ -88,7 +88,7 @@ class LoanAction extends AdminCommAction {
 		
 		if($last){
 			$this->Record('发布标成功');//后台操作
-				$this->success('发布成功', '__URL__');
+				$this->success('发布成功');
 		}else{
 			$this->Record('发布标失败');//后台操作
 				$this->error('发布失败');
@@ -115,7 +115,7 @@ class LoanAction extends AdminCommAction {
 		$borrow=$Borrowing->where('`id`='.$this->_post('id'))->save($creates);
 		$last=$Guarantee->where('`bid`='.$this->_post('id'))->save($create);
 	  $this->Record('更新标成功');//后台操作
-		$this->success('更新成功', '__URL__');
+		$this->success('更新成功');
 	}
 	
 	//还款计划
@@ -175,7 +175,7 @@ class LoanAction extends AdminCommAction {
 		$data['content']=$content;
 		$excel=$this->excelExport($data);
 		$this->Record('投资记录导出成功');//后台操作
-			$this->success("导出成功","__URL__/record.html");
+			$this->success("导出成功","__APP__/TIFAWEB_DSWJCMS/Loan/record.html");
 		
 	}
 }

@@ -10,13 +10,13 @@
 <!--左栏 end -->
 <ul class="breadcrumb">
       <li>
-        <a href="__ROOT__/Admin.html">首页</a> <span class="divider">/</span>
+        <a href="__APP__/TIFAWEB_DSWJCMS.html">首页</a> <span class="divider">/</span>
       </li>
       <li>
-        <a href="__ROOT__/Admin/Loan.html">贷款列表</a> <span class="divider">/</span>
+        <a href="__APP__/TIFAWEB_DSWJCMS/Loan.html">贷款列表</a> <span class="divider">/</span>
       </li>
       <li class="active">还款计划</li>
-    <div  class="pull-right"> <a class="ajax-link" href="__ROOT__/Admin/Loan.html" >返回贷款列表</a></div>
+    <div  class="pull-right"> <a class="ajax-link" href="__APP__/TIFAWEB_DSWJCMS/Loan.html" >返回贷款列表</a></div>
 </ul>
 <table class="table table-striped">
     <thead>
@@ -65,8 +65,8 @@
 function ajaxrefund(id,bid){
 	var loading='<div class="invest_loading"><div><img src="__PUBLIC__/bootstrap/img/ajax-loaders/ajax-loader-1.gif"/></div><div>处理中</div> </div>';
 	$(".cloan_top").html(loading);
-	$(".cloan_top").load("__URL__/repayment", {id:id,bid:bid},function(){
-		setTimeout("window.location.href='__ROOT__/Admin/Loan/plan/id/{$Think.get.id}.html'",3000);
+	$(".cloan_top").load("__APP__/TIFAWEB_DSWJCMS/Loan/repayment", {id:id,bid:bid},function(){
+		setTimeout("window.location.href='__APP__/TIFAWEB_DSWJCMS/Loan/plan/id/{$Think.get.id}.html'",3000);
 	});	
 }
 </script>

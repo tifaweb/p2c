@@ -17,94 +17,44 @@ class IndexAction extends HomeAction {
 		$where='';
 		$borrow=$this->borrow_unicoms($where,'5','`stick` DESC,`time` DESC');
 		$this->assign('borrow',$borrow);
-		//新闻中心
-		$new=$this->someArticle(16,5);
-		$this->assign('new',$new);
-		//累计投资金额
-		$borrowing = M('borrowing');
-		$accumulate['sum']=$borrowing->where('`state`>1')->sum('money');
-		//累计预期收益
-		$money = M('money');
-		$accumulate['benefit']=$money->sum('`stay_interest`+`make_interest`+`make_reward`');
-		$this->assign('accumulate',$accumulate);
-		//投资排行
-		$borrow_log = M('borrow_log');
-		$User = M('user');
-		$user=$User->field('id,username')->select();
-		foreach($user as $u){
-			$users[$u['id']]=$u['username'];
-		}
-		//本周
-		$w_day=date("w",time());
-	  	if($w_day=='1'){
-			$cflag = '+0';
-			$lflag = '-1';
-	   	}
-	  	else {
-			  $cflag = '-1';
-			  $lflag = '-2';
-	   	}
-		$beginLastweek = strtotime(date('Y-m-d',strtotime("$cflag week Monday",time())));        
-		$endLastweek = strtotime(date('Y-m-d',strtotime("$cflag week Monday", time())))+7*24*3600;
-		//本月
-		$beginThismonth=mktime(0,0,0,date('m'),1,date('Y')); 
-		$endThismonth=mktime(23,59,59,date('m'),date('t'),date('Y'));
-		$bidRecords=$borrow_log->where('`type`=7 or `type`=15')->select();
-		foreach($bidRecords as $id=>$b){
-			$bid=json_decode($b['actionname'], true);
-			$name=$users[$bid['uid']];
-			if(($b['time']>=$beginLastweek) and ($b['time']<=$endLastweek)){	//本周
-				if(array_key_exists($bid['uid'],$transit)){
-					$tday[$bid['uid']]['operation']=$tday[$bid['uid']]['operation']+$bid['operation'];	
-				}else{
-					$tday[$bid['uid']]['operation']=$bid['operation'];
-				}
-				$tday[$bid['uid']]['username']=mb_substr($name,0,1)."***".mb_substr($name,-1);
-			}
-			if(($b['time']>=$beginThismonth) and ($b['time']<=$endThismonth)){	//本月
-				if(array_key_exists($bid['uid'],$transit)){
-					$tmonth[$bid['uid']]['operation']=$tmonth[$bid['uid']]['operation']+$bid['operation'];	
-				}else{
-					$tmonth[$bid['uid']]['operation']=$bid['operation'];
-				}
-				$tmonth[$bid['uid']]['username']=mb_substr($name,0,1)."***".mb_substr($name,-1);
-			}
-			//总
-			if(array_key_exists($bid['uid'],$transit)){
-				$transit[$bid['uid']]['operation']=$transit[$bid['uid']]['operation']+$bid['operation'];	
-			}else{
-				$transit[$bid['uid']]['operation']=$bid['operation'];
-			}
-			$transit[$bid['uid']]['username']=mb_substr($name,0,1)."***".mb_substr($name,-1);
-			unset($bid);
-			unset($name);
-		}
-		arsort($tday);	//周排名
-		arsort($tmonth); //月排名
-		arsort($transit);	//总排名
-		$this->assign('tday',array_slice($tday,0,5));
-		$this->assign('tmonth',array_slice($tmonth,0,5));
-		$this->assign('transit',array_slice($transit,0,5));
-		
 		$shuffling = M('shuffling');
-		$shufflings=$shuffling->field('title,img')->order('`order` ASC')->select();
+		$shufflings=$shuffling->field('title,img,url')->where('`state`=0')->order('`order` ASC')->select();
+		$shcount=$shuffling->field('title,img,url')->where('`state`=0')->count();
+		$this->assign('shcount',$shcount);
 		$this->assign('shuff',$shufflings);
-		$head="<link href='__PUBLIC__/css/jslides.css' rel='stylesheet'>";
-		$this->assign('head',$head);
 		//标题、关键字、描述
 		$Site = D("Site");
 		$site=$Site->field('keyword,remark,title,link')->where('link="'.$_SERVER['REQUEST_URI'].'"')->find();
 		$this->assign('si',$site);
 		$active['index']='active';
 		$this->assign('active',$active);
-		
+		//累计投资金额
+		$borrowing = M('borrowing');
+		$accumulate['sum']=$borrowing->where('`state`=7 or `state`=8 or `state`=9')->sum('money');
+		//累计预期收益
+		$money = M('money');
+		$accumulate['benefit']=$money->sum('`stay_interest`+`make_interest`+`make_reward`');
+		//年化收利率
+		$accumulate['avg']=$borrowing->avg('rates');
+		//注册人数
+		$user = M('user');
+		$accumulate['enrollment']=$user->count();
+		$this->assign('accumulate',$accumulate);
 		$endjs='
 		//首页轮播
 		$(function(){$("#kinMaxShow").kinMaxShow();});
 		
 		';
 		$this->assign('endjs',$endjs);
-		
+		//名词解释
+		$explanation=$this->someArticle(28,5);
+		$this->assign('explanation',$explanation);
+		//平台公告
+		$new=$this->someArticle(32,5);
+		$this->assign('new',$new);
+		//帮助中心
+		$help=$this->someArticle(31,5);
+		$this->assign('help',$help);
 		$this->display();
     }
 //-------计算器

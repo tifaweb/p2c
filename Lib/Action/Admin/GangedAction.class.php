@@ -77,7 +77,7 @@ class GangedAction extends AdminCommAction {
 function edit(id){
 	var loading=\'<div class="invest_loading"><div><img src="__PUBLIC__/bootstrap/img/ajax-loaders/ajax-loader-1.gif"/></div><div>加载中...</div> </div>\';
 	$(".integral_subject").html(loading);
-		$("#edits").load("__URL__/editajax", {id:id});
+		$("#edits").load("__APP__/TIFAWEB_DSWJCMS/Ganged/editajax", {id:id});
 }
 		';
 		$this->assign('endjs',$endjs);

@@ -10,13 +10,15 @@
 <!--左栏 end -->
 <ul class="breadcrumb">
       <li>
-        <a href="__ROOT__/Admin.html">首页</a> <span class="divider">/</span>
+        <a href="__APP__/TIFAWEB_DSWJCMS.html">首页</a> <span class="divider">/</span>
       </li>
       <li class="active">资金记录</li>
-      <div  class="pull-right"> <a data-toggle="modal"  data-rel="tooltip" href="#mod">导出</a></div>
+      <div  class="pull-right">
+      <a href="#screening" data-toggle="modal">筛选</a>&nbsp;&nbsp;
+      <a data-toggle="modal"  data-rel="tooltip" href="#mod">导出</a></div>
 </ul>
-
-<table class="table table-striped table-bordered table-condensed datatable ">
+<input id="datasort" type="hidden" value="6" />
+<table class="table table-striped table-bordered table-condensed  ">
             <thead>
               <tr>
               	<th>用户名</th>
@@ -32,7 +34,7 @@
             <tbody>
 <volist name="record" id="vo">
             <tr>
-            	<td>{$vo['username']?$vo['username']:'平台'}</td>
+            	<td>{$vo.username}</td>
                 <td>{$vo.operation}</td>
                 <td>{$vo.total_money}</td>
                 <td>{$vo.available_funds}</td>
@@ -44,6 +46,9 @@
 </volist>
             </tbody>
           </table>
+          <div class="pagination pagination-centered">
+          <ul>{$page}</ul>
+          </div>
 <div>
 </div>
 <!--审核 start-->
@@ -53,7 +58,7 @@
       <h3>审核</h3>
     </div>
     <div class="modal-body">
-    <form method="post"  action='__URL__/rechUpda'>
+    <form method="post"  action='__APP__/TIFAWEB_DSWJCMS/Fund/rechUpda'>
         <input id="up_id" name="id" type="hidden" value="" />
         <p class="form-inline">   
           <label class="radio"><input type="radio" name="type" value="2" checked/> 通过</label>
@@ -76,11 +81,26 @@
       <a class="close" data-dismiss="modal" >&times;</a>
       <h3>导出设置</h3>
     </div>
+    <div class="alert alert-info">
+        <p>每次导出条数最多5000条，如果数据总合以超5000条请输入上一份导出文件的最大ID值</p>
+    </div>
     <div class="modal-body">
-    <form method="post"  action='__URL__/moneyExport'>
-        <div class="span10">
+    <form method="post"  action='__APP__/TIFAWEB_DSWJCMS/Fund/moneyExport'>
+       <table class="table">
+        <tbody>
+          <tr>
+          <td>开始ID：</td>
+          <td>
+             	<input name="fid" type="text"  value=''/>
+          </td>
+          
+          </tr>
+          
+        </tbody>
+       	</table>
+        <div class="pull-right">
           <button class="btn btn-primary" type="submit">
-              导出
+              确定
           </button>
       	</div>
     </form>
@@ -94,4 +114,46 @@ function changeVerify(){
     document.getElementById('verifyImg').src='__APP__/Public/verify/'+timenow;
 }
 </script>
+<div id="screening" class="modal hide fade in" >
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal" >&times;</a>
+      <h3>筛选</h3>
+    </div>
+    <div class="modal-body">
+    <form method="get">
+       <table class="table">
+        <tbody>
+          <tr>
+          <td>查询：</td>
+          <td>
+             	<input name="title" type="text" placeholder="用户名..." value="{$Think.get.title}">
+          </td>
+          </tr>
+         
+          <tr>
+          <td>操作时间：</td>
+          <td>
+             	<input name="starttime" type="text" id="starttime" style="width:150px;" value='{$Think.get.starttime}'/>
+                &nbsp;-&nbsp;
+                <input name="endtime" type="text" id="endtime" style="width:150px;" value='{$Think.get.endtime}'/>
+          </td>
+          
+          </tr>
+        </tbody>
+       	</table>
+        <div class="pull-right">
+          <button class="btn btn-primary" type="submit">
+              确定
+          </button>
+      	</div>
+    </form>
+    </div>
+</div>
 <include file="Index:footer" />
+<!-- 日期选择器 -->
+<link type="text/css" rel="stylesheet" href="__PUBLIC__/css/jquery.datetimepicker.css">
+  <script src="__PUBLIC__/js/jquery.datetimepicker.js"></script>
+<script>
+$('#starttime').datetimepicker({lang:'ch',timepicker:false,format:'Y/m/d',});
+$('#endtime').datetimepicker({lang:'ch',timepicker:false,format:'Y/m/d'});
+</script>

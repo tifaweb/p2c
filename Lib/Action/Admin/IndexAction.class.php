@@ -36,7 +36,7 @@ class IndexAction extends AdminCommAction {
             if($last){
 				$this->Record('添加系统参数');//后台操作
 				F('systems',NULL);
-				$this->success('添加成功', '__URL__/system');
+				$this->success('添加成功', '__APP__/TIFAWEB_DSWJCMS/Index/system');
             }else{
 				$this->Record('系统参数添加失败');//后台操作
 				$this->error('系统参数添加失败');
@@ -51,7 +51,7 @@ class IndexAction extends AdminCommAction {
             $system->where('id='.$id)->delete();
 			$this->Record('删除系统参数');//后台操作
 			F('systems',NULL);
-            $this->success('删除成功', '__URL__/system');
+            $this->success('删除成功', '__APP__/TIFAWEB_DSWJCMS/Index/system');
     }
 
 	//系统参数编辑页
@@ -70,7 +70,7 @@ class IndexAction extends AdminCommAction {
 				$system->where('id='.$this->_post('id'))->save($create);
 				F('systems',NULL);
 				$this->Record('参数修改成功');//后台操作
-				$this->success('参数修改成功', '__URL__/system');
+				$this->success('参数修改成功', '__APP__/TIFAWEB_DSWJCMS/Index/system');
 			}else{
 				$this->error($system->getError());
 			}            
@@ -88,7 +88,7 @@ class IndexAction extends AdminCommAction {
 				}
 				F('systems',NULL);
 				$this->Record('参数修改成功');//后台操作
-				$this->success('参数修改成功', '__URL__/system');
+				$this->success('参数修改成功', '__APP__/TIFAWEB_DSWJCMS/Index/system');
 			}else{
 				$this->error($system->getError());
 			}            
@@ -108,7 +108,7 @@ class IndexAction extends AdminCommAction {
 				  $result = $system->save();
 				 if($result){
 					 $this->Record('SMTP修改成功');//后台操作
-					 $this->success('修改成功', '__URL__/email');
+					 $this->success('修改成功', '__APP__/TIFAWEB_DSWJCMS/Index/email');
 					
 				 }else{
 					 $this->Record('SMTP修改失败');//后台操作
@@ -186,7 +186,7 @@ class IndexAction extends AdminCommAction {
 		$data['content']=$content;
 		$excel=$this->excelExport($data);
 		$this->Record('管理员操作记录导出成功');//后台操作
-			$this->success("导出成功","__URL__/operation.html");
+			$this->success("导出成功","__APP__/TIFAWEB_DSWJCMS/Index/operation.html");
 		
 	}
 	
@@ -214,7 +214,7 @@ class IndexAction extends AdminCommAction {
 		$data['content']=$content;
 		$excel=$this->excelExport($data);
 		$this->Record('用户操作记录导出成功');//后台操作
-			$this->success("导出成功","__URL__/userrecord.html");
+			$this->success("导出成功","__APP__/TIFAWEB_DSWJCMS/Index/userrecord.html");
 		
 	}
 	
@@ -265,7 +265,7 @@ class IndexAction extends AdminCommAction {
 		$data['content']=$content;
 		$excel=$this->excelExport($data);
 		$this->Record('积分记录导出成功');//后台操作
-			$this->success("导出成功","__URL__/userrecord.html");
+			$this->success("导出成功","__APP__/TIFAWEB_DSWJCMS/Index/userrecord.html");
 		
 	}
 	//--------界面风格-----------
@@ -364,101 +364,7 @@ class IndexAction extends AdminCommAction {
 		}
 	}
 	
-	//--------微信界面风格-----------
-    public function wcolour(){
-		$directory = F('wdirectory'); 	//模板
-		$dirname = F('wdirname');  // 默认模板
-		if(!$directory){
-			$directory=$this->templateData('./Tpl/Win/template/');
-			F('wdirectory',$directory);
-			$directory=F('wdirectory');	
-		}
-		if(!$dirname){
-			$dir="Default";
-			F('wdirname',$dir);
-			$dirname=F('wdirname');
-		}
-		$this->assign('num',$directory['num']);
-		unset($directory['num']);
-		$this->assign('dirname',$dirname);
-		$this->assign('list',$directory);
-		$this->display();
-	}
 	
-	//微信界面设为默认
-	public function wsetDefault(){
-		if($this->_post('dir')){
-			F('wdirname',NULL);
-			F('wdirname',$this->_post('dir'));
-			$dirname=F('wdirname');
-			$directory = F('wdirectory');
-			$num=$directory['num'];
-			unset($directory['num']);
-			echo '
-			<p>共<span class="red">'.$num.'</span>套模板</p>
-			<ul class="thumbnails colour_switch">
-			';
-			foreach($directory as $dir){
-				echo '
-					<li class="span2">
-						<a class="thumbnail" onclick="setDefault(\''.$dir[3].'\');">
-						  <img src="/Tpl/Win/template/'.$dir[3].'/direct.png" style="width:152px;height:123px;">
-						  <div class="title">
-						  <h4>'.$dir[0].'</h4>
-						  <p>'.$dir[1].'</p>
-						  <p><span>作者:'.$dir[2].'</span></p>
-						  </div>
-						  <p><em>';
-				echo $dir[3]==$dirname?"默认模板":"";
-				echo "</em></p>
-						</a>
-					  </li>
-				";
-			}
-			echo '
-				</ul>
-			</div>
-			';
-		}
-	}
-	
-	//微信界面刷新
-	public function wcolourRefresh(){
-		if($this->_post('limit')==1){
-			$dirname = F('wdirname');
-			F('wdirectory',NULL);
-			$directory=$this->templateData('./Tpl/Win/template/');
-			F('wdirectory',$directory);
-			$directory = F('wdirectory');
-			$num=$directory['num'];
-			unset($directory['num']);
-			echo '
-			<p>共<span class="red">'.$num.'</span>套模板</p>
-			<ul class="thumbnails colour_switch">
-			';
-			foreach($directory as $dir){
-				echo '
-					<li class="span2">
-						<a class="thumbnail" onclick="setDefault(\''.$dir[3].'\');">
-						  <img src="/Tpl/Win/template/'.$dir[3].'/direct.png" style="width:152px;height:123px;">
-						  <div class="title">
-						  <h4>'.$dir[0].'</h4>
-						  <p>'.$dir[1].'</p>
-						  <p><span>作者:'.$dir[2].'</span></p>
-						  </div>
-						  <p><em>';
-				echo $dir[3]==$dirname?"默认模板":"";
-				echo "</em></p>
-						</a>
-					  </li>
-				";
-			}
-			echo '
-				</ul>
-			</div>
-			';
-		}
-	}
 	
 }
 

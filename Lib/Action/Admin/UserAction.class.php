@@ -13,34 +13,31 @@
 defined('THINK_PATH') or exit();
 class UserAction extends AdminCommAction {
 	//显示所有用户
-	public function index($q=0){
-		if($q){
-			$zz="/^[a-z]([a-z0-9]*[-_\.]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/i"; 
-			if(gettype($q)=="string" && preg_match($q,$zz)){
-				$where=array('email'=>$q);
-			}elseif(gettype($q)=="string"){
-				$where = array('username'=>$q);
-			}else{
-				$where = array('id'=>$q);
-			}
-		}else{
-			$where['id']=array('GT',0);
+	public function index(){
+		if($this->_get('title')){
+			$where="`username`='".$this->_get('title')."' or `id`='".$this->_get('title')."'";
 		}
-		$mod = D("User");
-	    
-	    $list = $mod->where($where)->select();
+		
+	    import('ORG.Util.Page');// 导入分页类
+        $count      = D("User")->where($where)->count();// 查询满足要求的总记录数
+        $Page       = new Page($count,10);// 实例化分页类 传入总记录数和每页显示的记录数
+        $show       = $Page->show();// 分页显示输出
+        // 进行分页数据查询 注意limit方法的参数要使用Page类的属性
+		$list = D("User")->where($where)->limit($Page->firstRow.','.$Page->listRows)->order('id')->select();
 	    $this->assign('list',$list);
+        $this->assign('page',$show);// 赋值分页输出
+	    
 		 $endjs='
 //编辑
 function edit(id){
 	var loading=\'<div class="invest_loading"><div><img src="__PUBLIC__/bootstrap/img/ajax-loaders/ajax-loader-1.gif"/></div><div>加载中...</div> </div>\';
 	$(".integral_subject").html(loading);
-		$("#edits").load("__URL__/userajax", {id:id});
+		$("#edits").load("__APP__/TIFAWEB_DSWJCMS/User/userajax", {id:id});
 }
 function edits(id){
 	var loading=\'<div class="invest_loading"><div><img src="__PUBLIC__/bootstrap/img/ajax-loaders/ajax-loader-1.gif"/></div><div>加载中...</div> </div>\';
 	$(".integral_subject").html(loading);
-		$("#editss").load("__URL__/passajax", {id:id});
+		$("#editss").load("__APP__/TIFAWEB_DSWJCMS/User/passajax", {id:id});
 }
 		';
 		$this->assign('endjs',$endjs);
@@ -144,9 +141,7 @@ function edits(id){
 			}		
 		}  
    }
-	
-
-	
+		
 	//管理员
 	public function manage(){
 		$mod = D("Admin");
@@ -157,7 +152,7 @@ function edits(id){
 function edit(id){
 	var loading=\'<div class="invest_loading"><div><img src="__PUBLIC__/bootstrap/img/ajax-loaders/ajax-loader-1.gif"/></div><div>加载中...</div> </div>\';
 	$(".integral_subject").html(loading);
-		$("#edits").load("__URL__/adminajax", {id:id});
+		$("#edits").load("__APP__/TIFAWEB_DSWJCMS/User/adminajax", {id:id});
 }
 		';
 		$this->assign('endjs',$endjs);
@@ -204,6 +199,5 @@ function edit(id){
 			}		
 		}  
    }
-	
 }
 ?>

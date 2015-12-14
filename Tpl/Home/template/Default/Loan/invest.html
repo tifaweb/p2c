@@ -7,7 +7,7 @@
         <div class="row-fluid">
             <div class="span12">
             	<p><span class="leftc">项目名称:</span><span class="title">{$bo.borrowing.title}</span>
-                <i class="icone label label-info" title="担保标">担</i>
+
                     <eq name="bo['borrowing']['stick']" value="1"><i class="icone label label-warning" title="推荐标"></i></eq>
                     <eq name="bo['borrowing']['code']" value="1"><i class="icone label label-important" title="密码标"></i></eq>
                 </p>
@@ -292,3 +292,45 @@
     </if>
 </div>
 <include file="Index:footer" />
+<script src="__PUBLIC__/bootstrap/js/jquery.colorbox.min.js"></script>
+<script>
+$(document).ready(function(){
+//gallery image controls example
+	//gallery delete
+	$('.thumbnails').on('click','.gallery-delete',function(e){
+		e.preventDefault();
+		//get image id
+		//alert($(this).parents('.thumbnail').attr('id'));
+		$(this).parents('.thumbnail').fadeOut();
+	});
+	//gallery edit
+	$('.thumbnails').on('click','.gallery-edit',function(e){
+		e.preventDefault();
+		//get image id
+		//alert($(this).parents('.thumbnail').attr('id'));
+	});
+
+	//gallery colorbox
+	$('.thumbnail a').colorbox({rel:'thumbnail a', transition:"elastic", maxWidth:"95%", maxHeight:"95%"});
+	$('.Thumbnail a').colorbox({rel:'Thumbnail a', transition:"elastic", maxWidth:"95%", maxHeight:"95%"});
+	//gallery fullscreen
+	$('#toggle-fullscreen').button().click(function () {
+		var button = $(this), root = document.documentElement;
+		if (!button.hasClass('active')) {
+			$('#thumbnails').addClass('modal-fullscreen');
+			if (root.webkitRequestFullScreen) {
+				root.webkitRequestFullScreen(
+					window.Element.ALLOW_KEYBOARD_INPUT
+				);
+			} else if (root.mozRequestFullScreen) {
+				root.mozRequestFullScreen();
+			}
+		} else {
+			$('#thumbnails').removeClass('modal-fullscreen');
+			(document.webkitCancelFullScreen ||
+				document.mozCancelFullScreen ||
+				$.noop).apply(document);
+		}
+	});
+});
+</script>

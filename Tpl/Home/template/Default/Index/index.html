@@ -2,71 +2,194 @@
 <!--头部 end -->
 
 <!-- jumbotron start --> 
+<div class="kinMaxShow">
 <div id="kinMaxShow">
 	<volist name="shuff" id="ls">
-    	<div><a href="{$ls.url}" target="_blank"><img src="__PUBLIC__/uploadify/uploads/undefined/{$ls.img}"/></a></div>
+    	<div><a href="{$ls.url}"><img src="__PUBLIC__/uploadify/uploads/undefined/{$ls.img}"/></a></div>
     </volist>
 </div>
+</div>
+<style>
+@media only screen and (max-width:767px)and (-webkit-min-device-pixel-ratio:2), only screen and (max-width:767px)and (min-resolution:192dpi) {
+.kinMaxShow{
+display: none;
+}
+}
+@media only screen and (min-width:480px)and (max-width:767px) {
+.kinMaxShow{
+display: none;
+}
+}
+@media only screen and (max-width:479px) {
+.kinMaxShow {
+display: none;
+}
+}
 
-<!-- jumbotron end -->
-<!-- container start --> 
+#kinMaxShow .KMSPrefix_kinMaxShow_button{
+	margin: 0px auto;
+	width: {$shcount*80}px;
+	position: relative;
+	bottom: 20px;
+}
+#kinMaxShow .KMSPrefix_kinMaxShow_button{
+	margin: 0px auto;
+	width: {$shcount*80}px;
+	position: relative;
+}
+#kinMaxShow .KMSPrefix_kinMaxShow_button li{
+	display: inline-block;
+	width: 70px;
+	height: 10px;
+	background: none repeat scroll 0% 0% rgb(186, 186, 186);
+	margin: 0px;
+	border-radius: 3px;
+	border: none;
+	margin-right: 10px;	
+}
+#kinMaxShow .KMSPrefix_kinMaxShow_button li.KMSPrefix_kinMaxShow_focus{
+	background: none repeat scroll 0% 0% rgb(222, 222, 222);
+	border: none;
+}
+
+</style>
 <div class="container">
-		<div class="row-fluid accumulate">
-        	<div class="span6">
-            <h4 class="title">累计投资金额（元）</h4>
-            <p class="price">{$accumulate.sum|number_format=2,',',','}</p>
+	<div class="row-fluid  wall statis">
+            <article class="span3">
+                累计融资金额
+
+                <span class="amount">{$accumulate.sum|number_format=2,',',','}<span class="decimals">元</span></span>
+            </article>
+            <article class="span3">
+                预期收益
+                <span class="amount">{$accumulate.benefit|number_format=2,',',','}<span class="decimals">元</span></span>
+            </article>
+            <article class="span3">
+                综合年化收益率
+                <span class="amount">{$accumulate.avg|number_format=2,'.',','}<span class="decimals">%</span></span>
+            </article>
+            <article class="span3">
+                注册人数
+                 <span class="amount">{$accumulate.enrollment}<span class="decimals">人</span></span>
+            </article>
+    </div>   
+    
+    <div class="row-fluid">
+        <div class="span9 separate">
+
+<!--借款标 state-->
+<volist name="borrow" id="v">
+	
+    <!-- 普通标 state-->
+	<div class="project-summary wall" style="position: relative;">
+    <if condition="$v.state eq 0">
+    <elseif condition="$v.state eq 4"/>
+    <div class="bid-completed-failure"></div>
+    <else />
+    <div class="bid-completed-stamp"></div>
+    </if>
+        <div class="row-fluid">
+            <div class="span8 ">
+                <div style="min-height: 75px;">
+                    <h4  class="index_h4">
+                        <a href="__ROOT__/Loan/invest/{$v.id}.html" data-rel="tooltip" title="{$v.title}">{$v.title}</a>&nbsp;&nbsp;
+
+                    </h4>
+                    <p class="project-tags">
+                        <if condition="$v.state eq 0">
+                         <span class="label label-success">投标中</span>
+                        <else />
+                         <span class="label">{$v.state_name}</span>
+                        </if>
+                            <eq name="v.stick" value="1"><span class="tag" data-rel="tooltip" title="推荐"><i class="icon icon-darkgray icon-lightbulb"></i>推荐</span></eq>
+                            <eq name="v.code" value="1"><span class="tag" data-rel="tooltip" title="需要密码"><i class="icon icon-darkgray icon-locked"></i>密码</span></eq>
+                          <span class="label label-warning" title="企业信用">{$v.privacy}</span>
+                    </p>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="pull-left" style="margin-right: 10px;">
+                        <if condition="$v.state eq 0">
+                         <a class="btn btn-large btn-primary btn-details" href="__ROOT__/Loan/invest/{$v.id}.html">我要投资</a>
+                        <else />
+                         <a class="btn btn-large btn-details" >{$v.state_name}</a>
+                        </if>
+    					</div>
+                        <div class="pull-left">
+                            <div class="project-progress">
+                                    <div class="progress progress-striped active">
+                                        <div class="bar" style="width: {$v.ratio}%;"></div>
+                                    </div>
+                            </div>
+                            	
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="span6">
-            <h4 class="title">为投资人带来预期收益（元）</h4>
-            <p class="price">{$accumulate.benefit|number_format=2,',',','}</p>
+            <div class="span4">
+                <ul class="project-summary-items">
+                    <li><span class="title">融资金额</span>{$v.money|number_format=2,'.',','} 元</li>
+                    <li><span class="title">年化收益</span> 
+                        <span class="important data-tips">
+                        {$v.rates}%
+                    	</span>
+                    </li>
+                    <li><span class="title">融资期限</span>
+                        <span class="data-tips">
+                            {$v.deadlines}
+                        </span>
+                    </li>
+                    <li>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="row-fluid index_loant">
-        <h4>投资列表</h4>
-        <ul class="title">
-        	<li class="sp1">借款标题</li>
-            <li class="sp2">企业等级</li>
-            <li class="sp2">年利率</li>
-            <li class="sp3">金额</li>
-            <li class="sp2">期限</li>
-            <li class="sp2">进度</li>
-            <li class="sp4"></li>
-        </ul>
-        <volist name="borrow" id="v">
-        <ul class="list">
-        	<li class="sp1" style="text-align: left;"><i class="icone label label-info">担</i><a href="__ROOT__/Loan/invest/{$v.id}.html" title="{$v.title}">{$v.title}</a></li>
-            <li class="sp2"><span class="label label-warning">{$v.privacy}</span></li>
-            <li class="sp2"><em>{$v.rates}</em>%</li>
-            <li class="sp3"><em>{$v.money}</em>元</li>
-            <li class="sp2"><em>{$v.deadline}</em>个月</li>
-            <li class="sp4 s_progress">
-            	<div class="progress progress-success progress-striped" title="{$v.ratio}%">
-   				 <div class="bar" style="width: {$v.ratio}%"></div>
-				</div>
-            </li>
-            <li class="sp2">
-             <if condition="$v.state eq 0">
-             <a class="badge badge-important ibadge" href="__ROOT__/Loan/invest/{$v.id}.html"style="width:60px;">{$v.state_name}</a>
-            <else />
-             <a class="badge ibadge" style="width:60px;">{$v.state_name}</a>
-            </if>
-            </li>
-        </ul>
-        </volist>
-        <div class="more"><a href="__ROOT__/Loan.html">查看多更项目</a></div>
+    </div>
+    <!-- 普通标 end-->
+    
+</volist>
+<!--借款标 end-->
+    <p style="text-align: center">
+        <a href="__ROOT__/Loan.html" class="btn btn-warning btn-large">查看更多项目</a>
+    </p>
+</div>
+
+        <div class="span3 post-thumbnail">
+                <section>
+                    <a href="__ROOT__/Site/listTpl/id/28.html" class="more">更多</a>
+                    <h3>名词解释</h3>
+                    <ul>
+                    <volist name="explanation" id="vo">
+                    <li><a href="__ROOT__/Site/article/id/{$vo.id}.html" target="_blank" title="{$vo.title}">{$vo.title}</a></li>
+                    </volist> 
+                    </ul>
+                </section>
+                <hr>
+                <section>
+                    <a href="__ROOT__/Site/listTpl/id/32.html" class="more">更多</a>
+                    <h3>平台公告</h3>
+                    <ul>
+                    <volist name="new" id="vo">
+                    <li><a href="__ROOT__/Site/article/id/{$vo.id}.html" target="_blank" title="{$vo.title}">{$vo.title}</a></li>
+                    </volist> 
+                    </ul>
+                </section>
+                <hr>
+                <section>
+                    <a href="__ROOT__/Site/listTpl/id/31.html" class="more">更多</a>
+                    <h3>帮助中心</h3>
+                    <ul>
+                    <volist name="help" id="vo">
+                    <li><a href="__ROOT__/Site/article/id/{$vo.id}.html" target="_blank" title="{$vo.title}">{$vo.title}</a></li>
+                    </volist> 
+                    </ul>
+                </section>
+                <hr>
+
         </div>
-        <!-- 新闻中心 -->
-        <div class="row-fluid index_loant">
-        <h4>新闻中心</h4>
-        <ul class="noun">
-        <volist name="new" id="vo">
-        <li><a href="__APP__/Site/article/id/{$vo.id}.html" target="_blank" title="{$vo.title}">{$vo.title}</a></li>
-        
-        </volist> 
-        </ul>
-        <div class="more"><a href="__ROOT__/Site/listTpl/id/16.html">查看更多新闻动态</a></div>
-        <!-- 新闻中心 end-->
+    </div>
 </div>
 <!-- container end -->
 <!--底部  start-->
 <include file="Index:footer" />
+<script src="__PUBLIC__/js/jquery.kinMaxShow-1.1.min.js"></script>

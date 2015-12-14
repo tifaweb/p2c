@@ -1,48 +1,77 @@
 <include file="Index:header" />
+
 <!--头部 end -->
 <!-- container start --> 
-<div class="container paddtop">
-	<div class="loan_search"></div>
-    <!--内容 start-->
-<div class="row-fluid index_loant">
-<h4>投资列表</h4>
-<ul class="title">
-    <li class="sp1">借款标题</li>
-    <li class="sp2">企业等级</li>
-    <li class="sp2">年利率</li>
-    <li class="sp3">金额</li>
-    <li class="sp2">期限</li>
-    <li class="sp2">进度</li>
-    <li class="sp4"></li>
-</ul>
-<volist name="borrow" id="v">
-<ul class="list">
-    <li class="sp1" style="text-align: left;"><i class="icone label label-info">担</i><a href="__ROOT__/Loan/invest/{$v.id}.html" title="{$v.title}">{$v.title}</a></li>
-    <li class="sp2"><span class="label label-warning">{$v.privacy}</span></li>
-    <li class="sp2"><em>{$v.rates}</em>%</li>
-    <li class="sp3"><em>{$v.money}</em>元</li>
-    <li class="sp2"><em>{$v.deadline}</em>个月</li>
-    <li class="sp4 s_progress">
-        <div class="progress progress-success progress-striped" title="{$v.ratio}%">
-         <div class="bar" style="width: {$v.ratio}%"></div>
-        </div>
-    </li>
-    <li class="sp2">
-     <if condition="$v.state eq 0">
-     <a class="badge badge-important ibadge" href="__ROOT__/Loan/invest/{$v.id}.html"style="width:60px;">{$v.state_name}</a>
-    <else />
-     <a class="badge ibadge" style="width:60px;">{$v.state_name}</a>
-    </if>
-    </li>
-</ul>
-</volist> 
- </div> 
-     <div class="pagination pagination-centered loan_page">
-        <ul>{$page}</ul>
-        </div>
+
+<div class="container">
+    <div class="row">
+        <div class="span9 separate">
+            <br/>
+<!--借款标 state-->
+<div class="loan_ajax"></div>
+<!--借款标 end-->
 </div>
-			
-          <!--内容 end-->
+
+        <div class="span3 post-thumbnail">
+           <section>
+                <a href="__ROOT__/Site/listTpl/id/28.html" class="more">更多</a>
+                <h3>名词解释</h3>
+                <ul>
+                <volist name="explanation" id="vo">
+                <li><a href="__ROOT__/Site/article/id/{$vo.id}.html" target="_blank" title="{$vo.title}">{$vo.title}</a></li>
+                </volist> 
+                </ul>
+            </section>
+            <hr>
+            <section>
+                <a href="__ROOT__/Site/listTpl/id/32.html" class="more">更多</a>
+                <h3>平台公告</h3>
+                <ul>
+                <volist name="new" id="vo">
+                <li><a href="__ROOT__/Site/article/id/{$vo.id}.html" target="_blank" title="{$vo.title}">{$vo.title}</a></li>
+                </volist> 
+                </ul>
+            </section>
+            <hr>
+            <section>
+                <a href="__ROOT__/Site/listTpl/id/31.html" class="more">更多</a>
+                <h3>帮助中心</h3>
+                <ul>
+                <volist name="help" id="vo">
+                <li><a href="__ROOT__/Site/article/id/{$vo.id}.html" target="_blank" title="{$vo.title}">{$vo.title}</a></li>
+                </volist> 
+                </ul>
+            </section>
+            <hr>
+
+        </div>
+    </div>
+</div>
 <!-- container end -->
 <!--底部  start-->
+<!--二维码-->
+<script>
+window.onload = integral();
+
+function integral(){
+	var loading='<div class="invest_loading"><div><img src="__PUBLIC__/bootstrap/img/ajax-loaders/ajax-loader-1.gif"/></div><div>加载中...</div> </div>';
+	$(".loan_ajax").html(loading);
+	$(".loan_ajax").load("__URL__/loanAjax", {type:0,state:0,scope:'undefined',classify:'undefined'});
+		
+}
+function qrcode(id){
+	var qrd=$('#qrd'+id).val();
+	if(qrd==1){
+		$('#qrcode'+id).fadeIn("slow");
+		$('#qrd'+id).val(0);
+	}else{
+		$('#qrcode'+id).fadeOut("slow");
+		$('#qrd'+id).val(1);
+	}
+	var loading='<div class="invest_loading"><div><img src="__PUBLIC__/bootstrap/img/spinner-mini.gif"/></div><div></div> </div>';
+		$("#qrdimg"+id).html(loading);
+	$("#qrdimg"+id).load("__URL__/qrcodeajax", {id:id});
+}
+</script>
+<!--二维码 end-->
 <include file="Index:footer" />

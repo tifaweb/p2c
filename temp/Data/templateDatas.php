@@ -1,0 +1,1 @@
+<?php	return array ( 'data' => array ( 0 => array ( 'title' => '支付宝标准双接口', 'author' => 'purl', 'name' => 'Dswjcmsalipay', 'describe' => '支付宝标准双接口', 'instructions' => '安装后，通过后台的基础配置->网上银行->编辑，把申请下来的支付宝商户账号信息添加进去保存即可', 'version' => '0.0.2', 'type' => 2, 'allocationtype' => 1, 'allocation' => array ( 'url' => '/Basis/editonl/id/4.html', ), ), ), 'num' => 1, );?>

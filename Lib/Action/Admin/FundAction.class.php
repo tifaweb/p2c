@@ -58,7 +58,7 @@ class FundAction extends AdminCommAction {
 		$data['content']=$content;
 		$excel=$this->excelExport($data);
 		$this->Record('用户资金汇总导出成功');//后台操作
-		$this->success("导出成功","__ROOT__/Admin/Fund/summary.html");
+		$this->success("导出成功","__APP__/TIFAWEB_DSWJCMS/Fund/summary.html");
 		
 	}
 
@@ -71,7 +71,6 @@ class FundAction extends AdminCommAction {
 	//充值审核
 	public function rechUpda(){
 		$recharge=D('Recharge');
-		$msgTools = A('msg','Event');
 		if($create=$recharge->create()){
 			$create['handlers']				=$this->_session('admin_name');
 			$create['audittime']			=time();
@@ -86,13 +85,13 @@ class FundAction extends AdminCommAction {
 				}
 				//记录添加点
 				$money->where(array('uid'=>$withd['uid']))->save($array);
-				$sendMsg=$msgTools->sendMsg(3,'充值成功','充值成功，帐户增加'.$withd['account_money'].'元','admin',$withd['uid']);//站内信
+				$this->silSingle(array('title'=>'充值成功','sid'=>$withd['uid'],'msg'=>'充值成功，帐户增加'.$withd['account_money'].'元'));//站内信
 				$this->moneyLog(array(0,'充值审核',$withd['money'],'平台',$array['total_money']+$withd['poundage'],$array['available_funds']+$withd['poundage'],$mon['freeze_funds'],$withd['uid']));	//资金记录
 				$this->moneyLog(array(0,'充值手续费扣除',$withd['poundage'],'平台',$array['total_money'],$array['available_funds'],$mon['freeze_funds'],$withd['uid']));	//资金记录
 				$this->Record('充值审核成功');//后台操作
-				$this->success("充值审核成功","__URL__/recharge");
+				$this->success("充值审核成功","__APP__/TIFAWEB_DSWJCMS/Fund/recharge");
 			}else{
-				$sendMsg=$msgTools->sendMsg(3,'充值失败','充值失败，流水号有误','admin',$withd['uid']);//站内信
+				$this->silSingle(array('title'=>'充值失败','sid'=>$withd['uid'],'msg'=>'充值失败，流水号有误'));//站内信
 				$this->Record('充值审核失败');//后台操作
 			$this->error("充值审核失败");
 			}		
@@ -116,7 +115,6 @@ class FundAction extends AdminCommAction {
 	//提现审核
 	public function withUpda(){
 		$withdrawal=D('Withdrawal');
-		$msgTools = A('msg','Event');
 		if($create=$withdrawal->create()){
 			$create['handlers']				=$this->_session('admin_name');
 			$create['audittime']			=time();
@@ -137,12 +135,12 @@ class FundAction extends AdminCommAction {
 				}
 				//记录添加点
 				$money->where(array('uid'=>$withd['uid']))->save($array);
-				$sendMsg=$msgTools->sendMsg(3,'提现成功','提现成功，帐户减少'.$withd['money'].'元','admin',$withd['uid']);//站内信
+				$this->silSingle(array('title'=>'提现成功','sid'=>$withd['uid'],'msg'=>'提现成功，帐户减少'.$withd['money'].'元'));//站内信
 				$this->moneyLog(array(0,'提现审核',$withd['money'],'平台',$arr['total_money'],$arr['available_funds'],$arr['freeze_funds'],$withd['uid']));	//资金记录
 				$this->Record('提现审核成功');//后台操作
-				$this->success("提现审核成功","__URL__/withdrawal");
+				$this->success("提现审核成功","__APP__/TIFAWEB_DSWJCMS/Fund/withdrawal");
 			}else{
-				$sendMsg=$msgTools->sendMsg(3,'提现失败','提现失败，银行帐号和户主不统一','admin',$withd['uid']);//站内信
+				$this->silSingle(array('title'=>'提现失败','sid'=>$withd['uid'],'msg'=>'提现失败，银行帐号和户主不统一'));//站内信
 				$this->Record('提现审核失败');//后台操作
 				$this->error("提现审核失败");
 			}		
@@ -210,7 +208,7 @@ class FundAction extends AdminCommAction {
 		$data['content']=$content;
 		$excel=$this->excelExport($data);
 		$this->Record('充值列表导出成功');//后台操作
-			$this->success("导出成功","__ROOT__/Admin/Fund/entry.html");
+			$this->success("导出成功","__APP__/TIFAWEB_DSWJCMS/Fund/entry.html");
 		
 	}
 	
@@ -262,7 +260,7 @@ class FundAction extends AdminCommAction {
 		$data['content']=$content;
 		$excel=$this->excelExport($data);
 		$this->Record('提现列表成功');//后台操作
-			$this->success("导出成功","__ROOT__/Admin/Fund/entry.html");
+			$this->success("导出成功","__APP__/TIFAWEB_DSWJCMS/Fund/entry.html");
 		
 	}
 	
@@ -295,13 +293,12 @@ class FundAction extends AdminCommAction {
 		$data['content']=$content;
 		$excel=$this->excelExport($data);
 		$this->Record('资金记录导出成功');//后台操作
-			$this->success("导出成功","__ROOT__/Admin/Fund/money.html");
+			$this->success("导出成功","__APP__/TIFAWEB_DSWJCMS/Fund/money.html");
 		
 	}
 	
 	//--------其它费用操作-----------
     public function other(){
-		$msgTools = A('msg','Event');
 		if($this->_post('change')){
 			$models = new Model();
 			$y_price=$models->check($this->_post('price'),'number'); 
@@ -327,11 +324,11 @@ class FundAction extends AdminCommAction {
 				$money=$Money->where('uid='.$this->_post('uid'))->find();
 				$this->Record($this->_post('explain'));//后台操作
 				$moneyLog=$this->moneyLog(array(0,$this->_post('explain'),$this->_post('price'),'平台',$money['total_money'],$money['available_funds'],$money['freeze_funds'],$this->_post('uid')));	//资金记录
-				$sendMsg=$msgTools->sendMsg(3,$this->_post('explain'),$this->_post('explain'),'admin',$use['username']);//站内信
+				$this->silSingle(array('title'=>$this->_post('explain'),'sid'=>$use['username'],'msg'=>$this->_post('explain')));//站内信
 				$arr['member']=array('uid'=>$this->_post('uid'),'name'=>'mem_other');
 				
-				$integralAdd=$this->integralAdd($arr);	//积分操作
-				$this->success("操作成功","__URL__/other");
+				//$integralAdd=$this->integralAdd($arr);	//积分操作
+				$this->success("操作成功","__APP__/TIFAWEB_DSWJCMS/Fund/other");
 			}else{
 				$this->error("用户不存在！");
 			}

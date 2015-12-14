@@ -19,7 +19,7 @@ class UserinfoModel extends RelationModel{
 		array('born','require','出生日期有误！'),
 		array('idcard','checkIdCard','身份证错误!',0,'callback'),
 		array('native_place[]','require','籍贯有误！'),
-		array('idcard_img','require','身份证必须上传！'),
+		array('idcard_img[]','require','身份证必须上传！'),
 		array('location[]','require','所在地址有误！',0),
 		array('marriage','require','婚姻状况有误！',0),
 		array('education','require','学历有误！',0),

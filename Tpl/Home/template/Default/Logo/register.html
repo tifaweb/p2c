@@ -1,147 +1,178 @@
 <include file="Index:header" />
 <!--头部 end -->
 <!--主体 -->
-<div class="row-fluid">
-	<div class="container login_cone">
-    	<div class="span7 login_left">
-    	<h2>用户注册</h2>
-        <form class="form-horizontal" name="myform" id="myform" method="post" action='__URL__/addreg'>
-        <input name="q" type="hidden" value="us" />
-        <input name="uid" type="hidden" value="{$list['id']}" />
-        <input name="gid" type="hidden" value="{$gid}" />
-        <input name="u" type="hidden" value="__ROOT__/Logo/login.html" />
-        <input name="n" type="hidden" value="注册" />
-        <input name="time" type="hidden" value="1" />
-          <div class="control-group">
-            <label class="control-label">邮箱</label>
-            <div class="controls">
-              <input type="text" name="email" datatype="e" nullmsg="请输入邮箱！" ajaxurl="__URL__/ajaxverify" placeholder="邮箱">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label">用户名</label>
-            <div class="controls">
-              <input type="text" maxlength="16" name="username" datatype="me" nullmsg="请输入用户名！" errormsg="用户名允许2-16个字,可包含中英文、数字、点和下划线！" ajaxurl="__URL__/ajaxverify" placeholder="用户名">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label">密码</label>
-            <div class="controls">
-              <input type="password" datatype="*6-15" maxlength="15" errormsg="密码范围在6~15位之间,不能使用空格！" nullmsg="请输入登录密码！" plugin="passwordStrength" name="password" placeholder="密码">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label">重复密码</label>
-            <div class="controls">
-              <input type="password" name="password" placeholder="重复密码" datatype="*" recheck="password" maxlength="15" errormsg="您两次输入的账号密码不一致！"  nullmsg="请重复上面所输入的密码！"  onkeyup="var va=$(this).val(); $('#pay_pass').val(va);">
-              <input id="pay_pass" name="pay_password" type="hidden" value="" />
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label">推荐者ID</label>
-            <div class="controls">
-              <input type="text" name="uid" placeholder="推荐人ID" value="{$lsuid}">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label">验证码</label>
-            <div class="controls">
-            <label class="inline span4">
-              <input type="text" class="span12" name="proving" placeholder="验证码" maxlength="4" datatype="*"  errormsg="验证码不能为空！">
-            </label>
-              <label class="checkbox inline">
-               <img id="verifyImg" src='__APP__/Public/verify/' onClick="changeVerify()" title="点击刷新验证码" data-rel="tooltip" style="cursor:pointer;padding-left: 10px;"/>
-            </label>
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="controls">
-              <label class="checkbox">
-                <span class="col666">
-                        <input  class="vv" checked="checked" name="ck" type="checkbox"  datatype="*" value="1" nullmsg="必须同意用户协议才可通过注册！" style="position: relative;bottom: 2px;margin-right: 5px;	">同意
-                        </span>
-                        <a class="colblue1" href="#Contract" data-toggle="modal">《{$s.sys_bargainName}注册协议》</a>
-              </label>
-              <button type="submit" class="btn btn-info">注册</button>
-            </div>
-          </div>
-        </form>
-        </div>
-        <div class="span3 login_right">
-        <p>已经注册过？<a href="__ROOT__/Logo/login.html" class="btn btn-success">登陆</a></p>
-
-        <p></p>
+<div class="page-desc js-ignore-pagemark">
+    <!-- start:Page-desc-inner -->
+    <div class="page-desc-inner">
+        <div class="container">
+            <h3>欢迎注册{$s.sys_briefTitle}</h3>
         </div>
     </div>
+    <!-- end:Page-desc-inner -->
+</div>
+<div class="container">
+    <!-- start:Row -->
+    <div class="row">
+        <!-- start:Wall -->
+        <div class="span4 offset4 control-panle">
+            <div class="control-panle-header">
+    <h4>注册</h4>
+    <span>已有账号？ <a href="__ROOT__/Logo/login.html">登陆</a></span>
+</div>
+<hr>
+
+ <form name="myform" id="myform" method="post" action='__URL__/addreg'>
+    <div class="row-fluid">
+        <div class="control-group">
+            <label class="control-label">用户名&nbsp;<span class="red">*</span></label>
+            <div class="controls">
+               <input class="span12" type="text" maxlength="16" name="username" datatype="me" nullmsg="请输入用户名！" errormsg="用户名允许2-16个字,可包含中英文、数字、点和下划线！" ajaxurl="__URL__/ajaxverify" placeholder="用户名">
+            </div>
+            <span class="help-block"></span>
+        </div>
+        <div class="control-group">
+            <label class="control-label">密码&nbsp;<span class="red">*</span></label>
+            <div class="controls">
+                <input class="span12" type="password" datatype="*6-15" maxlength="15" errormsg="密码范围在6~15位之间,不能使用空格！" nullmsg="请输入登录密码！" plugin="passwordStrength" name="password" placeholder="密码">
+            </div>
+            <span class="help-block"></span></span>
+        </div>
+        <div class="control-group">
+            <label class="control-label">重复密码&nbsp;<span class="red">*</span></label>
+            <div class="controls">
+                <input class="span12" type="password" name="password" placeholder="重复密码" datatype="*" recheck="password" maxlength="15" errormsg="您两次输入的账号密码不一致！"  nullmsg="请重复上面所输入的密码！"  onkeyup="var va=$(this).val(); $('#pay_pass').val(va);">
+              <input id="pay_pass" name="pay_password" type="hidden" value="" />
+            </div>
+            <span class="help-block"></span></span>
+        </div>
+        <div class="control-group">
+            <label class="control-label">验证码&nbsp;<span class="red">*</span></label>
+            <div class="controls">
+            	<input id="CaptchaInputText" type="text" class="span12" name="proving" placeholder="验证码" maxlength="4" datatype="*"  nullmsg="验证码不能为空！"><img class="CaptchaImage" id="verifyImg" src='__APP__/Public/verify/' onClick="changeVerify()" title="点击刷新验证码" data-rel="tooltip" style="cursor:pointer;padding-left: 10px;"/>
+            </div>
+
+            <span class="help-block"></span>
+        </div>
+        <div class="control-group">
+            <div class="controls" style="*position:relative">
+                <label class="checkbox" style="*left: 60px; *position: absolute; *margin-bottom:30px">
+                    <input class="valid" checked="checked" name="ck" type="checkbox"  datatype="*" value="1" nullmsg="必须同意用户协议才可通过注册！">同意{$s.sys_briefTitle} <a href="#Contract" data-toggle="modal" class="btn btn-primary btn-mini">用户协议</a>
+                </label>
+            </div>
+            <span class="help-block"></span>
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-primary span12" style="margin-left: 0" tabindex="4">注册</button>
+    </div>
+</form>
+
+        </div>
+        <!-- end:Wall -->
+    </div>
+    <!-- end:Row -->
 </div>
 <!-- 主体 end-->
 <!--底部 -->
 <div style="display: none;" id="Contract" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="ContractLabel" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="ContractLabel">{$s.sys_bargainName}网站服务协议</h3>
+        <h3 id="ContractLabel">{$s.sys_briefTitle}网站服务协议</h3>
     </div>
     <div class="modal-body">
-        <p>{$s.sys_bargainName}网站（网址：{$s.sys_website}，以下简称{$s.sys_bargainName}）依据本协议的规定为{$s.sys_bargainName}用户（以下简称"用户"）提供服务。本协议在用户和{$s.sys_bargainName}间具有法律效力。{$s.sys_bargainName}提醒您认真阅读本协议、充分理解各条款内容后再选择是否接受本协议。除非您接受本协议所有条款，否则无权使用{$s.sys_bargainName}于本协议下所提供的服务。您一经注册或使用{$s.sys_bargainName}服务即视为充分理解并完全接受本协议全部条款。</p>
-   <p>在协议履行过程中，{$s.sys_bargainName}可根据实际情况对协议的相关条款进行修改变化。一旦协议内容发生变动，{$s.sys_bargainName}将公布最新的服务协议，不再向用户作个别通知。如果用户不同意{$s.sys_bargainName}对协议所做的修改，有权停止使用{$s.sys_bargainName}服务。如果用户继续使用{$s.sys_bargainName}服务，则视为接受{$s.sys_bargainName}对协议所做的修改，并应遵照修改后的协议履行应尽义务。</p>
- <p>  第一章 {$s.sys_bargainName}使用限制说明<br />
-第1条：在使用{$s.sys_bargainName}服务前，您必须先在{$s.sys_bargainName}完成注册，成为{$s.sys_bargainName}用户。<br />
-第2条：用户必须为符合中华人民共和国法律规定的具有完全民事权利和民事行为能力，能够独立承担民事责任的自然人。若用户违反前述限制注册使用{$s.sys_bargainName}的，其监护人应承担所有责任。<br />
-第3条：用户有义务确保个人资料信息的真实性、完整性和有效性，并承诺对个人资料信息及时进行更新。若{$s.sys_bargainName}经判断认定用户资料存在错误、虚假、过时的嫌疑，{$s.sys_bargainName}有权终止会员账户。由此产生的损失，{$s.sys_bargainName}不承担任何责任。<br />
-第4条：用户有义务提供有效的联系方式，包括但不限于手机号码、电话号码、通讯地址、常用电子邮箱、联系人信息等。联系方式发生变更时，应在3日内进行更新。因用户未提供有效联系方式，导致{$s.sys_bargainName}未能提供服务时，造成的损失及法律后果，由用户自行承担。
-</p>
-
-<p>
-第二章	{$s.sys_bargainName}服务内容说明 <br />
-第5条：{$s.sys_bargainName}为用户提供的服务包括但不限于：为用户提供信用咨询及评估、根据用户需求发布交易信息、提供交易管理、合同管理、客户服务等。具体内容以{$s.sys_bargainName}当时提供的服务内容为准。部分服务需要用户完成身份认证才能享用。用户因未完成身份认证而无法享受服务的，{$s.sys_bargainName}不承担任何责任。<br />
-第6条：用户同意，其在{$s.sys_bargainName}上按交易流程所确认的状态，将成为{$s.sys_bargainName}进行相关操作唯一依据。因用户未能及时对交易状态进行修改、确认而造成的损失由用户自行负责，{$s.sys_bargainName}不承担任何责任。<br />
-第7条：{$s.sys_bargainName}为用户提供信息发布服务。用户承诺，其通过{$s.sys_bargainName}上传或发布的任何资料信息均真实有效。如因违背上述承诺，造成的任何法律后果，用户都将自行承担责任。此外，用户有义务及时更新个人信息资料。如因未及时更新个人信息资料，导致{$s.sys_bargainName}无法正常提供服务时，{$s.sys_bargainName}不承担任何责任，所有后果应由用户个人承担。<br />
-第8条：{$s.sys_bargainName}为用户提供信用咨询及评估服务。用户同意，{$s.sys_bargainName}可通过公开或私人资料搜集用户的额外信息，以了解用户的实际情况。{$s.sys_bargainName}有权根据实际情况对用户信息进行评价以供其他用户参考。<br />
-第9条：{$s.sys_bargainName}为用户提供交易管理服务。{$s.sys_bargainName}提供的各种交易信息及资料仅供用户参考，用户应考虑实际情况独立判断并作出交易决策。用户应知悉投资风险，交易发生后产生的一切风险均由用户自行承担。此外，如果{$s.sys_bargainName}发现了因系统故障或其他任何原因导致的处理错误，{$s.sys_bargainName}都有权纠正该错误，用户有义务根据{$s.sys_bargainName}有关纠正错误的通知进行相应操作。<br />
-第10条：{$s.sys_bargainName}为用户提供合同管理服务。{$s.sys_bargainName}交易时订立的合同采用电子合同方式。用户绑定的电子邮箱为{$s.sys_bargainName}发送电子合同及其他重要通知信息的接受邮箱。用户承诺，注册成功后会尽快绑定/验证电子邮箱并密切关注邮箱信息。任何信息从{$s.sys_bargainName}发出起，即视为已告知用户，用户不得以任何理由否认合同的效力或拒绝履行合同中规定的义务。<br />
-第11条：{$s.sys_bargainName}为用户提供银行卡认证、充值、取现、代收/代付、查询、通知等客户服务。用户确认{$s.sys_bargainName}并非银行或金融机构，无法提供"即时"金额转账服务。对资金到账延迟及由此产生的收益损失，{$s.sys_bargainName}不承担任何责任<br />
-</p>
-<p>第三章 风险提示说明<br />
-第12条：用户了解并认可，通过{$s.sys_bargainName}进行的交易并不能规避风险。{$s.sys_bargainName}无义务为交易后产生的风险承担责任。<br />
-第13条：{$s.sys_bargainName}不对任何用户的任何交易提供任何明示或默认的保证。用户应知悉交易存在的风险，并在独立判断后作出交易决策。交易产生的风险由用户自行承担。<br />
-第14条：{$s.sys_bargainName}不能对用户发布的信息进行控制，{$s.sys_bargainName}没有义务为该信息承担证明义务。{$s.sys_bargainName}不能完全保证平台内容的真实性、准确性和完整性，所有信息仅为参考。<br />
-</p>
-<p>第四章 {$s.sys_bargainName}服务费用说明<br />
-第15条：用户使用{$s.sys_bargainName}服务时，{$s.sys_bargainName}有权向用户收取相关服务费用。各项费用详见{$s.sys_bargainName}服务收费说明。{$s.sys_bargainName}保留单方面制定及调整服务费用的权利。<br />
-第16条：用户在使用{$s.sys_bargainName}服务过程中可能需要向第三方或其他机构支付一定的费用，具体收费标准详见{$s.sys_bargainName}服务收费说明。<br /></p>
-
-<p>第五章 用户账户安全承诺<br />
-第17条：用户账户是其在{$s.sys_bargainName}的唯一标识。用户承诺妥善保管其账号密码，不将个人账号信息泄露给其他任何人。<br />
-第18条：用户同意，确保账户安全是用户的责任。通过个人账户所进行的一切操作，发布的一切言论，都视为用户本人的行为及其真实意图的表达，所有损失及法律后果由用户本人自行承担。<br /></p>
-
-<p>第六章 用户守法承诺<br />
-第19条：用户承诺不以任何非法目的或途径使用{$s.sys_bargainName}服务，并遵守所有与{$s.sys_bargainName}服务相关的法律、法规及其他规范性文件。因违背上述承诺造成的损失及后果，用户自行负全部责任。<br />
-第20条：用户承诺严格按照本协议履行义务。如未完全履行义务，{$s.sys_bargainName}有权将其违约行为记入信用资料，有权在任何形式的媒体上公布其违约行为。<br /></p>
-
-<p>第七章 {$s.sys_bargainName}服务中断说明<br />
-第21条：基于互联网的特殊性，{$s.sys_bargainName}不承诺服务不会中断，也不承诺服务的安全性，用户对此应理解并确认。由于系统维护、设备故障、黑客攻击及其他不可抗力的影响，而导致用户无法正常使用相关服务时，{$s.sys_bargainName}不承担任何责任。<br />
-第八章 {$s.sys_bargainName}责任范围说明<br />
-第22条：{$s.sys_bargainName}不对用户的投资收益做任何保证。用户需根据自身风险承受能力及{$s.sys_bargainName}发布信息的可靠程度独立判断，做出交易决策。交易后产生的任何损失均由用户自行承担。<br />
-第23条：{$s.sys_bargainName}合作机构提供的服务内容由该合作单位负责。用户享用相关服务时产生的争议、纠纷及损失，{$s.sys_bargainName}不承担任何责任。<br />
-第24条：用户由{$s.sys_bargainName}任何工作人员处取得的建议、说明，均不构成{$s.sys_bargainName}对服务的承诺和保证。由此产生的法律后果，{$s.sys_bargainName}不承担任何责任。<br /></p>
-
-<p>第九章 用户隐私保护说明<br />
-第25条：用户同意，{$s.sys_bargainName}可从公开及私人资料中收集用户的额外信息，以更好地掌握用户的实际情况，为用户量身订做合适的服务。<br />
-第26条：{$s.sys_bargainName}对于用户提供的、{$s.sys_bargainName}自行收集的及其他用户个人信息享有使用和披露的权利。{$s.sys_bargainName}基于履行协议、提供服务、解决争议、保障交易安全等目的使用用户个人信息资料时，无需告知用户。<br />
-第27条：为避免用户通过{$s.sys_bargainName}从事违规违法活动，保护{$s.sys_bargainName}及其他用户的合法权益，{$s.sys_bargainName}有权通过人工或自动程序对用户信息进行审核及评价。<br />
-第28条：{$s.sys_bargainName}采用行业标准和惯例保护用户的个人信息。{$s.sys_bargainName}不会将用户信息恶意出售或免费共享给任何第三方。鉴于技术限制，{$s.sys_bargainName}无法确保用户的个人信息完全不被泄露。<br />
-第29条：{$s.sys_bargainName}有义务根据有关法律要求向司法机关和政府部门提供用户的个人资料。<br />
-第30条：若用户未能按照其与{$s.sys_bargainName}及{$s.sys_bargainName}其他用户签订的协议等法律文本的约定履行应尽义务，{$s.sys_bargainName}有权披露用户个人信息及违约事实。{$s.sys_bargainName}有权将上述信息写入网站黑名单，且与任何第三方进行数据共享，以供网站及第三方审核、催收之用。由此给用户造成的任何损失，{$s.sys_bargainName}不承担法律责任。<br />
-</p>
-<p>第十章 知识产权保护说明<br />
-第31条：{$s.sys_bargainName}上所有内容的知识产权均由{$s.sys_bargainName}及其权利人依法拥有，包括但不限于文本、数据、文章、图片、资讯、平台架构、网页设计等。未经{$s.sys_bargainName}或其权利人书面同意，任何人不得擅自使用、修改、复制、公开发布{$s.sys_bargainName}程序或内容。<br />
-第32条：尊重知识产权是用户应尽的义务，如有违反，用户应对{$s.sys_bargainName}承担损害赔偿等法律责任。<br /></p>
-
-<p>第十一章 法律适用说明<br />
-第33条：本协议由用户与{$s.sys_bargainName}共同签订，适用于用户在{$s.sys_bargainName}的一切活动。协议内容包括但不限于协议正文条款，已发布的或将来可能发布的各类规则，都应视为协议不可分割的一部分，与协议正文条款享有同等法律效力。<br />
-第34条：本协议不涉及{$s.sys_bargainName}用户间产生的法律关系及法律纠纷。但用户应同意全面接受{$s.sys_bargainName}与其他用户签订的任何协议，并承诺按照该协议承担相应的责任和义务。用户间的纠纷及争议需要{$s.sys_bargainName}提供相应资料时，{$s.sys_bargainName}仅接受来自司法机关的请求。<br />
-第35条：{$s.sys_bargainName}对本协议具有最终解释权。<br />
-第36条：本协议签订地为中国北京市。因本协议所引起的用户与{$s.sys_bargainName}的任何纠纷及争议，各方一致同意，不论争议金额大小，均提交北京仲裁委员会适用北京仲裁委员会仲裁规则项下的简易程序进行仲裁。仲裁裁决为终局裁决，对双方均具有约束力。<br /> </p>
+        <p>"{$s.sys_briefTitle}"网站（以下简称"本网站"）由宁波天发网络科技有限公司(以下简称"本公司")负责运营。本服务协议双方为本网站用户与本公司，适用于用户注册使用本网站服务的全部活动。</p>
+        <p>在注册成为本网站用户前，请您务必认真、仔细阅读并充分理解本服务协议全部内容。您在注册本网站取得用户身份时勾选同意本服务协议
+并成功注册为本网站用户，视为您已经充分理解和同意本服务协议全部内容，并签署了本服务协议，本服务协议立即在您与本公司之间产生合同法律效力，您注册使
+用本网站服务的全部活动将受到本服务协议的约束并承担相应的责任和义务。如您不同意本服务协议内容，请不要注册使用本网站服务。</p>
+        <p>本服务协议包括以下所有条款，同时也包括本网站已经发布的或者将来可能发布的各类规则。所有规则均为本服务协议不可分割的一部分，与本服务协议具有同等法律效力。</p>
+        <p>用户在此确认知悉并同意本公司有权根据需要不时修改、增加或删减本服务协议。本公司将采用在本网站公示的方式通知用户该等修改、增
+加或删减，用户有义务注意该等公示。一经本网站公示，视为已经通知到用户。若用户在本服务协议及各类规则变更后继续使用本网站服务的，视为用户已仔细认真
+阅读、充分理解并同意接受修改后的本服务协议及各类规则，且用户承诺遵守修改后的本服务协议及各类规则内容，并承担相应的义务和责任。若用户不同意修改后
+的本服务协议及各类规则内容，应立即停止使用本网站服务，本公司保留中止、终止或限制用户继续使用本网站服务的权利，但该等终止、中止或限制行为并不豁免
+用户在本网站已经进行的交易下所应承担的责任和义务。本公司不承担任何因此导致的法律责任。</p>
+        <h4>一. 本网站服务</h4>
+        <p>本网站为用户提供【信用咨询、评估、管理，促成用户与本网站其他用户达成交易的居间服务，还款管理等服务】，用户通过本网站居间服务与其他用户达成的所有交易项下资金的存放和移转均通过本网站。</p>
+        <h4>二. 服务费用</h4>
+        <p>用户注册使用本网站服务，本公司有权向用户收取服务费用，具体服务费用以本网站公告或其他协议为准。用户承诺按照本服务协议约定向
+本网站支付服务费用，并同意本网站有权自其有关账户中直接扣划服务费用。用户通过本网站与其他方签订协议的，用户按照签署的协议约定向其他方支付费用。</p>
+        <h4>三. 使用限制</h4>
+        <ol>
+            <li>注册成为本网站用户必须满足如下主体资格条件：具有中华人民币共和国（以下简称"中国"）国籍（不包括中国香港、澳门及
+台湾地区）、年龄在18周岁以上、具有完全民事行为能力的自然人。若不具备前述主体资格条件，请立即终止注册使用本网站服务.若违反前述规定注册使用本网
+站服务，本公司保留终止用户资格、追究用户或用户的监护人相关法律责任的权利。</li>
+            <li>用户在注册使用本网站服务时应当根据本网站的要求提供自己的真实信息（包括但不限于真实姓名、联系电话、地址、电子邮箱
+等信息），并保证向本网站提供的各种信息和资料是真实、准确、完整、有效和合法的，复印件与原件一致。如用户向本网站提供的各项信息和资料发生变更，用户
+应当及时向本网站更新用户的信息和资料，如因用户未及时更新信息和资料导致本网站无法向用户提供服务或发生错误，由此产生的法律责任和后果由用户自己承
+担。如使用他人信息和文件注册使用本网站服务或向本网站提供的信息和资料不符合上述规定，由此引起的一切责任和后果均由用户本人全部承担，本公司及本网站
+不因此承担任何法律责任，如因此而给本公司及本网站造成损失，用户应当承担赔偿本公司及本网站损失的责任。</li>
+            <li>成功注册为本网站用户后，用户应当妥善保管自己的用户名和密码，不得将用户名转让、赠与或授权给第三方使用。用户在此确
+认，使用其用户的用户名和密码登录本网站及由用户在本网站的用户账户下发出的一切指令均视为用户本人的行为和意思，该等指令不可逆转，由此产生的一切责任
+和后果由用户本人承担，本公司及本网站不承担任何责任。</li>
+            <li>用户不得利用本网站从事任何违法违规活动，用户在此承诺合法使用本网站提供的服务，遵守中国现行法律、法规、规章、规范
+性文件以及本服务协议的约定。若用户违反上述规定，所产生的一切法律责任和后果与本公司和本网站无关，由用户自行承担，如因此给本公司和本网站造成损失
+的，由用户赔偿本公司和本网站的损失。本公司保留将用户违法违规行为及有关信息资料进行公示、计入用户信用档案、按照法律法规的规定提供的有关政府部门或
+按照有关协议约定提供给第三方的权利。</li>
+            <li>如用户在本网站的某些行为或言论不合法、违反有关协议约定、侵犯本公司的利益等，本公司有权基于独立判断直接删除用户在
+本网站上作出的上述行为或言论，有权中止、终止、限制用户使用本网站服务，而无需通知用户，亦无需承担任何责任。如因此而给本公司及本网站造成损失的，应
+当赔偿本公司及本网站的损失。</li>
+        </ol>
+        <h4>四. 不保证条款</h4>
+        <p>本网站提供的服务中不含有任何明示、暗示的，对任何用户、任何交易的真实性、准确性、可靠性、有效性、完整性等的任何保证和承诺，
+用户需根据自身风险承受能力，衡量本网站披露的交易内容及交易对方的真实性、可靠性、有效性、完整性，用户因其选择使用本网站提供的服务、参与的交易等而
+产生的直接或间接损失均由用户自己承担，包括但不限于资金损失、利润损失、营业中断等。本公司及其股东、创始人、全体员工、代理人、关联公司、子公司、分
+公司均不对以上损失承担任何责任。</p>
+        <h4>五. 责任限制</h4>
+        <ol>
+            <li>基于互联网的特殊性，本公司无法保证本网站的服务不会中断，对于包括但不限于本公司、本网站及相关第三方的设备、系统存
+在缺陷，计算机发生故障、遭到病毒、黑客攻击或者发生地震、海啸等不可抗力而造成服务中断或因此给用户造成的损失，本公司不承担任何责任，有关损失由用户
+自己承担。</li>
+            <li>本公司无义务监测本网站内容。用户对于本网站披露的信息、选择使用本网站提供的服务，选择参与交易等，应当自行判断真实性和承担风险，由此而产生的法律责任和后果由用户自己承担，本公司不承担任何责任。</li>
+            <li>与本公司合作的第三方机构向用户提供的服务由第三方机构自行负责，本公司不对此等服务承担任何责任。</li>
+            <li>本网站的内容可能涉及第三方所有的信息或第三方网站，该等信息或第三方网站的真实性、可靠性、有效性等由相关第三方负责，用户对该等信息或第三方网站自行判断并承担风险，与本网站和本公司无关。</li>
+            <li>无论如何，本公司对用户承担的违约赔偿（如有）总额不超过向用户收取的服务费用总额。</li>
+        </ol>
+        <h4>六. 用户资料的使用与披露</h4>
+        <ol>
+            <li>用户在此同意，对于用户提供的和本公司为提供本网站服务所需而自行收集的用户个人信息和资料，本公司有权按照本服务协议的约定进行使用或者披露。</li>
+            <li>
+                <p>用户授权本公司基于履行有关协议、解决争议、调停纠纷、保障本网站用户交易安全的目的等使用用户的个人资料（包括
+但不限于用户自行提供的以及本公司信审行为所获取的其他资料）。本公司有权调查多个用户以识别问题或解决争议， 
+特别是本公司可审查用户的资料以区分使用多个用户名或别名的用户。</p>
+                <p>为避免用户通过本网站从事欺诈、非法或其他刑事犯罪活动，保护本网站及其正常用户合法权益，用户授权本公司可通过人工或自动程序对用户的个人资料进行评价和衡量。</p>
+                <p>用户同意本公司可以使用用户的个人资料以改进本网站的推广和促销工作、分析网站的使用率、改善本网站的内容和产品
+推广形式，并使本网站内容、设计和服务更能符合用户的要求。这些使用能改善本网站的网页，以调整本网站网页使其更能符合用户的需求，从而使用户在使用本网
+站服务时得到更为顺利、有效、安全及度身订造的交易体验。</p>
+                <p>用户在此同意允许本公司通过在本网站的某些网页上使用诸如"Cookies"的设置收集用户信息并进行分析研究，以为用户提供更好的量身服务。</p>
+            </li>
+            <li>
+                <p>本公司有义务根据有关法律、法规、规章及其他政府规范性文件的要求向司法机关和政府部门提供用户的个人资料及交易信息。</p>
+                <p>在用户未能按照与本公司签订的包括但不限于本服务协议或者与本网站其他用户签订的借款协议等其他法律文本的约定履
+行自己应尽的义务时，本公司有权将用户提供的及本公司自行收集的用户的个人信息、违约事实等通过网络、报刊、电视等方式对任何第三方披露，且本公司有权将
+用户提交或本公司自行收集的用户的个人资料和信息与任何第三方进行数据共享，以便对用户的其他申请进行审核等使用。由此而造成用户损失的，本公司不承担法
+律责任。</p>
+            </li>
+            <li>本公司采用行业标准惯例以保护用户的个人信息和资料，鉴于技术限制，本公司不能确保用户的全部私人通讯及其他个人资料不会通过本条款中未列明的途径泄露出去。</li>
+        </ol>
+        <h4>七. 知识产权保护条款</h4>
+        <ol>
+            <li>本网站中的所有内容均属于本公司所有,包括但不限于文本、数据、文章、设计、源代码、软件、图片、照片、音频、视频及其他全部信息。本网站内容受中国知识产权法律法规及各国际版权公约的保护。</li>
+            <li>未经本公司事先书面同意,用户承诺不以任何形式复制、模仿、传播、出版、公布、展示本网站内容,包括但不限于电子的、机械的、复印的、录音录像的方式和形式等。用户承认本网站内容是属于本公司的财产。</li>
+            <li>未经本公司书面同意,用户不得将本网站包含的资料等任何内容发布到任何其他网站或者服务器。任何未经授权对本网站内容的使用均属于违法行为,本公司有权追究用户的法律责任。</li>
+        </ol>
+        <h4>八. 违约责任</h4>
+        <p>如一方发生违约行为，守约方可以书面通知方式要求违约方在指定的时限内停止违约行为，并就违约行为造成的损失要求违约方进行赔偿。</p>
+        <h4>九. 法律适用及争议解决</h4>
+        <ol>
+            <li>本服务协议的签订、效力、履行、终止、解释和争端解决受中国法律法规的管辖。</li>
+            <li>因本服务协议发生任何争议或与本服务协议有关的争议，首先应由双方友好协商解决，协商不成的，任何一方有权将纠纷提交至本公司所在地有管辖权的人民法院诉讼解决。</li>
+        </ol>
+        <h4>十. 其他条款</h4>
+        <ol>
+            <li>本服务协议自您同意勾选并成功注册为本网站用户之日起生效，除非本网站终止本服务协议或者用户丧失本网站用户资格，否则本服务协议始终有效。本服务协议终止并不免除用户根据本服务协议或其他有关协议、规则所应承担的义务和责任。</li>
+            <li>本公司对于用户的违约行为放弃行使本服务协议规定的权利的，不得视为其对用户的其他违约行为放弃主张本服务协议项下的权利。</li>
+            <li>本服务协议部分条款被认定为无效时，不影响本服务协议其他条款的效力。</li>
+            <li>本服务协议不涉及用户与本网站其他用户之间因网上交易而产生的法律关系及法律纠纷，但用户在此同意将全面接受和履行与本网站其他用户通过本网站签订的任何电子法律文本，并承诺按该法律文本享有和/或放弃相应的权利、承担和/或豁免相应的义务。</li>
+            <li>本公司对本服务协议享有最终的解释权。</li>
+        </ol>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">确认</button>
@@ -158,13 +189,45 @@
  $(function(){
 	//$(".form-horizontal").Validform();  //就这一行代码！;
 
-	$(".form-horizontal").Validform({
+	$("#myform").Validform({
 		datatype:{
-			//"me" : /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{2,16}$/,
-			"me" : /^[A-Za-z0-9_]{2,16}$/,
+			"me" : /^[\u4E00-\u9FA5\uf900-\ufa2d\w]{2,16}$/,
 		}
 	});
 })
+</script>
+<script type="text/javascript">
+//获取验证码倒计时
+var wait=60;
+function time(o) {
+		if (wait == 0) {
+			o.removeAttribute("disabled");			
+			o.value="免费获取验证码";
+			wait = 60;
+		} else {
+			o.setAttribute("disabled", true);
+			o.value="重新发送(" + wait + ")";
+			wait--;
+			setTimeout(function() {
+				time(o)
+			},
+			1000)
+		}
+	}
+$(function(){
+	$('#btn').click( function () { 
+		var phone=$('#phone').val();
+		var myreg = /^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|18[0-9]{9}$/;
+		 if(!myreg.test(phone))
+        {
+            alert('请输入有效的手机号码！');
+            return false;
+        }
+		time(this); 
+		//$.post("__URL__/cellpcode", {id:1} );
+		$('#abc').load("__URL__/reMessage", {phone:phone} );
+	});
+});
 </script>
 <include file="Index:footer" />
 <!--底部 end-->

@@ -10,19 +10,19 @@
 <!--左栏 end -->
 <ul class="breadcrumb">
       <li>
-        <a href="__ROOT__/Admin">首页</a> <span class="divider">/</span>
+        <a href="__APP__/TIFAWEB_DSWJCMS">首页</a> <span class="divider">/</span>
       </li>
       <li>
-        <a href="__ROOT__/Admin/Basis/gcompany.html">担保公司</a> <span class="divider">/</span>
+        <a href="__APP__/TIFAWEB_DSWJCMS/Basis/gcompany.html">担保公司</a> <span class="divider">/</span>
       </li>
       <li class="active">详细信息</li>
-    <div  class="pull-right"> <a class="ajax-link" href="__ROOT__/Admin/Basis/gcompany.html" >返回担保公司</a></div>
+    <div  class="pull-right"> <a class="ajax-link" href="__APP__/TIFAWEB_DSWJCMS/Basis/gcompany.html" >返回担保公司</a></div>
 </ul>
 <if condition="$Think.get.id gt 0 ">
-<form class="form-horizontal" name="myform" id="myform" method="post" action='__URL__/edgcompany'>
+<form class="form-horizontal" name="myform" id="myform" method="post" action='__APP__/TIFAWEB_DSWJCMS/Basis/edgcompany'>
 <input name="id" type="hidden" value="{$Think.get.id}" />
 <else/>
-<form class="form-horizontal" name="myform" id="myform" method="post" action='__URL__/addgcompany'>
+<form class="form-horizontal" name="myform" id="myform" method="post" action='__APP__/TIFAWEB_DSWJCMS/Basis/addgcompany'>
 </if>
   <div class="control-group">
     <label class="control-label">担保公司名称</label>
@@ -116,7 +116,7 @@
 function intExit(id,img)
 {
 	$('#i'+id).empty();
-	$.post("__URL__/pathExit", {img:'./Public/uploadify/uploads/gcompany/'+img} );
+	$.post("__APP__/TIFAWEB_DSWJCMS/Basis/pathExit", {img:'./Public/uploadify/uploads/gcompany/'+img} );
 }
 </script>
 <include file="Index:footer" />

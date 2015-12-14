@@ -3,25 +3,19 @@ return array(
 //'配置项'=>'配置值'
  'DB_TYPE'   => 'mysql', // 数据库类型
  'DB_PORT'   => 3306, // 端口          
- 'APP_GROUP_LIST' => 'Home,Admin,Api', //项目分组设定
- 'TMPL_EXCEPTION_FILE'=>'./Tpl/Home/Logo/error.html',// 定义公共错误模板
- 'URL_404_REDIRECT'=>__ROOT__.'/error.html',
+'APP_GROUP_LIST' => 'Home,Admin,Api', //项目分组设定
+// 'TMPL_EXCEPTION_FILE'=>'./Tpl/Home/Logo/error.html',// 定义公共错误模板
+ //'URL_404_REDIRECT'=>__ROOT__.'/error.html',
  'DS_PATH'=>'',
- 'AUTH_CONFIG'=>array(
-	'AUTH_ON' => true,
-	'AUTH_TYPE' => 1,
-	'AUTH_GROUP' => 'ds_auth_group',
-	'AUTH_GROUP_ACCESS' => 'ds_auth_group_access',
-	'AUTH_RULE' => 'ds_auth_rule', 
-	'AUTH_USER' => 'ds_admin'
- ),
+ 'TMPL_PARSE_STRING'  =>array(
+     'TIFAWEB_DSWJCMS' => 'Dswjcms',
+  ),
+ //征信地址
+ 'DS_CREDIT_URL'	=>'http://www.dswjcms.com/Api/Core/',	//测试环境：http://www.dswjcms.cn/Api/Core/正式环境：http://www.tifaweb.cn/Api/Core/
  'URL_ROUTER_ON'   => true, //开启路由
  'URL_ROUTE_RULES' => array( //定义路由规则
- 		'Borrow/index/:mid\s'        			=> 'Borrow/index',
-		'Center/invest/:mid\s'        			=> 'Center/invest',
-		'Center/loan/:mid\s'         			=> 'Center/loan',
+ 		'Loan/invest/:id\s'        			=> 'Loan/invest',
 		'Center/security/:mid\s'         		=> 'Center/security',
-		'Center/fund/:mid\s'          			=> 'Center/fund',
 		'Center/approve/:mid\s'      			=> 'Center/approve',
 		'Center/basic/:mid\s'         			=> 'Center/basic',
 		'Center/emailVerifyConfirm/:email_audit'=> 'Center/emailVerifyConfirm',
@@ -54,6 +48,6 @@ return array(
 	'DS_ENTERPRISE'			=>	'点石为金借贷系统',
 	'DS_EN_ENTERPRISE'		=>	'dswjjd',
 	'DS_TOP_POWERED'		=>	'Powered by Dswjcms!',
-	'DS_POWERED'			=>	'<p class="pull-left">Powered by <strong><a href="http://www.dswjcms.com" target="_blank">Dswjcms!</a></strong> <em>X3.0</em><br/>&copy; 2013-2015 <a href="http://www.tifaweb.com" target="_blank">Tf Inc.</a></p>',
+	'DS_POWERED'			=>	'<p class="pull-left">Powered by <strong><a href="http://www.dswjcms.com" target="_blank">Dswjcms!</a></strong> <em>X3.2</em><br/>&copy; 2013-2016 <a href="http://www.tifaweb.com" target="_blank">Tf Inc.</a></p>',
 );
 ?>

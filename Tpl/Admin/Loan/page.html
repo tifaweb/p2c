@@ -10,21 +10,21 @@
 <!--左栏 end -->
 <ul class="breadcrumb">
       <li>
-        <a href="__ROOT__/Admin.html">首页</a> <span class="divider">/</span>
+        <a href="__APP__/TIFAWEB_DSWJCMS.html">首页</a> <span class="divider">/</span>
       </li>
       <li>
-        <a href="__ROOT__/Admin/Loan.html">贷款列表</a> <span class="divider">/</span>
+        <a href="__APP__/TIFAWEB_DSWJCMS/Loan.html">贷款列表</a> <span class="divider">/</span>
       </li>
       <li class="active">详细信息</li>
-    <div  class="pull-right"> <a class="ajax-link" href="__ROOT__/Admin/Loan.html" >返回贷款列表</a></div>
+    <div  class="pull-right"> <a class="ajax-link" href="__APP__/TIFAWEB_DSWJCMS/Loan.html" >返回贷款列表</a></div>
 </ul>
 
 <!--发布 -->
 <if condition="$Think.get.id gt 0">
-<form class="form-horizontal" name="myform" id="myform" method="post" action='__URL__/amend'>
+<form class="form-horizontal" name="myform" id="myform" method="post" action='__APP__/TIFAWEB_DSWJCMS/Loan/amend'>
 <input name="id" type="hidden" value="{$Think.get.id}"/>
 <else/>
-<form class="form-horizontal" name="myform" id="myform" method="post" action='__URL__/institutionIssue'>
+<form class="form-horizontal" name="myform" id="myform" method="post" action='__APP__/TIFAWEB_DSWJCMS/Loan/institutionIssue'>
 </if>
 <table class="table table-bordered">
 		 <tbody>
@@ -48,7 +48,7 @@
                     </select>
                     
                 </if>
-                <span>&nbsp;<a href="__ROOT__/Admin/Basis/editgcompany.html" class="icon icon-blue icon-plus" title="添加"></a></span>
+                <span>&nbsp;<a href="__APP__/TIFAWEB_DSWJCMS/Basis/editgcompany.html" class="icon icon-blue icon-plus" title="添加"></a></span>
               </td>
           </tr>
           <tr>

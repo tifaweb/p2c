@@ -1,51 +1,126 @@
 <include file="Index:header" />
 <!--头部 end -->
 <!-- container start --> 
-<div class="container paddtop row-fluid">
-<!-- left start-->
-<include file="left" />
-<!-- left end-->
+<include file="top" />
+<div class="container paddtop">
+	<div class="row">
     <!-- right start-->
-    <div  id="content" class="center_right span10">
-     <volist name="list" id="ls">
-    	<div  class="center_top">
-            <div class="span2">
-                <dl>
-                 <if condition="$heads gt 0">
-                    <dd><img src="__PUBLIC__/FaustCplus/php/img/big_user_{$Think.session.user_uid}.jpg" width="110"/></dd>
-                 <else/>
-                 	<dd><img src="__PUBLIC__/FaustCplus/php/img/big_user_0.jpg" width="110"/></dd>
-                 </if>
-                    <dd><a href="__ROOT__/Home/Center/portrait.html">更换头像</a></dd>
-                </dl>
-            </div>
-            <div class="span7">
-                    <p style="margin-top: 30px;">信用等级：<img src="__PUBLIC__/uploadify/uploads/grade_img/{$ls.membership_grade_img}" title="{$ls.membership_grade_name}" data-rel="tooltip"/></p>
-                    <p><a href="__ROOT__/Center/fund/inject.html">账号充值</a></p>
-                    
-                    <p>系统告知：<a href="__ROOT__/Center/basic/mail.html?pid=unread">{$msgCount['unread']?$msgCount['unread']:'0'}</a> 封未读信息</p>
-            </div>
-         </div>
-         <div class="center_below">
-            <h5>账号详情</h5>
-            <p>账户总额：{$ls.total_money|number_format=2,'.',','} <a href="__ROOT__/Center/fund/fundrecord.html">资金记录查询</a></p>
-            <p>可用余额：{$ls.available_funds|number_format=2,'.',','} <a href="__ROOT__/Center/fund/draw.html">[提现]</a><a href="__ROOT__/Center/fund/inject.html">[充值]</a></p>
-           
-            <p><span>冻结总额：{$ls.freeze_funds|number_format=2,'.',','}</span><span>待收总额：{$ls.due_in|number_format=2,'.',','}</span></p>
-            <if condition="$coll.money neq ''">
-                <if condition="$coll.types eq 8">
-                <p><span> 最近待收金额：{$coll.money|number_format=2,'.',','}</span><span>最近待收时间：{$coll.time|date="Y-m-d H:i:s",###}</span><a href="__ROOT__/Center/invest/institution.html">[待收明细]</a></p>
-                <else/>
-                <p><span> 最近待收金额：{$coll.money|number_format=2,'.',','}</span><span>最近待收时间：{$coll.time|date="Y-m-d H:i:s",###}</span><a href="__ROOT__/Center/invest/{$coll['types']==7?'isflow':'isclosed'}.html">[待收明细]</a></p>
-                </if>
-            <else/>
-            <p><span>最近待收金额:0</span><span>最近待收时间：无</span><a href="__ROOT__/Center/invest/{$coll['types']==7?'isflow':'isclosed'}.html">[待收明细]</a></p>
+    <div  id="content" class="span12">
+		<h4>{$Think.session.user_name}您好！</h4>
+        <p class="center_uname">
+        	用户名：{$Think.session.user_name}&nbsp;&nbsp;
+        	<if condition="$list.email_audit gt 1">
+            <a class="icon icon-orange icon-envelope-closed ajax-link" href="__ROOT__/Center/approve/email.html"  data-rel="tooltip" title="邮箱已认证"></a>
+            <else />
+            <a class="icon icon-envelope-closed ajax-link" href="__ROOT__/Center/approve/email.html" data-rel="tooltip" title="邮箱未认证"></a>
             </if>
-            <p><span> 待收利息：{$ls.stay_interest|number_format=2,'.',','}</span><span> 已赚利息：{$ls.make_interest|number_format=2,'.',','}</span></p>
-            
-         </div>
-    </volist>
+            &nbsp;
+            <if condition="$list.certification gt 1">
+            <a class="icon icon-orange icon-profile" href="__ROOT__/Center/approve/autonym.html"  data-rel="tooltip" title="实名已认证"></a>
+            <else />
+            <a class="icon icon-profile" href="__ROOT__/Center/approve/autonym.html" data-rel="tooltip" title="实名未认证"></a>
+            </if>
+            &nbsp;
+            <if condition="$list.video_audit gt 1">
+            <a class="icon icon-orange icon-comment-video" href="__ROOT__/Center/approve/video.html"  data-rel="tooltip" title="视频已认证"></a>
+            <else />
+            <a class="icon icon-comment-video" href="__ROOT__/Center/approve/video.html" data-rel="tooltip" title="视频未认证"></a>
+            </if>
+            &nbsp;
+            <if condition="$list.site_audit gt 1">
+            <a class="icon icon-orange icon-users" href="__ROOT__/Center/approve/scene.html"  data-rel="tooltip" title="现场已认证"></a>
+            <else />
+            <a class="icon icon-users" href="__ROOT__/Center/approve/scene.html" data-rel="tooltip" title="现场未认证"></a>
+            </if>
+            &nbsp;
+            <if condition="$list.cellphone_audit gt 1">
+            <a class="icon icon-orange icon-cellphone ajax-link" href="__ROOT__/Center/approve/cellphone.html"  data-rel="tooltip" title="手机已认证"></a>
+            <else />
+            <a class="icon icon-cellphone ajax-link" href="__ROOT__/Center/approve/cellphone.html" data-rel="tooltip" title="手机未认证"></a>
+            </if>
+        </p>
+        <div class="popover bottom center_popove_b">
+            <div class="popover-content">
+              <p>
+              	账户总额: <span class="blue">{$list.total_money|number_format=2,'.',','}</span>元 &nbsp; &nbsp;
+                可用余额: <span class="blue">{$list.available_funds|number_format=2,'.',','}</span>元 &nbsp; &nbsp;
+                冻结总额: <span class="blue">{$list.freeze_funds|number_format=2,'.',','}</span>元 &nbsp; &nbsp;
+              </p>
+              <p>
+              </p>
+              <div class="right">
+              	<a href="__ROOT__/Center/fund/mid/inject.html" class="btn btn-warning">充值</a>
+                <a href="__ROOT__/Center/fund/mid/draw.html" class="btn btn-primary">提现</a>
+              </div>
+            </div>
+        </div>
     </div>
+    </div>
+    <!-- 下部分-->
+    <div class="row">
+        <!--start: Span3 -->
+        <div class="span6">
+            <div class="widget widget-table">
+                <div class="widget-header">
+                    <h3>投资者</h3>
+                    <span><a href="__ROOT__/Center/invest/mid/isclosed.html" title="查看详情"><i class="icon-list"></i></a></span>
+                </div>
+                <div class="widget-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px">状态</th>
+                                <th style="width: 40px">笔数</th>
+                                <th style="text-align: right;">金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                    <tr>
+                                        <td><a href="__ROOT__/Center/invest/mid/isclosed.html">回款中</a></td>
+                                        <td>{$investment.returned|default="0"}</td>
+                                        <td style="text-align: right">{$investment.returned_total|number_format=2,'.',','}</td>
+                                    </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="span6">
+            <div class="widget widget-table">
+                <div class="widget-header">
+                    <h3>最新资金记录</h3>
+                    <span><a href="__ROOT__/Center/fund/mid/fundrecord.html" title="查看详情"><i class="icon-list"></i></a></span>
+                </div>
+
+                    <div class="widget-content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>时间</th>
+                                    <th>操作金额</th>
+                                    <th style="text-align: right;">操作说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <volist name="record" id="vo">
+                                <tr>
+                                    <td>{$vo.time|date="m-d H:i",###}</td>
+                                    <td>{$vo.operation|number_format=2,'.',','}</td>
+                                    <td style="text-align: right;">{$vo.actionname}</td>
+
+                                </tr>
+                                </volist>
+                            </tbody>
+                        </table>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 下部分 end-->
+</div>
     <!-- right end--> 
 <!-- container end -->
 <!--底部  start-->

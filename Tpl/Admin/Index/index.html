@@ -6,52 +6,122 @@
         	<h3>快捷导航</h3>
             <div class="row-fluid admin_index">
                 <div class="span1">
-                	<a href="__ROOT__/Admin/Index/system.html">
+                	<a href="__APP__/TIFAWEB_DSWJCMS/Index/system.html">
                   		<span class="icon32 icon-color icon-gear"></span>
                 		<p>系统设置</p>
                     </a>
                 </div>
                 <div class="span1">
-                	<a href="__ROOT__/Admin/Basis/linebank.html">
+                	<a href="__APP__/TIFAWEB_DSWJCMS/Basis/linebank.html">
                   		<span class="icon32 icon-color icon-wrench"></span>
                 		<p>基础配置</p>
                     </a>
                 </div>
                 <div class="span1">
-                	<a href="__ROOT__/Admin/Site.html">
+                	<a href="__APP__/TIFAWEB_DSWJCMS/Site.html">
                   		<span class="icon32 icon-color icon-book"></span>
                 		<p>文章管理</p>
                     </a>
                 </div>
                 <div class="span1">
-                	<a href="__ROOT__/Admin/Loan.html">
+                	<a href="__APP__/TIFAWEB_DSWJCMS/Loan.html">
                   		<span class="icon32 icon-color icon-refresh"></span>
                 		<p>贷款管理</p>
                     </a>
                 </div>
-                
                 <div class="span1">
-                	<a href="__ROOT__/Admin/Fund/recharge.html">
+                	<a href="__APP__/TIFAWEB_DSWJCMS/Audit/entry.html">
+                  		<span class="icon32 icon-color icon-lightbulb"></span>
+                		<p>认证管理</p>
+                    </a>
+                </div>
+                <div class="span1">
+                	<a href="__APP__/TIFAWEB_DSWJCMS/Fund/recharge.html">
                   		<span class="icon32 icon-color icon-profile"></span>
                 		<p>资金管理</p>
                     </a>
                 </div>
                 <div class="span1">
-                	<a href="__ROOT__/Admin/Ganged.html">
+                	<a href="__APP__/TIFAWEB_DSWJCMS/Ganged.html">
                   		<span class="icon32 icon-color icon-book"></span>
                 		<p>联动管理</p>
                     </a>
                 </div>
                 <div class="span1">
-                	<a href="__ROOT__/Admin/Integralconf.html">
-                  		<span class="icon32 icon-color icon-star-on"></span>
-                		<p>积分配置</p>
+                	<a href="__APP__/TIFAWEB_DSWJCMS/User.html">
+                  		<span class="icon32 icon-color icon-user"></span>
+                		<p>用户管理</p>
                     </a>
                 </div>
                 <div class="span1">
-                	<a href="__ROOT__/Admin/User.html">
-                  		<span class="icon32 icon-color icon-user"></span>
-                		<p>用户管理</p>
+                	<a href="__APP__/TIFAWEB_DSWJCMS/Credit.html">
+                  		<span class="icon32 icon-color icon-web"></span>
+                		<p>征信查询</p>
+                    </a>
+                </div>
+                <div class="span1">
+                	<a href="__APP__/TIFAWEB_DSWJCMS/Plugins/index.html">
+                  		<span class="icon32 icon-color icon-unlink"></span>
+                		<p>插件管理</p>
+                    </a>
+                </div>
+            </div>
+            <h3>待办事务</h3>
+            <div  class="row-fluid admin_index">
+                 <div class="span1">
+                    <a href="__APP__/TIFAWEB_DSWJCMS/Audit/autonym.html">
+                  		<span class="icon32 icon-orange icon-profile"></span>
+                        <gt name="stat.autonym" value="0">
+                        <span class="admin_right label label-important">{$stat.autonym}</span>
+                        </gt>
+                		<p>实名认证</p>
+                        
+                    </a>
+                </div>
+                <div class="span1">
+                    <a href="__APP__/TIFAWEB_DSWJCMS/Audit/video.html">
+                  		<span class="icon32 icon-orange icon-comment-video"></span>
+                        <gt name="stat.video" value="0">
+                        <span class="admin_right label label-important">{$stat.video}</span>
+                        </gt>
+                		<p>视频认证</p> 
+                    </a>
+                </div>
+                <div class="span1">
+                    <a href="__APP__/TIFAWEB_DSWJCMS/Audit/site.html">
+                  		<span class="icon32 icon-orange icon-users"></span>
+                        <gt name="stat.scene" value="0">
+                        <span class="admin_right label label-important">{$stat.scene}</span>
+                        </gt>
+                		<p>现场认证</p> 
+                    </a>
+                </div>
+                <div class="span1">
+                    <a href="__APP__/TIFAWEB_DSWJCMS/Audit/phone.html">
+                  		<span class="icon32 icon-orange icon-cellphone"></span>
+                        <gt name="stat.phone" value="0">
+                        <span class="admin_right label label-important">{$stat.phone}</span>
+                        </gt>
+                		<p>手机认证</p> 
+                    </a>
+                </div>
+                 <div class="span1">
+                    <a href="__APP__/TIFAWEB_DSWJCMS/Fund/recharge.html">
+                  		<span class="icon32 icon-orange icon-heart"></span>
+                        <gt name="stat.recharge" value="0">
+                        <span class="admin_right label label-important">{$stat.recharge}</span>
+                        </gt>
+                		<p>充值申请</p>
+                        
+                    </a>
+                </div>
+                <div class="span1">
+                    <a href="__APP__/TIFAWEB_DSWJCMS/Fund/withdrawal.html">
+                  		<span class="icon32 icon-orange icon-inbox"></span>
+                        <gt name="stat.withdrawal" value="0">
+                        <span class="admin_right label label-important">{$stat.withdrawal}</span>
+                        </gt>
+                		<p>提现申请</p> 
                     </a>
                 </div>
             </div>
@@ -109,38 +179,6 @@
                         <dt>服务器IP：</dt><dd><?php echo GetHostByName($_SERVER['SERVER_NAME']);?></dd>
                         <dt>服务器解译引擎：</dt><dd><?php echo $_SERVER['SERVER_SOFTWARE'];?></dd>
                         <dt>服务器语言：</dt><dd><?php echo $_SERVER['HTTP_ACCEPT_LANGUAGE'];?></dd>
-                    </dl>
-                </div>
-            </div>
-            <h3>信息中心</h3>
-            <div class="row-fluid">
-            	<div class="span4">
-                    <dl class="dl-horizontal">
-                        <dt>系统名称：</dt><dd>Dswjcms P2C网贷系统</dd>
-                        <dt>系统版本：</dt><dd>3.0</dd>
-                        <dt>研发团队：</dt><dd><a href="http://www.tifaweb.com">Dswjcms项目组</a></dd>
-                        <dt>模板：</dt><dd><a href="http://www.tifaweb.com/Site/article/id/4.html">模板开发文档</a></dd>
-                        <dt>是否开源：</dt><dd>是</dd>
-                        <dt>完整性：</dt><dd>核心版&nbsp;&nbsp;<a href="http://www.tifaweb.com">购买完整版</a></dd>
-                    </dl>
-                </div>
-                <div class="span4">
-                    <dl class="dl-horizontal">
-                        <dt>研发公司：</dt><dd><a href="http://www.tifaweb.com">宁波市鄞州区天发网络科技有限公司</a></dd>
-                        <dt>合作：</dt><dd>诚招P2C网贷系统区域代理商、加盟商</dd>
-                        <dt>代运维：</dt><dd>提供P2C网贷系统研发、升级、推广、维护一条龙服务</dd>
-                        <dt>联系QQ：</dt><dd>602132284</dd>
-                        <dt>联系电话：</dt><dd>13081971646</dd>
-                        <dt>有效期：</dt><dd>2015/6/20</dd>
-                    </dl>
-                </div>
-                 <div class="span4">
-                    <dl class="dl-horizontal">
-                        <dt>自动还款：</dt><dd>不支持</dd>
-                        <dt>还款提醒：</dt><dd>不支持</dd>
-                        <dt>债权转让：</dt><dd>不支持</dd>
-                        <dt>第三方支付：</dt><dd>支付宝</dd>
-                        <dt>短信功能：</dt><dd>不支持</dd>
                     </dl>
                 </div>
             </div>

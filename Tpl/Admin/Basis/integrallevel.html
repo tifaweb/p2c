@@ -10,7 +10,7 @@
 <!--左栏 end -->
 <ul class="breadcrumb">
       <li>
-        <a href="__ROOT__/Admin.html">首页</a> <span class="divider">/</span>
+        <a href="__APP__/TIFAWEB_DSWJCMS.html">首页</a> <span class="divider">/</span>
       </li>
       <li class="active">积分等级</li>
       <div  class="pull-right"> <a data-toggle="modal" data-rel="tooltip" href="#audit">添加积分等级</a></div>
@@ -41,8 +41,8 @@
                       {$vo.min}-{$vo.max}
                 </td>    
                 <td>
-                    <a href="__ROOT__/Admin/Basis/editint/{$vo.id}.html" data-rel="tooltip" class="ajax-link icon icon-color icon-edit" title="编辑"></a>
-                    <a href="#" data-rel="tooltip" class="icon icon-color icon-trash"title="删除" onclick="if(confirm('是否要删除？'))window.location.href='__URL__/deleint/{$vo.id}'"></a>
+                    <a href="__APP__/TIFAWEB_DSWJCMS/Basis/editint/{$vo.id}.html" data-rel="tooltip" class="ajax-link icon icon-color icon-edit" title="编辑"></a>
+                    <a href="#" data-rel="tooltip" class="icon icon-color icon-trash"title="删除" onclick="if(confirm('是否要删除？'))window.location.href='__APP__/TIFAWEB_DSWJCMS/Basis/deleint/{$vo.id}'"></a>
                 </td>
               </tr>
             </volist>
@@ -57,9 +57,9 @@
       <a class="close" data-dismiss="modal" >&times;</a>
       <h3>添加积分等级</h3>
     </div>
-    <form method="post"  action='__URL__/tfAdd' >
+    <form method="post"  action='__APP__/TIFAWEB_DSWJCMS/Basis/tfAdd' >
     <input name="q" type="hidden" value="memgrade" />
-    <input name="u" type="hidden" value="__ROOT__/Admin/Basis/integrallevel.html" />
+    <input name="u" type="hidden" value="__APP__/TIFAWEB_DSWJCMS/Basis/integrallevel.html" />
     <input name="n" type="hidden" value="积分等级添加" />
     <table class="table">
         <tbody>

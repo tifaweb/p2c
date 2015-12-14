@@ -12,15 +12,8 @@
 // +----------------------------------------------------------------------
 defined('THINK_PATH') or exit();
 class HomeAction extends CommAction{
-	/*
-	*参数说明
-	*	q		//需要操作的表
-	*	n		//跳转提示语
-	*	u		//跳转地址
-	*	m		//存放LOG的数据并区分前后台		m[0]:1前台2后台3同时 其他为各LOG所需的数据
-	*
-	*/
-	public function _initialize(){	//检测标是否过期，过期就改变状态，后期可直接读缓存
+	public function _initialize(){
+		$this->webScan();//安全检测记录
 		header("Content-Type:text/html; charset=utf-8");
 		$dirname = F('dirname')?F('dirname'):"Default";
 		C('DEFAULT_THEME','template/'.$dirname);	//自动切换模板
@@ -30,10 +23,6 @@ class HomeAction extends CommAction{
 		$links = M('links');
 		$links=$links->field('title,url,img')->where('state=0')->order('`order` ASC')->select();
 		$this->assign('links',$links);
-//----------------------------------------------------
-//计划任务
-		$msgTools = A('msg','Event');
-		$borrows=D('Borrowing');
 		$system=$this->systems();
 		$this->assign('s',$system);
 		//站点关闭

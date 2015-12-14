@@ -47,7 +47,7 @@ class BasisAction extends AdminCommAction {
 		$result = $offline->where(array('id'=>$this->_get('id')))->delete();
 		if($result){
 			$this->Record('线下银行删除成功');//后台操作
-			 $this->success("删除成功","__URL__/linebank");
+			 $this->success("删除成功","__APP__/TIFAWEB_DSWJCMS/Basis/linebank");
 				
 		}else{
 			$this->Record('线下银行删除失败');//后台操作
@@ -77,7 +77,7 @@ class BasisAction extends AdminCommAction {
 		$result = $online->where(array('id'=>$this->_get('id')))->delete();
 		if($result){
 			$this->Record('线上银行删除成功');//后台操作
-			 $this->success("删除成功","__URL__/online");
+			 $this->success("删除成功","__APP__/TIFAWEB_DSWJCMS/Basis/online");
 				
 		}else{
 			$this->Record('线上银行删除失败');//后台操作
@@ -109,7 +109,7 @@ class BasisAction extends AdminCommAction {
 		$result = $grade->where(array('id'=>$this->_get('id')))->delete();
 		if($result){
 			$this->Record('积分等级删除成功');//后台操作
-			 $this->success("删除成功","__URL__/integrallevel");
+			 $this->success("删除成功","__APP__/TIFAWEB_DSWJCMS/Basis/integrallevel");
 				
 		}else{
 			$this->Record('积分等级删除失败');//后台操作
@@ -140,7 +140,7 @@ class BasisAction extends AdminCommAction {
 					if(file_exists($backup)){	
 						unlink($backup);	//删除它
 					}
-					$this->success("数据库备份成功","__URL__/backup");
+					$this->success("数据库备份成功","__APP__/TIFAWEB_DSWJCMS/Basis/backup");
 					exit;
 				}else{
 					$this->error("请输入正确的邮箱地址");
@@ -170,7 +170,7 @@ class BasisAction extends AdminCommAction {
 			$last=$Shuff->add();
 			if($last){
 					$this->Record('添加轮播图片成功');//后台操作
-					$this->success('添加成功', '__URL__/shuffling');
+					$this->success('添加成功', '__APP__/TIFAWEB_DSWJCMS/Basis/shuffling');
 			}else{
 					$this->Record('添加轮播图片失败');//后台操作
 					$this->error('商品添加失败');
@@ -209,7 +209,7 @@ class BasisAction extends AdminCommAction {
 			}
             $Shuff->save();
 			$this->Record('轮播图片修改成功');//后台操作
-            $this->success('修改成功', '__URL__/shuffling');
+            $this->success('修改成功', '__APP__/TIFAWEB_DSWJCMS/Basis/shuffling');
     }
 
     //轮播图片删除
@@ -218,7 +218,7 @@ class BasisAction extends AdminCommAction {
             $id=$this->_get('id');
             $Shuff->where('id='.$id)->delete();
 			$this->Record('轮播图片删除成功');//后台操作
-            $this->success('删除成功', '__URL__/shuffling');
+            $this->success('删除成功', '__APP__/TIFAWEB_DSWJCMS/Basis/shuffling');
     }
 	
 //--------友情链接-----------
@@ -239,7 +239,7 @@ class BasisAction extends AdminCommAction {
 			$last=$Shuff->add();
 			if($last){
 				$this->Record('添加友情链接成功');//后台操作
-					$this->success('添加成功', '__URL__/links');
+					$this->success('添加成功', '__APP__/TIFAWEB_DSWJCMS/Basis/links');
 			}else{
 				$this->Record('添加友情链接失败');//后台操作
 					$this->error('友情链接添加失败');
@@ -278,7 +278,7 @@ class BasisAction extends AdminCommAction {
 			}
             $Shuff->save();
 			$this->Record('友情链接修改成功');//后台操作
-            $this->success('修改成功', '__URL__/links');
+            $this->success('修改成功', '__APP__/TIFAWEB_DSWJCMS/Basis/links');
     }
 
     //友情链接删除
@@ -287,7 +287,7 @@ class BasisAction extends AdminCommAction {
             $id=$this->_get('id');
             $Shuff->where('id='.$id)->delete();
 			$this->Record('友情链接删除成功');//后台操作
-            $this->success('删除成功', '__URL__/links');
+            $this->success('删除成功', '__APP__/TIFAWEB_DSWJCMS/Basis/links');
     }
 	
 	//--------数据库优化-----------
@@ -295,7 +295,7 @@ class BasisAction extends AdminCommAction {
 		if($this->_post('oid')){
 			$models = new Model();
 			$models->query('OPTIMIZE TABLE `ds_admin`, `ds_article`, `ds_article_add`, `ds_auth_group`, `ds_auth_group_access`, `ds_auth_rule`, `ds_automatic`, `ds_borrowing`, `ds_borrow_log`, `ds_city`, `ds_collection`, `ds_commision`, `ds_forrecord`, `ds_instation`, `ds_integral`, `ds_integralconf`, `ds_links`, `ds_membership_grade`, `ds_money`, `ds_money_log`, `ds_offline`, `ds_operation`, `ds_overdue`, `ds_promote_integral`, `ds_recharge`, `ds_refund`, `ds_shield_msg`, `ds_shuffling`, `ds_site`, `ds_site_add`, `ds_smtp`, `ds_system`, `ds_ufees`, `ds_unite`, `ds_user`, `ds_userinfo`, `ds_user_commision`, `ds_user_log`, `ds_vip_points`, `ds_withdrawal`');
-			$this->success('优化成功', '__URL__/optimization');
+			$this->success('优化成功', '__APP__/TIFAWEB_DSWJCMS/Basis/optimization');
 			exit;
 		}	 
 		$this->display();
@@ -331,7 +331,7 @@ class BasisAction extends AdminCommAction {
 		$last=$Shuff->add($create);
 		if($last){
 			$this->Record('添加担保公司成功');//后台操作
-				$this->success('添加成功', '__URL__/gcompany');
+				$this->success('添加成功', '__APP__/TIFAWEB_DSWJCMS/Basis/gcompany');
 		}else{
 			$this->Record('添加担保公司成功失败');//后台操作
 				$this->error('担保公司添加失败');
@@ -351,7 +351,7 @@ class BasisAction extends AdminCommAction {
 		$last=$Shuff->where('id='.$this->_post('id'))->save($create);
 		if($last){
 			$this->Record('更新担保公司成功');//后台操作
-				$this->success('更新成功', '__URL__/gcompany');
+				$this->success('更新成功', '__APP__/TIFAWEB_DSWJCMS/Basis/gcompany');
 		}else{
 			$this->Record('更新担保公司失败');//后台操作
 				$this->error('担保公司更新失败');
