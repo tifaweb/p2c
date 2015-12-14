@@ -150,7 +150,7 @@ class IndexAction extends HomeAction {
 			$this->error('参数有误！');
 		}
 		$guaranteecomp=M('guaranteecomp');
-		$comp=$guaranteecomp->field('name,logo,content,img')->where('id='.$id)->find();
+		$comp=$guaranteecomp->field('name,logo,content,img')->where('id="'.$id.'"')->find();
 		$comp['img']=explode(",",$comp['img']);
 		$this->assign('comp',$comp);
 		$this->display();
