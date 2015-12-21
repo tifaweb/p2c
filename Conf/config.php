@@ -3,6 +3,7 @@ return array(
 //'配置项'=>'配置值'
  'DB_TYPE'   => 'mysql', // 数据库类型
  'DB_PORT'   => 3306, // 端口          
+
 'APP_GROUP_LIST' => 'Home,Admin,Api', //项目分组设定
 // 'TMPL_EXCEPTION_FILE'=>'./Tpl/Home/Logo/error.html',// 定义公共错误模板
  //'URL_404_REDIRECT'=>__ROOT__.'/error.html',
