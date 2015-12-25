@@ -196,7 +196,12 @@ class LogoAction extends HomeAction {
 	public function rsPassword(){
 		$user=D('User');
 		$uid=$this->_post('uid');
+		$cache = cache(array('expire'=>50));
+		$value = $cache->get('rpawss'.$uid);
 		$users=$user->where('id="'.$uid.'"')->find();
+		if(!md5($users['email'])==$value){
+			$this->error("链接已过期！","__ROOT__/Logo/login.html");
+		}
 		if($user->create()){
 			$result = $user->where('id="'.$uid.'"')->save();
 			if($result){
