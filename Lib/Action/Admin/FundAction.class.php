@@ -114,6 +114,9 @@ class FundAction extends AdminCommAction {
 	
 	//提现审核
 	public function withUpda(){
+		if($this->_session('verify') != md5(strtoupper($this->_post('proving')))) {
+		   $this->error('验证码错误！');
+		}
 		$withdrawal=D('Withdrawal');
 		if($create=$withdrawal->create()){
 			$create['handlers']				=$this->_session('admin_name');
@@ -308,10 +311,10 @@ class FundAction extends AdminCommAction {
 				$this->error("提交的参数有误！");
 			}
 			$user=M('user');
-			$use=$user->where('id='.$this->_post('uid'))->find();
+			$use=$user->where('id="'.$this->_post('uid').'"')->find();
 			if($use){
 				$Money=M('money');
-				$money=$Money->where('uid='.$this->_post('uid'))->find();
+				$money=$Money->where('uid="'.$this->_post('uid').'"')->find();
 				if($this->_post('change')==1){	//奖励
 					$models->query("UPDATE `ds_money` SET `total_money` = `total_money`+".$this->_post('price').", `available_funds` = `available_funds`+".$this->_post('price')." WHERE `uid` =".$this->_post('uid'));
 				}else{
@@ -321,7 +324,7 @@ class FundAction extends AdminCommAction {
 					$models->query("UPDATE `ds_money` SET `total_money` = `total_money`-".$this->_post('price').", `available_funds` = `available_funds`-".$this->_post('price')." WHERE `uid` =".$this->_post('uid'));
 				}
 				//记录添加点
-				$money=$Money->where('uid='.$this->_post('uid'))->find();
+				$money=$Money->where('uid="'.$this->_post('uid').'"')->find();
 				$this->Record($this->_post('explain'));//后台操作
 				$moneyLog=$this->moneyLog(array(0,$this->_post('explain'),$this->_post('price'),'平台',$money['total_money'],$money['available_funds'],$money['freeze_funds'],$this->_post('uid')));	//资金记录
 				$this->silSingle(array('title'=>$this->_post('explain'),'sid'=>$use['username'],'msg'=>$this->_post('explain')));//站内信

@@ -44,7 +44,7 @@ class LoanAction extends AdminCommAction {
 			$guara=$this->guaranteeComp();
 			//机构申请
 			$Guarantee = D("Guarantee");
-			$Guara=$Guarantee->where('`bid`='.$id)->relation('borrowing')->find();
+			$Guara=$Guarantee->where('`bid`="'.$id.'"')->relation('borrowing')->find();
 			$data=explode(";",$Guara['borrowing']['data']);//分割合同协议和企业实地照片
 			$Guara['img']=explode(",",$data[0]);
 			$Guara['agr']=explode(",",$data[1]);
@@ -112,8 +112,8 @@ class LoanAction extends AdminCommAction {
 		$img=implode(",",$this->_post('img'));
 		$agr=implode(",",$this->_post('agr'));
 		$creates['data']=$img.';'.$agr;
-		$borrow=$Borrowing->where('`id`='.$this->_post('id'))->save($creates);
-		$last=$Guarantee->where('`bid`='.$this->_post('id'))->save($create);
+		$borrow=$Borrowing->where('`id`="'.$this->_post('id').'"')->save($creates);
+		$last=$Guarantee->where('`bid`="'.$this->_post('id').'"')->save($create);
 	  $this->Record('更新标成功');//后台操作
 		$this->success('更新成功');
 	}
@@ -122,7 +122,7 @@ class LoanAction extends AdminCommAction {
 	public function plan(){
 		$refund=M('refund');
 		$id=$this->_get('id');
-		$refun=$refund->where('bid='.$id)->order('time ASC')->select();
+		$refun=$refund->where('bid="'.$id.'"')->order('time ASC')->select();
 		$this->assign('refun',$refun);
 		$this->display();
 	}

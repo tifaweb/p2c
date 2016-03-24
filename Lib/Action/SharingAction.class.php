@@ -654,7 +654,7 @@ class SharingAction extends Action{
 			}else if($systems['sys_topUFC']==1){	//小于免费额度收取手续费
 				if($m<=$systems['sys_rechargeFA']){	//小于免费提现额度
 					//充值手续费=（充值金额-免费额度）*充值手续费率
-					$wfp=round(($m-$systems['sys_rechargeFA'])*$systems['sys_topUpFees'],2);;
+					$wfp=round($m*$systems['sys_topUpFees'],2);
 				}else{
 					$wfp=0;
 				}
