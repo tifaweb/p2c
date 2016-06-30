@@ -13,6 +13,10 @@
 defined('THINK_PATH') or exit();
 class HomeAction extends CommAction{
 	public function _initialize(){
+		if(C('DB_PREFIX') !='ds_'){
+			header("Location:install.php");
+			exit;
+		}
 		$this->webScan();//安全检测记录
 		header("Content-Type:text/html; charset=utf-8");
 		$dirname = F('dirname')?F('dirname'):"Default";

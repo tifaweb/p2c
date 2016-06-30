@@ -324,7 +324,7 @@ class CommAction extends SharingAction{
 							}
 						}
 						if($this->_post('price')>$users['available_funds']){	//资金不足
-							$this->error("账户余额不足，请充值！",'__ROOT__/Center/fund/inject.html');
+							$this->error("账户余额不足，请充值！",'__ROOT__/Center/fund/mid/inject.html');
 						}
 						$user=D('User');
 						$pay_password=$user->userPayMd5($this->_post('pay_password'));
