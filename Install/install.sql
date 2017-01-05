@@ -3980,7 +3980,8 @@ CREATE TABLE IF NOT EXISTS `ds_shuffling` (
 INSERT INTO `ds_shuffling` (`id`, `title`, `type`, `state`, `time`, `img`, `order`, `url`) VALUES
 (2, '2', 0, 0, '1383399157', '1402203080.2854.jpg', 0, 'javascript:void(0)'),
 (7, '1', 0, 0, '1384258731', '1402203088.5489.jpg', 0, 'javascript:void(0)'),
-(8, '3', 0, 0, '1386331886', '1402203096.1114.jpg', 0, 'javascript:void(0)');
+(8, '3', 0, 0, '1386331886', '1402203096.1114.jpg', 0, 'javascript:void(0)'),
+(9, '1', 1, 0, '1481793042', '1481793041.2397.png', 0, 'javascript:void(0)');
 
 -- --------------------------------------------------------
 

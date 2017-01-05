@@ -24,6 +24,10 @@ Dswjcms版权归宁波天发网络科技所有，转载、分享请保留版权信息和软件完整。
 域名/Dswjcms
 初始账号：admin
 初始密码：admin
+*APP地址*
+APP地址分2种模式，即微信端和APP端，通过访问地址智能切换2种模式，切换方法为
+微信版：域名/Win/Index/index/app/1
+APP版：域名/Win或域名/Win/Index/index/app/2
 软件运行环境要求：
 PHP5.4.3+mysql+apache
 服务器要求：

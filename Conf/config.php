@@ -4,7 +4,7 @@ return array(
  'DB_TYPE'   => 'mysql', // 数据库类型
  'DB_PORT'   => 3306, // 端口          
 
-'APP_GROUP_LIST' => 'Home,Admin,Api', //项目分组设定
+'APP_GROUP_LIST' => 'Home,Admin,Api,Win', //项目分组设定
 // 'TMPL_EXCEPTION_FILE'=>'./Tpl/Home/Logo/error.html',// 定义公共错误模板
  //'URL_404_REDIRECT'=>__ROOT__.'/error.html',
  'DS_PATH'=>'',
@@ -49,6 +49,6 @@ return array(
 	'DS_ENTERPRISE'			=>	'点石为金借贷系统',
 	'DS_EN_ENTERPRISE'		=>	'dswjjd',
 	'DS_TOP_POWERED'		=>	'Powered by Dswjcms!',
-	'DS_POWERED'			=>	'<p class="pull-left">Powered by <strong><a href="http://www.dswjcms.com" target="_blank">Dswjcms!</a></strong> <em>X3.3</em><br/>&copy; 2013-2016 <a href="http://www.tifaweb.com" target="_blank">Tf Inc.</a></p>',
+	'DS_POWERED'			=>	'<p class="pull-left">Powered by <strong><a href="http://www.dswjcms.com" target="_blank">Dswjcms!</a></strong> <em>X3.4</em><br/>&copy; 2013-2017 <a href="http://www.tifaweb.com" target="_blank">Tf Inc.</a></p>',
 );
 ?>

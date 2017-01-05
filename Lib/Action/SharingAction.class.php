@@ -2115,8 +2115,8 @@ class SharingAction extends Action{
 	protected function requestForm($para_temp, $method, $button_name,$action) {
 		//待请求参数数组
 		$sHtml = "<form id='alipaysubmit' name='form1' action='".$action."' method='".$method."'>";
-		while (list ($key, $val) = each ($para_temp)) {
-            $sHtml.= "<input type='hidden' name='".$key."' value='".$val."'/>";
+		foreach($para_temp as $id=>$p){
+            $sHtml.= "<input type='hidden' name='".$id."' value='".$p."'/>";
         }
 		//submit按钮控件请不要含有name属性
         $sHtml = $sHtml."<input type='submit' value='".$button_name."'></form>";
