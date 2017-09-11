@@ -84,6 +84,8 @@ class IndexAction extends HomeAction {
 			}
 		';
 		$this->assign('endjs',$endjs);
+		$linkage=$this->borrowLinkage();
+		$this->assign('linkage',$linkage);
 		$this->display();
     }
 	
